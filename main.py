@@ -1,12 +1,16 @@
 from typing import List
 from datetime import datetime
 
-from fastapi import FastAPI, Body, HTTPException, Depends
+from fastapi import FastAPI, Body, HTTPException, Depends, Request
+from fastapi.responses import RedirectResponse
 from sqlalchemy.orm import Session
+from authlib.integrations.starlette_client import OAuth
+from starlette.middleware.sessions import SessionMiddleware
 
 from database.connection import get_db
 from database.repository import (
     get_user_by_user_id,
+    get_user_by_email,
     create_user,
     update_user,
     delete_user,
@@ -21,11 +25,46 @@ from schema.request import CreateUserRequest, CreateTestRequest
 
 app = FastAPI()
 
+oauth = OAuth()
+
+app.add_middleware(SessionMiddleware, secret_key="###YOUR SECRET_KEY ###")
+
+# google
+oauth.register(
+    name="google",
+    client_id="### YOUR GCP CLIENT ID ###",
+    client_secret="### YOUR GCP CLIENT SECRET ID ###",
+    api_base_url="https://www.googleapis.com/oauth2/v1/",
+    client_kwargs={"scope": "openid profile email"},
+    server_metadata_url="https://accounts.google.com/.well-known/openid-configuration",
+)
 
 # 기본 연결 확인
 @app.get("/")
 def connection_test_handler():
     return {"Dunning": "Kruger"}
+
+
+# 로그인
+@app.get("/login")
+async def login(request: Request):
+    redirect_uri = request.url_for("auth")
+    return await oauth.google.authorize_redirect(request, redirect_uri)
+
+
+# 구글 인증
+@app.route("/auth")
+async def auth(request: Request, session: Session = next(get_db())):
+    token = await oauth.google.authorize_access_token(request)
+    userinfo = token["userinfo"]
+
+    tempuser: User = User.create(request=userinfo)
+    user: User | None = get_user_by_email(session=session, email=tempuser.email)
+
+    if not user:
+        create_user(session=session, user=tempuser)
+
+    return RedirectResponse(url="/done", status_code=303)
 
 
 # post로 users 유저 생헝하기
