@@ -3,7 +3,8 @@ from datetime import date
 
 
 class CreateUserRequest(BaseModel):
-    nickname: str
+    name: str
+    email: str
 
 
 class CreateTestRequest(BaseModel):
