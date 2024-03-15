@@ -18,7 +18,7 @@ def get_user_by_email(session: Session, email: str) -> User | None:
 def create_user(session: Session, user: User) -> User:
     session.add(instance=user)
     session.commit()  # db save
-    session.refresh(instance=user)  # db_read -> todo_id
+    session.refresh(instance=user)  # db_read
     return user
 
 
