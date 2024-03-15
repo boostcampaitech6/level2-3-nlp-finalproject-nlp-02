@@ -6,9 +6,10 @@ from pydantic import BaseModel
 
 class UserSchema(BaseModel):
     id: int
-    nickname: str
+    name: str
     is_done: bool
     streak: int
+    email: str
 
     class Config:
         orm_mode = True
