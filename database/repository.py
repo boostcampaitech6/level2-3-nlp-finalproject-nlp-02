@@ -11,6 +11,10 @@ def get_user_by_user_id(session: Session, user_id: int) -> User | None:
     return session.scalar(select(User).where(User.id == user_id))
 
 
+def get_user_by_email(session: Session, email: str) -> User | None:
+    return session.scalar(select(User).where(User.email == email))
+
+
 def create_user(session: Session, user: User) -> User:
     session.add(instance=user)
     session.commit()  # db save
