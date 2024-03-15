@@ -12,19 +12,20 @@ class User(Base):
     __tablename__ = "users"
 
     id = Column(Integer, primary_key=True, index=True)
-    nickname = Column(String(256), nullable=False)
+    name = Column(String, nullable=False)
+    email = Column(String, unique=True, nullable=False)
     is_done = Column(Boolean, nullable=False)
     streak = Column(Integer, nullable=False)
 
     def __repr__(self):
-        return f"User(id={self.id}), name={self.nickname}, is_done={self.is_done}, streak={self.streak}"
+        return f"User(id={self.id}), name={self.name}, email={self.email}, is_done={self.is_done}, streak={self.streak}"
 
     @classmethod
     def create(cls, request: CreateUserRequest) -> "User":
-        return cls(nickname=request.nickname, is_done=False, streak=0)
+        return cls(name=request.name, email=request.email, is_done=False, streak=0)
 
     def changename(self, newname) -> "User":
-        self.nickname = newname
+        self.name = newname
         return self
 
     def done(self) -> "User":
