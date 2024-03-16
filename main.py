@@ -16,10 +16,14 @@ from database.repository import (
     create_user,
     create_test,
     get_questions_by_date,
-    get_tests,
+    get_personal_tests,
 )
 from database.orm import User, Test, Question
-from schema.response import TestSchema, QuestionSchema, TestListSchema
+from schema.response import (
+    TestSchema,
+    QuestionSchema,
+    TestListSchema,
+)
 from schema.request import CreateTestRequest
 
 
@@ -128,9 +132,11 @@ def get_question_handler(session: Session = Depends(get_db),) -> QuestionSchema:
     raise HTTPException(status_code=404, detail="Question Not Found")
 
 
-# 테스트 결과 불러오기
-@app.get("/result", status_code=200)
-def get_result_handler(session: Session = Depends(get_db),) -> TestListSchema:
-    tests: List[Test] = get_tests(session=session)
+@app.get("/me/result", status_code=200)
+def get_result_handler(
+    session: Session = Depends(get_db),
+    user: User = Depends(get_current_user),
+):
+    tests: List[Test] = get_personal_tests(session=session, user=user)
 
     return TestListSchema(tests=[TestSchema.from_orm(test) for test in tests])
