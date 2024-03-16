@@ -1,6 +1,8 @@
 from typing import List
 from datetime import datetime
 from tempfile import NamedTemporaryFile
+import uuid
+import os
 
 from fastapi import FastAPI, HTTPException, Depends, Request, UploadFile
 from fastapi.responses import RedirectResponse
@@ -89,18 +91,28 @@ async def upload_temp(file: UploadFile,):
     return {"path": path}
 
 
-# 테스트 결과 db 업로드
-@app.post("/test/end", status_code=201)
-def create_test_handler(
+async def save_file(file, path):
+    wavfile = await file.read()
+    name = f"{str(uuid.uuid4())}.wav"
+    
+    with open(os.path.join(path, name), "wb") as f:
+        f.write(wavfile)
+
+    return "{path}/{name}"
+
+
+@app.post("/save")
+async def upload_db(
+    file,
     request: CreateTestRequest,
     session: Session = Depends(get_db),
     user: User = Depends(get_current_user),
-) -> TestSchema:
-    ### '해당 로그인 한 유저 id 가져오기' ###
-    test: Test | None = Test.create(request=request)
-    test: Test = create_test(session=session, test=test)
+):
+    UPLOAD_DIR = "/upload/{user.id}"
 
-    return TestSchema.from_orm(test)
+    path = await save_file(file, UPLOAD_DIR)
+    test: Test | None = Test.create(request=request, user=user, filepath=path)
+    test: Test = create_test(session=session, test=test)
 
 
 # 오늘 날짜로 문제 받아오기
