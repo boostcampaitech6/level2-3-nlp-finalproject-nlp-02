@@ -1,4 +1,4 @@
-from sqlalchemy import Boolean, Column, Integer, String, Date
+from sqlalchemy import Boolean, Column, Integer, String, Date, Float
 from sqlalchemy.orm import declarative_base
 from sqlalchemy_json import mutable_json_type
 from sqlalchemy.dialects.postgresql import JSONB
@@ -43,7 +43,9 @@ class Test(Base):
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, nullable=False)
     path = Column(String, nullable=False)
-    result = Column(mutable_json_type(dbtype=JSONB, nested=True))
+    inference1 = Column(mutable_json_type(dbtype=JSONB, nested=True))
+    inference2 = Column(Float, nullable=False)
+    inference3 = Column(mutable_json_type(dbtype=JSONB, nested=True))
     q_num = Column(Integer, nullable=False)
     createdDate = Column(Date, nullable=False)
 
@@ -51,11 +53,10 @@ class Test(Base):
         return f"Test user_id={self.user_id}), createdDate={self.createdDate}, q_num={self.q_num}"
 
     @classmethod
-    def create(cls, request: CreateTestRequest) -> "Test":
+    def create(cls, request: CreateTestRequest, user: User, filepath: str) -> "Test":
         return cls(
-            user_id=request.user_id,
-            path=request.path,
-            result=request.result,
+            user_id=user.id,
+            path=filepath,
             q_num=request.q_num,
             createdDate=request.createdDate,
         )
