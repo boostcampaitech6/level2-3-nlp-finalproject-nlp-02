@@ -1,7 +1,8 @@
 from typing import List
 from datetime import datetime
+from tempfile import NamedTemporaryFile
 
-from fastapi import FastAPI, Body, HTTPException, Depends, Request
+from fastapi import FastAPI, HTTPException, Depends, Request, UploadFile
 from fastapi.responses import RedirectResponse
 from sqlalchemy.orm import Session
 from authlib.integrations.starlette_client import OAuth
@@ -9,18 +10,15 @@ from starlette.middleware.sessions import SessionMiddleware
 
 from database.connection import get_db
 from database.repository import (
-    get_user_by_user_id,
     get_user_by_email,
     create_user,
-    update_user,
-    delete_user,
     create_test,
     get_questions_by_date,
     get_tests,
 )
 from database.orm import User, Test, Question
-from schema.response import UserSchema, TestSchema, QuestionSchema, TestListSchema
-from schema.request import CreateUserRequest, CreateTestRequest
+from schema.response import TestSchema, QuestionSchema, TestListSchema
+from schema.request import CreateTestRequest
 
 
 app = FastAPI()
@@ -76,7 +74,21 @@ async def get_current_user(request: Request, session: Session = Depends(get_db))
 
     return {"message": "no session"}
 
-    
+
+async def save_temp_file(file,):
+    with NamedTemporaryFile("wb", suffix=".wav", delete=False) as tempfile:
+        tempfile.write(file.read())
+
+        return tempfile.name
+
+
+@app.post("/test")
+async def upload_temp(file: UploadFile,):
+    path = await save_temp_file(file.file)
+
+    return {"path": path}
+
+
 # 테스트 결과 db 업로드
 @app.post("/test/end", status_code=201)
 def create_test_handler(
