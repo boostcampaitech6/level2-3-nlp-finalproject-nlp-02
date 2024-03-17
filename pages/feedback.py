@@ -1,6 +1,12 @@
 import streamlit as st
 
-st.title("Daily Test \n")
+# TODO: 유저의 결과 목록에서 특정 날자를 고를 수 있도록 변경
+# response = requests.get(url=result, files=files)
+# if response.status_code == 200:
+#     data = response.json()
+#     st.write(data)
+
+st.title("{test.creadtedDate} Test")
 
 st.markdown(
     """
@@ -24,12 +30,8 @@ with tab1:
     # requests.get(url=test)
     st.header("{question[q1]}")
 
-    # TODO: 저장된 결과에 문제 번호 별로 받아오는 함수 생성
+    # TODO: 저장된 결과에서 문제 번호 별로 받아오는 함수 생성
 
-    # response = requests.get(url=result, files=files)
-    # if response.status_code == 200:
-    #     data = response.json()
-    #     st.write(data)
 
 with tab2:
     st.header("질문2")
