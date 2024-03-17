@@ -21,7 +21,7 @@ if st.button("재생"):
     if len(audio) > 0:
         # 저장
         wav = audio.export("test.wav", format="wav")
-        files = {'file': (wav.name, wav, 'multipart/form-data')}
+        files = {"file": (wav.name, wav, "multipart/form-data")}
         response = requests.post(url=test, files=files)
 
         if response.status_code == 200:

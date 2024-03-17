@@ -10,7 +10,7 @@ voicecheck = audiorecorder("check your voice")
 
 if len(voicecheck) > 0:
     # To play audio in frontend:
-    st.audio(voicecheck.export().read())  
+    st.audio(voicecheck.export().read())
 
     if st.button("응시"):
         st.switch_page(page="./pages/test.py")
