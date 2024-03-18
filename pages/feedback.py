@@ -1,7 +1,7 @@
 import streamlit as st
 
 # TODO: 유저의 결과 목록에서 특정 날자를 고를 수 있도록 변경
-# response = requests.get(url=result, files=files)
+# response = requests.get(urlurl=me/result/{date})
 # if response.status_code == 200:
 #     data = response.json()
 #     st.write(data)
