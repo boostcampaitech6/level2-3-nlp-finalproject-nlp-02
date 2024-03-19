@@ -133,3 +133,5 @@ dmypy.json
 .idea/
 .DS_Store
 test.ipynb
+config.yaml
+yesi.py

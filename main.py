@@ -4,7 +4,7 @@ from tempfile import NamedTemporaryFile
 import uuid
 import os
 
-from fastapi import FastAPI, HTTPException, Depends, Request, UploadFile
+from fastapi import FastAPI, HTTPException, Depends, Request, UploadFile, File
 from fastapi.responses import RedirectResponse
 from sqlalchemy.orm import Session
 from authlib.integrations.starlette_client import OAuth
@@ -26,17 +26,26 @@ from schema.response import (
 )
 from schema.request import CreateTestRequest
 import requests
+import shutil
+
+import uvicorn
+import yaml
 app = FastAPI()
 
 oauth = OAuth()
-
-app.add_middleware(SessionMiddleware, secret_key="###YOUR SECRET_KEY ###")
+def load_config(filename):
+    with open(filename, 'r') as config_file:
+        config = yaml.safe_load(config_file)
+    return config
+config = load_config("config.yaml")
+google_config = config.get("google")
+app.add_middleware(SessionMiddleware, secret_key=google_config.get('middleware_secret_key'))
 
 # google
 oauth.register(
     name="google",
-    client_id="### YOUR GCP CLIENT ID ###",
-    client_secret="### YOUR GCP CLIENT SECRET ID ###",
+    client_id=google_config.get('client_id'),
+    client_secret=google_config.get('client_secret'),
     api_base_url="https://www.googleapis.com/oauth2/v1/",
     client_kwargs={"scope": "openid profile email"},
     server_metadata_url="https://accounts.google.com/.well-known/openid-configuration",
@@ -90,10 +99,25 @@ async def save_temp_file(file,):
 @app.post("/test")
 async def upload_temp(file: UploadFile,):
     path = await save_temp_file(file.file)
-    response = requests.get("###YOUR_PATH###")
+    
+    #file_path = f"/Users/kimdonghyeon/boostcamp/Mopic/level2-3-nlp-finalproject-nlp-02/{file.filename}"
+        # 파일을 저장
+    # with open(upload_path, "wb") as buffer:
+    #     shutil.copyfileobj(file.file, buffer)
+    response = requests.post("http://localhost:8001/run_inference/", json={"data": path})
     output_json = response.json()
-    return {"path": path, "success":output_json}
+    
+    return {"success":output_json}
 
+# @app.get("/run_inference/")
+# # 비동기 병렬처리
+# async def process_responses(
+#     # file: UploadFile = File(...)
+# #text: Annotated[str, Form()],
+# json
+# ):
+    
+#     return {"file_path":json}
 
 async def save_file(file, path):
     wavfile = await file.read()
@@ -104,6 +128,9 @@ async def save_file(file, path):
 
     return "{path}/{name}"
 
+# @app.post("/ex")
+# async def transfer_wav(file: UploadFile,):
+#     path = await 
 
 @app.post("/save")
 async def upload_db(
@@ -135,12 +162,26 @@ def get_question_handler(session: Session = Depends(get_db),) -> QuestionSchema:
 @app.get("/me/result", status_code=200)
 def get_result_handler(
     session: Session = Depends(get_db),
-    user: User = Depends(get_current_user),
+    usexr: User = Depends(get_current_user),
 ):
     tests: List[Test] = get_personal_tests(session=session, user=user)
 
     return TestListSchema(tests=[TestSchema.from_orm(test) for test in tests])
 
+
+# @app.post("/upload/")
+# async def upload_file(file: UploadFile = File(...)):
+#     with open(file.filename, "wb") as f:
+#         f.write(await file.read())
+#         print(f)
+#     with open(file.filename, "rb") as file:
+#         print(file.filename)
+#         files = {"file": file}
+    
+#     # Sending the WAV file path to the second app
+#     response = requests.post("http://localhost:8001/run_inference/", files=files)
+    
+#     return response.json()
+
 if __name__ == "__main__":
-    import uvicorn
     uvicorn.run(app, host="localhost", port=8000)
