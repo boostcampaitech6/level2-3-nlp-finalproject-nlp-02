@@ -10,19 +10,23 @@ import os
 import yaml
 
 app = FastAPI()
+
+
 def load_config(filename):
-    with open(filename, 'r') as config_file:
+    with open(filename, "r") as config_file:
         config = yaml.safe_load(config_file)
     return config
+
+
 config = load_config("config.yaml")
 model_config = config.get("models")
 server_config = config.get("servers")
 # 0.chatgpt 프롬프팅 구간
-api_key = model_config.get('gpt_api_key')
+api_key = model_config.get("gpt_api_key")
 client_1 = OpenAI(api_key=api_key)
-client_1.fine_tuning.jobs.retrieve(model_config.get('gpt_model_ft1'))
+client_1.fine_tuning.jobs.retrieve(model_config.get("gpt_model_ft1"))
 client_2 = OpenAI(api_key=api_key)
-client_2.fine_tuning.jobs.retrieve(model_config.get('gpt_model_ft2'))
+client_2.fine_tuning.jobs.retrieve(model_config.get("gpt_model_ft2"))
 
 # 1.send_wav_to_STT
 async def whisperx(file_path, server_url):
@@ -45,17 +49,19 @@ def phoneme_detection(file_path, json_data, server_url):
     print("Done phoneme_detection")
     return response.json()
 
-# 3.get_pause,  
+
+# 3.get_pause,
 def get_pause(file_path, json_data, server_url):
     print("Run get_pause")
     with open(file_path, "rb") as wav_file:
         files = {"wav_file": wav_file}
         data = {"text": json.dumps(json_data["word_timestamp"])}
-        #data = {"text": json_data['transcription']}
+        # data = {"text": json_data['transcription']}
         response = requests.post(server_url, files=files, data=data)
     assert response.status_code == 200, response.text
     print("Done get_pause")
     return response.json()
+
 
 def check_grammar(json_data, server_url):
     print("Run check_grammar")
@@ -86,6 +92,7 @@ def check_coherence(json_data):
     print("Done check_coherence")
     return res_json["choices"][0]["message"]["content"]
 
+
 # 5.GPT JSON transccript complexity 생성
 def check_complexity(json_data):
     print("Run check_complexity")
@@ -114,10 +121,10 @@ async def process_responses(
 
     # 이후에 유저 인풋 wav_binary로 교체
     file_path_1 = data.get("data")
-    server_url_1 = server_config.get('server_url_1')
-    server_url_2 = server_config.get('server_url_2')
-    server_url_3 = server_config.get('server_url_3')
-    server_url_4 = server_config.get('server_url_4')
+    server_url_1 = server_config.get("server_url_1")
+    server_url_2 = server_config.get("server_url_2")
+    server_url_3 = server_config.get("server_url_3")
+    server_url_4 = server_config.get("server_url_4")
 
     response_1 = await whisperx(file_path_1, server_url_1)
 
@@ -132,18 +139,18 @@ async def process_responses(
             loop.run_in_executor(executor, check_complexity, response_1),
             loop.run_in_executor(
                 executor, get_pause, file_path_1, response_1, server_url_4
-                ),
+            ),
         ]
         responses = []
         for task in tasks:
-            result= await task
+            result = await task
             responses.append(result)
     return responses
 
+
 #
 if __name__ == "__main__":
-    #loop = asyncio.get_event_loop()
-    #responses = loop.run_until_complete(process_responses())
-    #print(responses)
+    # loop = asyncio.get_event_loop()
+    # responses = loop.run_until_complete(process_responses())
+    # print(responses)
     uvicorn.run(app, host="localhost", port=8001)
-
