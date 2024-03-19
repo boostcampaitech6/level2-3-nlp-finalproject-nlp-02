@@ -38,7 +38,7 @@ def recording():
     chunk = 1024
     format = pyaudio.paInt16
     channels = 1
-    rate = 44100
+    rate = 16000
 
     p = pyaudio.PyAudio()
 
@@ -66,7 +66,7 @@ def stop_and_save_recording(filename):
         wf = wave.open(filename, 'wb')
         wf.setnchannels(2)
         wf.setsampwidth(pyaudio.PyAudio().get_sample_size(pyaudio.paInt16))
-        wf.setframerate(44100)
+        wf.setframerate(16000)
         wf.writeframes(b''.join(frames))
         wf.close()
         st.success(f'Recording saved as {filename}')
