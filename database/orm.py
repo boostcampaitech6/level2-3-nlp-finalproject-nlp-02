@@ -41,13 +41,16 @@ class Test(Base):
     __tablename__ = "tests"
 
     id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(Integer, nullable=False)
-    path = Column(String, nullable=False)
-    inference1 = Column(mutable_json_type(dbtype=JSONB, nested=True))
-    inference2 = Column(Float, nullable=False)
-    inference3 = Column(mutable_json_type(dbtype=JSONB, nested=True))
-    q_num = Column(Integer, nullable=False)
-    createdDate = Column(Date, nullable=False)
+    user_id = Column(Integer, nullable=False) # user_id
+    path = Column(String, nullable=False) #path_to_wav
+    mpr = Column(Float, nullable=False) # mispronunciation_rate 
+    coherence = Column(Float, nullable=False) #coherence_level
+    complexity = Column(String, nullable=False) #complexity_analysis
+    wpm = Column(Float, nullable=False) # word_per_minute 
+    pause = Column(Float, nullable=False) # pause_rate
+    mlr = Column(Float, nullable=False) # mean_length_of_run
+    q_num = Column(Integer, nullable=False) # question_number
+    createdDate = Column(Date, nullable=False) #date
 
     def __repr__(self):
         return f"Test user_id={self.user_id}), createdDate={self.createdDate}, q_num={self.q_num}"

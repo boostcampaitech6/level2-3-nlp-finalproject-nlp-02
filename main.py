@@ -33,6 +33,8 @@ import yaml
 app = FastAPI()
 
 oauth = OAuth()
+
+# load config.yaml
 def load_config(filename):
     with open(filename, 'r') as config_file:
         config = yaml.safe_load(config_file)
@@ -109,15 +111,6 @@ async def upload_temp(file: UploadFile,):
     
     return {"success":output_json}
 
-# @app.get("/run_inference/")
-# # 비동기 병렬처리
-# async def process_responses(
-#     # file: UploadFile = File(...)
-# #text: Annotated[str, Form()],
-# json
-# ):
-    
-#     return {"file_path":json}
 
 async def save_file(file, path):
     wavfile = await file.read()
@@ -128,9 +121,6 @@ async def save_file(file, path):
 
     return "{path}/{name}"
 
-# @app.post("/ex")
-# async def transfer_wav(file: UploadFile,):
-#     path = await 
 
 @app.post("/save")
 async def upload_db(
@@ -162,26 +152,11 @@ def get_question_handler(session: Session = Depends(get_db),) -> QuestionSchema:
 @app.get("/me/result", status_code=200)
 def get_result_handler(
     session: Session = Depends(get_db),
-    usexr: User = Depends(get_current_user),
+    user: User = Depends(get_current_user),
 ):
     tests: List[Test] = get_personal_tests(session=session, user=user)
 
     return TestListSchema(tests=[TestSchema.from_orm(test) for test in tests])
-
-
-# @app.post("/upload/")
-# async def upload_file(file: UploadFile = File(...)):
-#     with open(file.filename, "wb") as f:
-#         f.write(await file.read())
-#         print(f)
-#     with open(file.filename, "rb") as file:
-#         print(file.filename)
-#         files = {"file": file}
-    
-#     # Sending the WAV file path to the second app
-#     response = requests.post("http://localhost:8001/run_inference/", files=files)
-    
-#     return response.json()
 
 if __name__ == "__main__":
     uvicorn.run(app, host="localhost", port=8000)
