@@ -24,8 +24,8 @@ from gector.gector import (
     predict_verbose
 )
 
-from utils.gram_visualizer_json import *
-from utils.gram_out_json import *
+from utils import gram_visualizer_json
+from utils import gram_out_json
 import nltk
 from nltk.tokenize import sent_tokenize
 import json
@@ -90,7 +90,7 @@ async def upload_json(
         final_corrected_sents, iteration_log = predict_verbose(
             **predict_args
         )
-        checker_data = visualizer_json(iteration_log, final_corrected_sents)
+        checker_data = gram_visualizer_json.visualizer_json(iteration_log, final_corrected_sents)
 
         # dump visualized checker .json file
         check = os.path.join(gector_path, "check", "final_check_ma.json")
@@ -98,19 +98,15 @@ async def upload_json(
         with open(check, "w", encoding="utf-8") as c:
             json.dump(checker_data, c, indent="\t")
 
-
-        print(f'=== Visualized Checker JSON Created ===')
-
-
         # metrics
         metric_data = {
             "error_count": int,
             "main": {}
         }
-        ctl = get_cleaned_token_list()
+        ctl = gram_out_json.get_cleaned_token_list()
         for og_sent, inner_dict in checker_data.items():
             if inner_dict["edited"] == True:
-                inner_data = get_scrs_tok(inner_dict, ctl)
+                inner_data = gram_out_json.get_scrs_tok(inner_dict, ctl)
                 metric_data["main"][og_sent] = inner_data
             else:
                 metric_data["main"][og_sent] = {"edited": False, "corrected_sentence": inner_dict["fin_sentence"]}
@@ -130,7 +126,7 @@ async def upload_json(
         # Final output
         phase = "phase_2"
         out_path = os.path.join(gector_path, "real", f"grammar_{phase}.json")
-        return create_json(phase=phase, out_path=out_path, error_count=error_count, check_data=checker_data)
+        return gram_out_json.create_json(phase=phase, out_path=out_path, error_count=error_count, check_data=checker_data)
     except Exception as e:
         return {"text": None, "status": f"Error: {str(e)}"}
 

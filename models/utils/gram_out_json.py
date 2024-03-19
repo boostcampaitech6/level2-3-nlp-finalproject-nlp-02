@@ -9,12 +9,8 @@ from typing import List, Dict
 def load_token_list(
         token_path: str
     ):
-    print("=== Loading Token List ===")
-
     with open(token_path, "r", encoding="utf-8") as t:
         token_list = list(map(lambda x: x.strip(), t.readlines()))
-
-    print(f"Total Token Count: {len(token_list)}")
     
     return token_list
 
@@ -31,9 +27,6 @@ def get_cleaned_token_list(
     combined_pattern = r"%s|%s" % (fundamental_pattern, punct_pattern)
     remove_list = [item for item in token_list if re.match(combined_pattern, item)]
     final_token_list = [x for x in token_list if x not in remove_list]
-
-    print(f"Removing Token Count: {len(remove_list)}")
-    print(f"Remaining Token Count: {len(final_token_list)}")
 
     return final_token_list
 
@@ -288,6 +281,4 @@ def create_json(
     #with open(out_path, "w", encoding="utf-8") as out:
      #   json.dump(data, out, ensure_ascii = False, indent="\t")
             
-    print(f"=== Successfully Created {phase} json file ===")
-    print(f"=== The path to the file is {out_path} ===")
     return data
