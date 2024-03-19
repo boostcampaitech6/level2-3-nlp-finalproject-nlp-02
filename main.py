@@ -25,8 +25,7 @@ from schema.response import (
     TestListSchema,
 )
 from schema.request import CreateTestRequest
-
-
+import requests
 app = FastAPI()
 
 oauth = OAuth()
@@ -91,8 +90,9 @@ async def save_temp_file(file,):
 @app.post("/test")
 async def upload_temp(file: UploadFile,):
     path = await save_temp_file(file.file)
-
-    return {"path": path}
+    response = requests.get("###YOUR_PATH###")
+    output_json = response.json()
+    return {"path": path, "success":output_json}
 
 
 async def save_file(file, path):
@@ -140,3 +140,7 @@ def get_result_handler(
     tests: List[Test] = get_personal_tests(session=session, user=user)
 
     return TestListSchema(tests=[TestSchema.from_orm(test) for test in tests])
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="localhost", port=8000)
