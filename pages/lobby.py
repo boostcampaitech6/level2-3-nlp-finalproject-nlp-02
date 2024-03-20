@@ -1,6 +1,10 @@
+import requests
 import streamlit as st
 
 st.subheader("달력을 넣으면 이전 시험 기록 보기를 없애기...")
+
+response = requests.get("http://mopic.today/api/me")
+print(response.json())
 
 st.write("{user.name}님, 어서오세요. 지금까지 {user.streak} 연속이에요.")
 

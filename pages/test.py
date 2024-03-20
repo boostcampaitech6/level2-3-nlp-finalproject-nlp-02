@@ -1,22 +1,18 @@
-import streamlit as st
-import requests
-
-# from audiorecorder import audiorecorder
+import base64
+import os
+import threading
+import wave
 
 import pyaudio
-import wave
-import threading
-import os
-
-import base64
-
+import requests
+import streamlit as st
 
 # 전역 변수 설정
 is_recording = False
 frames = []
 
 
-test = "http://000.000.000.000:0000/test"
+test = "http://mopic.test/api/test"
 
 st.title("Daily Test")
 st.image("AVA.png", caption="문제를 두 번 들려드린 후 바로 녹음을 시작해주세요.", width=300)
