@@ -1,10 +1,10 @@
-from typing import List
 from datetime import date
+from typing import List
 
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from database.orm import User, Test, Question
+from database.orm import Question, Test, User
 
 
 def get_user_by_email(session: Session, email: str) -> User | None:

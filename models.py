@@ -1,13 +1,14 @@
-from fastapi import FastAPI, UploadFile, File, Form
 import asyncio
 import concurrent.futures
 import json
-import requests
-from openai import OpenAI
-import uvicorn
-from typing import Annotated
 import os
+from typing import Annotated
+
+import requests
+import uvicorn
 import yaml
+from fastapi import FastAPI, File, Form, UploadFile
+from openai import OpenAI
 
 app = FastAPI()
 

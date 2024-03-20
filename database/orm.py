@@ -1,9 +1,9 @@
-from sqlalchemy import Boolean, Column, Integer, String, Date, Float
+from sqlalchemy import Boolean, Column, Date, Float, Integer, String
+from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import declarative_base
 from sqlalchemy_json import mutable_json_type
-from sqlalchemy.dialects.postgresql import JSONB
 
-from schema.request import CreateUserRequest, CreateTestRequest
+from schema.request import CreateTestRequest, CreateUserRequest
 
 Base = declarative_base()
 
