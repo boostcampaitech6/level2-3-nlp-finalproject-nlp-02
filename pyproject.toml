@@ -20,6 +20,8 @@ pyyaml = "^6.0.1"
 psycopg2-binary = "^2.9.9"
 wheel = "^0.43.0"
 audiorecorder = "^0.1"
+streamlit-audiorecorder = "^0.0.4"
+ffmpeg = "^1.4"
 
 
 [build-system]
