@@ -29,12 +29,6 @@ def save_recording(audio_data):
         st.error("Failed to save the recording.")
 
 
-
-# def callback():
-#     if st.session_state.my_recorder_output:
-#         audio_bytes = st.session_state.my_recorder_output['bytes']
-#         st.audio(audio_bytes)
-
 def callback():
     # st.session_state에서 'my_recorder_output'을 확인합니다.
     if 'my_recorder_output' in st.session_state:
