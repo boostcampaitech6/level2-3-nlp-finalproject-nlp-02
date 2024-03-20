@@ -1,5 +1,5 @@
-from typing import List
 from datetime import date
+from typing import List
 
 from pydantic import BaseModel
 

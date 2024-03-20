@@ -1,6 +1,6 @@
+import yaml
 from sqlalchemy import create_engine, select
 from sqlalchemy.orm import sessionmaker
-import yaml
 
 
 def load_config(filename):
