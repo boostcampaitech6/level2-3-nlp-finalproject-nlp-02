@@ -1,6 +1,6 @@
 import string
 from typing import List, Dict, Literal, get_args
-from gram_out_json import get_cleaned_token_list, get_scrs_tok
+from .gram_out_json import get_cleaned_token_list, get_scrs_tok
 
 
 def get_error_count(

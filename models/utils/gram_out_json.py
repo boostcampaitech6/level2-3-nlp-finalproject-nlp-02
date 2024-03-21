@@ -275,7 +275,7 @@ def create_json(
     ctl = get_cleaned_token_list()
     tag_grammar = get_tag_grammar(ctl)
 
-    data = get_phase_1_data(error_count=score, check_data=check_data)
+    data = get_phase_1_data(score=score, check_data=check_data)
 
     if phase == "phase_2":
         data = get_phase_2_data(p1_data=data, check_data=check_data, ctl=ctl, tag_grammar=tag_grammar)

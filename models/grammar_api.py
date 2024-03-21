@@ -94,6 +94,8 @@ async def upload_json(
         score_type = "pwc"   # "ec" or "psc" or "pwc"
         out_path = os.path.join(gector_path, "real", f"grammar_{phase}.json")
         score = gram_metrics.get_score(checker_data=checker_data, score_type=score_type)
+        print(gram_out_json.create_json(phase=phase, out_path=out_path, score=score, check_data=checker_data))
+        
         return gram_out_json.create_json(phase=phase, out_path=out_path, score=score, check_data=checker_data)
     
     except Exception as e:
