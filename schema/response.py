@@ -23,10 +23,16 @@ class TestSchema(BaseModel):
     id: int
     user_id: int
     path: str
-    result: dict
+    mpr: float
+    grammar: str
+    coherence: str
+    complexity: str
+    wpm: float
+    pause: float
+    mlr: float
     q_num: int
     createdDate: date
-
+    
     class Config:
         orm_mode = True
 
