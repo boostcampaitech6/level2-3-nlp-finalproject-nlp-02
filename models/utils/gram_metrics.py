@@ -1,6 +1,6 @@
 import string
 from typing import List, Dict, Literal, get_args
-from gram_out_json import get_cleaned_token_list, get_scrs_tok
+from out_json import get_cleaned_token_list, get_scrs_tok
 
 
 def get_error_count(
@@ -50,20 +50,20 @@ def get_error_rate_word(
 
     return 1 - (error_count / word_count)
 
-
-_TYPES = Literal["error count", "per sentence count", "per word count"]
+# ec = error count, psc = per sentence count, pwc = per word count
+_TYPES = Literal["ec", "psc", "pwc"]
 
 def get_score(
         checker_data: Dict,
-        score_type: _TYPES = "per word count",
+        score_type: _TYPES = "pwc",
 ):
     # raise error if the score type is not in the _TYPE list
     options = get_args(_TYPES)
     assert score_type in options, f"'{score_type}' is not in {options}"
 
-    if score_type == "error count":
+    if score_type == "ec":
         return get_error_count(checker_data=checker_data)
-    elif score_type == "per sentence count":
+    elif score_type == "psc":
         return get_error_rate_sen(checker_data=checker_data)
-    elif score_type == "per word count":
+    elif score_type == "pwc":
         return get_error_rate_word(checker_data=checker_data)

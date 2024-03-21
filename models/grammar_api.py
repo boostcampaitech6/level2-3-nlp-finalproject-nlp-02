@@ -41,7 +41,7 @@ async def upload_json(
 ):
     try:
         
-        gector_path = "/home/dashic/gector-test/gector-test/gector"
+        gector_path = "/home/dashic/level2-3-nlp-finalproject-nlp-02/models/gector"
         verb_path = os.path.join(gector_path, "data", "verb-form-vocab.txt")
         
 
@@ -79,7 +79,7 @@ async def upload_json(
         checker_data = gram_visualizer_json.visualizer_json(iteration_log, final_corrected_sents)
 
         # dump visualized checker .json file
-        check = os.path.join(gector_path, "check", "final_check_ma.json")
+        check = os.path.join(gector_path, "check", "checker_data.json")
 
         with open(check, "w", encoding="utf-8") as c:
             json.dump(checker_data, c, indent="\t")
@@ -91,7 +91,7 @@ async def upload_json(
 
         # Final output
         phase = "phase_2"   # either "phase_1" or "phase_2"
-        score_type = "per word count"   # "error count" or "per sentence count" or "per word count"
+        score_type = "pwc"   # "ec" or "psc" or "pwc"
         out_path = os.path.join(gector_path, "real", f"grammar_{phase}.json")
         score = gram_metrics.get_score(checker_data=checker_data, score_type=score_type)
         return gram_out_json.create_json(phase=phase, out_path=out_path, score=score, check_data=checker_data)
