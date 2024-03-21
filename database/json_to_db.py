@@ -18,7 +18,7 @@ def load_config(filename):
     return config
 
 
-config = load_config("/home/dashic/level2-3-nlp-finalproject-nlp-02/config.yaml")
+config = load_config("../config.yaml")
 db_config = config.get("database")
 
 host_ip = db_config["dbname"][32:47]
@@ -36,7 +36,7 @@ conn = psycopg2.connect(
 
 cur = conn.cursor()
 
-qdata_path = '/home/dashic/level2-3-nlp-finalproject-nlp-02/data/generated_question.json'
+qdata_path = '../data/generated_question.json'
 with open(qdata_path, 'r') as f:
     data = json.load(f)
     date = create_date(data)
