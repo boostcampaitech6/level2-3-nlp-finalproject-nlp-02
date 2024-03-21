@@ -1,13 +1,16 @@
 import streamlit as st
+import requests
+from datetime import datetime
 
-# response = requests.get(url=me/result)
-# if response.status_code == 200:
-#     data = response.json()
-#     st.write(data)
+today: datetime.date = datetime.today()
+
+tested_date = st.date_input("시험 본 날을 골라주세요.", today)
+response = requests.get(url=f"http://mopic.today/api/me/result/{tested_date}", headers={"access_token": st.session_state['token']['access_token']})
 
 
-# TODO: 날짜로 받아오는 함수 만들기 - feedback 페이지 에서도 동일하게 작동되도록
-# response = requetes.get(url=me/result/{date})
-# if response.status_code == 200:
-# data = response.json()
-# st.write(data)
+if response.status_code == 200:
+    # 응답 데이터 처리 (예: JSON 형태의 응답을 가정)
+    result = response.json()
+    st.write("응답 데이터:", result)
+else:
+    st.error("해당 날짜에 응시한 시험이 없습니다.")
