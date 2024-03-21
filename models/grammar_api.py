@@ -90,9 +90,10 @@ async def upload_json(
         #     json.dump(metric_data, r, indent="\t")
 
         # Final output
-        phase = "phase_2"
+        phase = "phase_2"   # either "phase_1" or "phase_2"
+        score_type = "per word count"   # "error count" or "per sentence count" or "per word count"
         out_path = os.path.join(gector_path, "real", f"grammar_{phase}.json")
-        score = gram_metrics.get_error_rate_word(check)
+        score = gram_metrics.get_score(checker_data=checker_data, score_type=score_type)
         return gram_out_json.create_json(phase=phase, out_path=out_path, score=score, check_data=checker_data)
     
     except Exception as e:
