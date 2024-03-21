@@ -1,18 +1,18 @@
 import os
 import uuid
-from datetime import datetime
+from datetime import datetime, date
 from tempfile import NamedTemporaryFile
 from typing import List
 
 import requests
-from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, status
+from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, status, Request
 from sqlalchemy.orm import Session
 
-from auth_router import get_current_user
+from auth_router import get_current_user, get_current
 from database.connection import get_db
 from database.orm import Question, Test, User
 from database.repository import (create_test, get_personal_tests,
-                                 get_questions_by_date)
+                                 get_questions_by_date, get_user_by_email, get_result)
 from schema.request import CreateTestRequest
 from schema.response import QuestionSchema, TestListSchema, TestSchema
 
@@ -109,3 +109,14 @@ def get_result_handler(
     tests: List[Test] = get_personal_tests(session=session, user=user)
 
     return TestListSchema(tests=[TestSchema.from_orm(test) for test in tests])
+
+
+@router.get("/me/result/{date}")
+async def get_result_by_date(request: Request, date: date, session: Session = Depends(get_db), ):
+    user_info = get_current(token=request.headers.get("access_token"))
+    user_email = user_info.get("email")
+
+    user: User = get_user_by_email(session=session, email=user_email)
+    test: Test = get_result(session=session, date=date, user=user)
+
+    return TestSchema.from_orm(test)
