@@ -5,7 +5,7 @@ from tempfile import NamedTemporaryFile
 from typing import List
 
 import requests
-from fastapi import APIRouter, Depends, HTTPException, UploadFile
+from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, status
 from sqlalchemy.orm import Session
 
 from auth_router import get_current_user
@@ -36,29 +36,57 @@ async def save_file(file, path):
     return "{path}/{name}"
 
 
-@router.post("/save")
-async def upload_db(
-    file,
-    request: CreateTestRequest,
-    session: Session = Depends(get_db),
-    user: User = Depends(get_current_user),
-):
-    UPLOAD_DIR = "/upload/{user.id}"
+async def run_inference(path: str):
+    response = requests.post("http://localhost:8001/run_inference/", json={"data": path})
+    return response.json()
 
-    path = await save_file(file, UPLOAD_DIR)
-    test: Test | None = Test.create(request=request, user=user, filepath=path)
-    test: Test = create_test(session=session, test=test)
+# @router.post("/save")
+# async def upload_db(
+#     file,
+#     request: CreateTestRequest,
+#     session: Session = Depends(get_db),
+#     user: User = Depends(get_current_user),
+# ):
+#     UPLOAD_DIR = "/upload/{user.id}"
+
+#     path = await save_file(file, UPLOAD_DIR)
+#     test: Test | None = Test.create(request=request, user=user, filepath=path)
+#     test: Test = create_test(session=session, test=test)
 
 
 @router.post("/test")
-async def upload_temp(file: UploadFile,):
-    path = await save_temp_file(file.file)
-    response = requests.post(
-        "http://localhost:8001/run_inference/", json={"data": path}
-    )
-    output_json = response.json()
+async def upload_temp(
+    file: UploadFile = File(...),
+    session: Session = Depends(get_db),
+    user: User = Depends(get_current_user),
+    ):
 
-    return {"success": output_json}
+    path = await save_temp_file(file.file)
+    output = await run_inference(path)
+    UPLOAD_DIR = "/upload/{user.id}"
+    request = CreateTestRequest
+    request.user_id = user.id
+    request.path = path
+    request.mpr = output['mpr']
+    request.grammar = output['grammar']
+    request.coherence = output['coherence']
+    request.complexity = output['complexity']
+    request.pause = output['pause']
+    request.wpm = output['wpm']
+    request.mlr = output['mlr']
+    request.q_num = 1
+    now = datetime.now()
+    formatted_date = now.strftime("%Y-%m-%d")
+    request.createdDate = formatted_date
+    print(request)
+    
+    if not user:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
+    
+    test: Test | None = Test.create(request = request)
+    test: Test = create_test(session=session, test=test)
+    return test
+
 
 
 # 오늘 날짜로 문제 받아오기

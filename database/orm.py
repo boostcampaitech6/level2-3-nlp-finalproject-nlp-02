@@ -44,6 +44,7 @@ class Test(Base):
     user_id = Column(Integer, nullable=False)  # user_id
     path = Column(String, nullable=False)  # path_to_wav
     mpr = Column(Float, nullable=False)  # mispronunciation_rate
+    grammar = Column(JSON, nullable=False)  # grammar
     coherence = Column(Float, nullable=False)  # coherence_level
     complexity = Column(String, nullable=False)  # complexity_analysis
     wpm = Column(Float, nullable=False)  # word_per_minute
@@ -56,10 +57,18 @@ class Test(Base):
         return f"Test user_id={self.user_id}), createdDate={self.createdDate}, q_num={self.q_num}"
 
     @classmethod
-    def create(cls, request: CreateTestRequest, user: User, filepath: str) -> "Test":
+    # def create(cls, request: CreateTestRequest, user: User, filepath: str, output: dict) -> "Test":
+    def create(cls, request: CreateTestRequest) -> "Test":
         return cls(
-            user_id=user.id,
-            path=filepath,
+            user_id=request.user_id,
+            path=request.path,
+            mpr=request.mpr,
+            grammar=request.grammar,
+            coherence=request.coherence,
+            complexity=request.complexity,
+            wpm=request.wpm,
+            pause=request.pause,
+            mlr=request.mlr,
             q_num=request.q_num,
             createdDate=request.createdDate,
         )

@@ -28,7 +28,7 @@ def update_user(session: Session, user: User) -> User:
 def create_test(session: Session, test: Test) -> Test:
     session.add(instance=test)
     session.commit()
-    session.refresh(instance=test)
+    #session.refresh(instance=test)
     return test
 
 

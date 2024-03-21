@@ -145,11 +145,19 @@ async def process_responses(
                 executor, get_pause, file_path_1, response_1, server_url_4
             ),
         ]
-        responses = []
-        for task in tasks:
+        responses = {}
+        task_names = ["mpr", "grammar", "coherence", "complexity", "get_fluency"]
+
+        for name, task in zip(task_names, tasks):
             result = await task
-            responses.append(result)
-    return responses
+            if name == "get_fluency":
+                #return {"WPM":WPM, "Pause_rate":pause_rate, "mlr_count": average_mlr}
+                responses["wpm"] = result['WPM']
+                responses["pause"] = result['Pause_rate']
+                responses["mlr"] = result['mlr_count']
+            else:
+                responses[f"{name}"] = result
+        return responses
 
 
 #
