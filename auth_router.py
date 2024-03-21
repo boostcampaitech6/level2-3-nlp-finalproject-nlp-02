@@ -35,7 +35,7 @@ async def auth(request: Request, session: Session = next(get_db())):
 
     request.session["user_info"] = userinfo
 
-    return RedirectResponse(url="http://localhost:8501/session", status_code=303)
+    return RedirectResponse(url="/session", status_code=303)
 
 
 @router.get("/me")
