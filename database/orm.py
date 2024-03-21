@@ -1,4 +1,4 @@
-from sqlalchemy import Boolean, Column, Date, Float, Integer, String
+from sqlalchemy import Boolean, Column, Date, Float, Integer, String, JSON
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import declarative_base
 from sqlalchemy_json import mutable_json_type
