@@ -68,7 +68,6 @@ def get_question_handler(session: Session = Depends(get_db),) -> QuestionSchema:
     questions: Question | None = get_questions_by_date(
         session=session, date=today.strftime("%Y-%m-%d")
     )
-
     if questions:
         return QuestionSchema.from_orm(questions)
     raise HTTPException(status_code=404, detail="Question Not Found")

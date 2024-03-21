@@ -37,14 +37,14 @@ class TestListSchema(BaseModel):
 
 class QuestionSchema(BaseModel):
     id: int
-    date: str
+    date: date
     q1: str
     q2: str
     q3: str
 
     class Config:
         orm_mode = True
-
+        from_attributes = True
 
 class QuestionListSchema(BaseModel):
     questions: List[QuestionSchema]
