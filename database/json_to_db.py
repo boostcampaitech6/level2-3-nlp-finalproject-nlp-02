@@ -45,6 +45,11 @@ with open(qdata_path, 'r') as f:
         q1 = line['Q1']
         q2 = line['Q2']
         q3 = line['Q3']
+        
+        cur.execute("SELECT EXISTS(SELECT 1 FROM questions WHERE date=%s)", (today,))
+        if cur.fetchone()[0]:
+            print(f"Question with data {today} already exists in the database.")
+            continue
 
         query = "INSERT INTO questions (date, q1, q2, q3) VALUES (%s, %s, %s, %s)"
         data = (today, q1, q2, q3)
