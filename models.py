@@ -1,6 +1,7 @@
 import asyncio
 import concurrent.futures
 import json
+import re
 import os
 from typing import Annotated
 
@@ -99,18 +100,20 @@ def check_complexity(json_data):
     print("Run check_complexity")
     answer = json_data["transcription"]
     response = client_2.chat.completions.create(
-        model="ft:gpt-3.5-turbo-0125:personal::8zQfetoN",
+        model = "gpt-4-turbo-preview",
         messages=[
-            {
-                "role": "system",
-                "content": "스크립트 내에 Coumpound, Complexity, Simple Sentence(하나의 independent 문장), Not a sentence(완전한 문장이 아닌 경우)를 각각 구해서 갯수를 출력하고 구성을 평가",
-            },
-            {"role": "user", "content": answer},
+                {"role": "system", "content": "Count the Compound Sentence, Complex Sentence, and Simple Sentence, Incomplete Sentence in the input script, and give simple feedback in korean on the composition according to the sentence ratio"},
+                {"role": "assistant", "content": "- Compound sentence: 1개 \n - Complexity sentence: 3개 \n - Simple Sentence: 4개 \n\n - Not a sentence: 0개 \n\n Feedback: \"전체적인 구성은 좋지만 Compound 문장을 더 만들어볼까요?\""},
+                {"role": "user", "content": answer},
         ],
     )
     res_json = json.loads(response.json())
+    output = res_json["choices"][0]["message"]["content"]
+    # print(output)
+
+    output  = re.findall(r'(?<=: ).*$', output)
     print("Done check_complexity")
-    return res_json["choices"][0]["message"]["content"]
+    return output
 
 
 @app.post("/run_inference/")
