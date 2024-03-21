@@ -77,7 +77,7 @@ async def upload_temp(
     request.q_num = 1
     now = datetime.now()
     formatted_date = now.strftime("%Y-%m-%d")
-    request.createDate = formatted_date
+    request.createdDate = formatted_date
     print(request)
     
     if not user:
