@@ -1,7 +1,6 @@
-import os
-import json
 import re
 
+import json
 from pprint import pprint
 from typing import List, Dict
 
@@ -65,7 +64,9 @@ def get_scrs_tok(
     return inner_data
 
 
-def get_tag_grammar(tag_list: List):
+def get_tag_grammar(
+        tag_list: List
+    ):
     """Creates tag-grammar dictionary and indicates the category of the grammar correction
 
     Args:
@@ -185,14 +186,14 @@ def get_tag_grammar(tag_list: List):
 
 
 def get_phase_1_data(
-        error_count: float, 
+        score: float, 
         check_data: Dict
     ):
     og_list = list(check_data.keys())
     corrected_list = [str(check_data[og]["fin_sentence"]) for og in check_data.keys()]
 
     inner = {
-        "error_count": error_count,
+        "score": score,
         "original_passage": ' '.join(og_list),
         "corrected_passage": ' '.join(corrected_list)
     }
@@ -253,9 +254,10 @@ def get_phase_2_data(
         edited = inner_dict["edited"]
         ref_word_list = gector_dict["og_word"]
         tag_list = gector_dict["full_tag"]
-        inner = get_phase_2_inner_data(sid=sid, sent=sent, edited=edited, ref_word_list=ref_word_list, 
-                                       tag_list=tag_list, tag_grammar=tag_grammar)
-        tag_gram_dict["tag_grammar_info"].append(inner)
+        if edited == True:
+            inner = get_phase_2_inner_data(sid=sid, sent=sent, edited=edited, ref_word_list=ref_word_list, 
+                                        tag_list=tag_list, tag_grammar=tag_grammar)
+            tag_gram_dict["tag_grammar_info"].append(inner)
 
     fin_inner = p1_data["phase_1"].copy()
     fin_inner.update(tag_gram_dict)
@@ -267,18 +269,18 @@ def get_phase_2_data(
 def create_json(
         phase: str,
         out_path: str,
-        error_count: float,
+        score: float,
         check_data: Dict
     ):
     ctl = get_cleaned_token_list()
     tag_grammar = get_tag_grammar(ctl)
 
-    data = get_phase_1_data(error_count=error_count, check_data=check_data)
+    data = get_phase_1_data(error_count=score, check_data=check_data)
 
     if phase == "phase_2":
         data = get_phase_2_data(p1_data=data, check_data=check_data, ctl=ctl, tag_grammar=tag_grammar)
     
-    #with open(out_path, "w", encoding="utf-8") as out:
-     #   json.dump(data, out, ensure_ascii = False, indent="\t")
+    # with open(out_path, "w", encoding="utf-8") as out:
+    #    json.dump(data, out, ensure_ascii = False, indent="\t")
             
     return data
