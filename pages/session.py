@@ -1,8 +1,10 @@
-import streamlit as st
-from streamlit_oauth import OAuth2Component
-import yaml
 import base64
 import json
+
+import streamlit as st
+import yaml
+from streamlit_oauth import OAuth2Component
+
 
 # load config.yaml
 def load_config(filename):
@@ -24,7 +26,14 @@ REVOKE_ENDPOINT = "https://oauth2.googleapis.com/revoke"
 
 if "auth" not in st.session_state:
     # create a button to start the OAuth2 flow
-    oauth2 = OAuth2Component(CLIENT_ID, CLIENT_SECRET, AUTHORIZE_ENDPOINT, TOKEN_ENDPOINT, TOKEN_ENDPOINT, REVOKE_ENDPOINT)
+    oauth2 = OAuth2Component(
+        CLIENT_ID,
+        CLIENT_SECRET,
+        AUTHORIZE_ENDPOINT,
+        TOKEN_ENDPOINT,
+        TOKEN_ENDPOINT,
+        REVOKE_ENDPOINT,
+    )
     result = oauth2.authorize_button(
         name="인증을 위해 한 번 더 클릭해주세요.",
         icon="https://www.google.com.tw/favicon.ico",
@@ -33,10 +42,9 @@ if "auth" not in st.session_state:
         key="google",
         extras_params={"prompt": "consent", "access_type": "offline"},
         use_container_width=False,
-        pkce='S256',
+        pkce="S256",
     )
-    
-    
+
     if result:
         id_token = result["token"]["id_token"]
         payload = id_token.split(".")[1]

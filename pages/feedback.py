@@ -1,7 +1,10 @@
-import streamlit as st
 import requests
+import streamlit as st
 
-response = requests.get(url=f"https://mopic.today/api/me/result/{st.session_state['date']}", headers={"access_token": st.session_state['token']['access_token']})
+response = requests.get(
+    url=f"https://mopic.today/api/me/result/{st.session_state['date']}",
+    headers={"access_token": st.session_state["token"]["access_token"]},
+)
 if response.status_code == 200:
     data = response.json()
 
@@ -19,7 +22,8 @@ st.markdown(
 )
 
 st.markdown(
-    f'당신의 예상 등급은 <span class="score">{data['finalscore']}</span> 입니다.', unsafe_allow_html=True
+    f"당신의 예상 등급은 <span class='score'>{data['finalscore']}</span> 입니다.",
+    unsafe_allow_html=True,
 )
 
 tab1, tab2, tab3 = st.tabs(["1번", "2번", "3번"])

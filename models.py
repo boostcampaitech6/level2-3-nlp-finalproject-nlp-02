@@ -149,10 +149,10 @@ async def process_responses(
         for name, task in zip(task_names, tasks):
             result = await task
             if name == "get_fluency":
-                #return {"WPM":WPM, "Pause_rate":pause_rate, "mlr_count": average_mlr}
-                responses["wpm"] = result['WPM']
-                responses["pause"] = result['Pause_rate']
-                responses["mlr"] = result['mlr_count']
+                # return {"WPM":WPM, "Pause_rate":pause_rate, "mlr_count": average_mlr}
+                responses["wpm"] = result["WPM"]
+                responses["pause"] = result["Pause_rate"]
+                responses["mlr"] = result["mlr_count"]
             else:
                 responses[f"{name}"] = result
         return responses

@@ -28,7 +28,7 @@ def update_user(session: Session, user: User) -> User:
 def create_test(session: Session, test: Test) -> Test:
     session.add(instance=test)
     session.commit()
-    #session.refresh(instance=test)
+    # session.refresh(instance=test)
     return test
 
 
@@ -41,4 +41,6 @@ def get_personal_tests(session: Session, user: User) -> List[Test]:
 
 
 def get_result(session: Session, date: date, user: User) -> Test:
-    return session.scalar(select(Test).where(Test.createdDate == date, Test.user_id == user.id))
+    return session.scalar(
+        select(Test).where(Test.createdDate == date, Test.user_id == user.id)
+    )

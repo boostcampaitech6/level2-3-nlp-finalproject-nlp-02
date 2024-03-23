@@ -32,7 +32,7 @@ class TestSchema(BaseModel):
     mlr: float
     q_num: int
     createdDate: date
-    
+
     class Config:
         orm_mode = True
 
