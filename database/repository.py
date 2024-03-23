@@ -38,3 +38,7 @@ def get_questions_by_date(session: Session, date: date) -> Question | None:
 
 def get_personal_tests(session: Session, user: User) -> List[Test]:
     return list(session.scalars(select(Test).where(Test.user_id == user.id)))
+
+
+def get_result(session: Session, date: date, user: User) -> Test:
+    return session.scalar(select(Test).where(Test.createdDate == date, Test.user_id == user.id))
