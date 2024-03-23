@@ -1,12 +1,11 @@
 import streamlit as st
+import requests
 
-# TODO: 유저의 결과 목록에서 특정 날자를 고를 수 있도록 변경
-# response = requests.get(urlurl=me/result/{date})
-# if response.status_code == 200:
-#     data = response.json()
-#     st.write(data)
+response = requests.get(url=f"https://mopic.today/api/me/result/{st.session_state['date']}", headers={"access_token": st.session_state['token']['access_token']})
+if response.status_code == 200:
+    data = response.json()
 
-st.title("{test.creadtedDate} Test")
+st.title(f"{data['createdDate']} 시험 결과")
 
 st.markdown(
     """
@@ -20,7 +19,7 @@ st.markdown(
 )
 
 st.markdown(
-    '당신의 예상 등급은 <span class="score">{final.socre}</span> 입니다.', unsafe_allow_html=True
+    f'당신의 예상 등급은 <span class="score">{data['finalscore']}</span> 입니다.', unsafe_allow_html=True
 )
 
 tab1, tab2, tab3 = st.tabs(["1번", "2번", "3번"])
