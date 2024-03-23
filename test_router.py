@@ -1,18 +1,20 @@
 import os
 import uuid
-from datetime import datetime, date
+from datetime import date, datetime
 from tempfile import NamedTemporaryFile
 from typing import List
 
 import requests
-from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, status, Request
+from fastapi import (APIRouter, Depends, File, HTTPException, Request,
+                     UploadFile, status)
 from sqlalchemy.orm import Session
 
 from auth_router import get_current_user, get_current
 from database.connection import get_db
 from database.orm import Question, Test, User
 from database.repository import (create_test, get_personal_tests,
-                                 get_questions_by_date, get_user_by_email, get_result)
+                                 get_questions_by_date, get_result,
+                                 get_user_by_email)
 from schema.request import CreateTestRequest
 from schema.response import QuestionSchema, TestListSchema, TestSchema
 
@@ -37,8 +39,12 @@ async def save_file(file, path):
 
 
 async def run_inference(path: str, question: str):
-    response = requests.post("http://localhost:8001/run_inference/", json={"data": path, "question": question})
+    response = requests.post(
+        "http://localhost:8001/run_inference/",
+        json={"data": path, "question": question},
+    )
     return response.json()
+
 
 # @router.post("/save")
 # async def upload_db(
@@ -66,13 +72,14 @@ def get_question_handler(session: Session = Depends(get_db),) -> QuestionSchema:
         return QuestionSchema.from_orm(questions)
     raise HTTPException(status_code=404, detail="Question Not Found")
 
+
 @router.post("/test")
 async def upload_temp(
     file: UploadFile = File(...),
     session: Session = Depends(get_db),
     user: User = Depends(get_current_user),
     question_data: QuestionSchema = Depends(get_question_handler),
-    ):
+):
 
     question = question_data.q1
 
@@ -82,23 +89,25 @@ async def upload_temp(
     request = CreateTestRequest
     request.user_id = user.id
     request.path = path
-    request.mpr = output['mpr']
-    request.grammar = output['grammar']
-    request.coherence = output['coherence']
-    request.complexity = output['complexity']
-    request.pause = output['pause']
-    request.wpm = output['wpm']
-    request.mlr = output['mlr']
+    request.mpr = output["mpr"]
+    request.grammar = output["grammar"]
+    request.coherence = output["coherence"]
+    request.complexity = output["complexity"]
+    request.pause = output["pause"]
+    request.wpm = output["wpm"]
+    request.mlr = output["mlr"]
     request.q_num = 1
     now = datetime.now()
     formatted_date = now.strftime("%Y-%m-%d")
     request.createdDate = formatted_date
     print(request)
-    
+
     if not user:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
-    
-    test: Test | None = Test.create(request = request)
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="User not found"
+        )
+
+    test: Test | None = Test.create(request=request)
     test: Test = create_test(session=session, test=test)
     return test
 
@@ -113,7 +122,9 @@ def get_result_handler(
 
 
 @router.get("/me/result/{date}")
-async def get_result_by_date(request: Request, date: date, session: Session = Depends(get_db), ):
+async def get_result_by_date(
+    request: Request, date: date, session: Session = Depends(get_db)
+):
     user_info = get_current(token=request.headers.get("access_token"))
     user_email = user_info.get("email")
 
