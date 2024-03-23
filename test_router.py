@@ -36,8 +36,8 @@ async def save_file(file, path):
     return "{path}/{name}"
 
 
-async def run_inference(path: str):
-    response = requests.post("http://localhost:8001/run_inference/", json={"data": path})
+async def run_inference(path: str, question: str):
+    response = requests.post("http://localhost:8001/run_inference/", json={"data": path, "question": question})
     return response.json()
 
 # @router.post("/save")
@@ -54,15 +54,30 @@ async def run_inference(path: str):
 #     test: Test = create_test(session=session, test=test)
 
 
+# 오늘 날짜로 문제 받아오기
+@router.get("/test", status_code=200)
+def get_question_handler(session: Session = Depends(get_db),) -> QuestionSchema:
+    today: datetime.date = datetime.today()
+    questions: Question | None = get_questions_by_date(
+        session=session, date=today.strftime("%Y-%m-%d")
+    )
+
+    if questions:
+        return QuestionSchema.from_orm(questions)
+    raise HTTPException(status_code=404, detail="Question Not Found")
+
 @router.post("/test")
 async def upload_temp(
     file: UploadFile = File(...),
     session: Session = Depends(get_db),
     user: User = Depends(get_current_user),
+    question_data: QuestionSchema = Depends(get_question_handler),
     ):
 
+    question = question_data.q1
+
     path = await save_temp_file(file.file)
-    output = await run_inference(path)
+    output = await run_inference(path, question)
     UPLOAD_DIR = "/upload/{user.id}"
     request = CreateTestRequest
     request.user_id = user.id
@@ -86,20 +101,6 @@ async def upload_temp(
     test: Test | None = Test.create(request = request)
     test: Test = create_test(session=session, test=test)
     return test
-
-
-
-# 오늘 날짜로 문제 받아오기
-@router.get("/test", status_code=200)
-def get_question_handler(session: Session = Depends(get_db),) -> QuestionSchema:
-    today: datetime.date = datetime.today()
-    questions: Question | None = get_questions_by_date(
-        session=session, date=today.strftime("%Y-%m-%d")
-    )
-
-    if questions:
-        return QuestionSchema.from_orm(questions)
-    raise HTTPException(status_code=404, detail="Question Not Found")
 
 
 @router.get("/me/result", status_code=200)

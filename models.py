@@ -74,11 +74,11 @@ def check_grammar(json_data, server_url):
 
 
 # 4.GPT Json transcript coherence 생성
-def check_coherence(json_data):
+def check_coherence(json_data, coherence):
     print("Run check_coherence")
     answer = "{" + json_data["transcription"] + "}"
     # question = 추후 예정
-    question = "{While on an international trip, what is your typical routine? Describe your activities during the week and on the weekends, highlighting the cultural experiences or sightseeing you engage in.}"
+    question = question
     content = ", ".join([question, answer])
     # print(content)
     response = client_1.chat.completions.create(
@@ -122,6 +122,7 @@ async def process_responses(
 
     # 이후에 유저 인풋 wav_binary로 교체
     file_path_1 = data.get("data")
+    question = data.get("question")
     server_url_1 = server_config.get("server_url_1")
     server_url_2 = server_config.get("server_url_2")
     server_url_3 = server_config.get("server_url_3")
@@ -136,7 +137,7 @@ async def process_responses(
                 executor, phoneme_detection, file_path_1, response_1, server_url_2
             ),
             loop.run_in_executor(executor, check_grammar, response_1, server_url_3),
-            loop.run_in_executor(executor, check_coherence, response_1),
+            loop.run_in_executor(executor, check_coherence, response_1, question),
             loop.run_in_executor(executor, check_complexity, response_1),
             loop.run_in_executor(
                 executor, get_pause, file_path_1, response_1, server_url_4
