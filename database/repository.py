@@ -4,7 +4,7 @@ from typing import List
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from database.orm import Question, Test, User
+from database.orm import Question, Test, User, Score
 
 
 def get_user_by_email(session: Session, email: str) -> User | None:
@@ -40,7 +40,7 @@ def get_personal_tests(session: Session, user: User) -> List[Test]:
     return list(session.scalars(select(Test).where(Test.user_id == user.id)))
 
 
-def get_result(session: Session, date: date, user: User) -> Test:
+def get_result(session: Session, date: date, user: User) -> Score:
     return session.scalar(
-        select(Test).where(Test.createdDate == date, Test.user_id == user.id)
+        select(Score).where(Score.date == date, Score.user_id == user.id)
     )
