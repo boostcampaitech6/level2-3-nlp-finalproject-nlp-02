@@ -11,10 +11,11 @@ import streamlit as st
 st.markdown("""
     <style>
         section[data-testid="stSidebar"][aria-expanded="true"]{
-            display: none;
+            display: none; 
         }
     </style>
     """, unsafe_allow_html=True)
+
 
 
 # 전역 변수 설정
@@ -26,6 +27,16 @@ test = "http://mopic.test/api/test"
 
 st.title("Daily Test")
 st.image("AVA.png", caption="문제를 두 번 들려드린 후 바로 녹음을 시작해주세요.", width=300)
+
+
+st.markdown("""
+    <style>
+        [data-testid="StyledFullScreenButton"]{
+            visibility: hidden;
+        }
+    </style>
+    """, unsafe_allow_html=True)
+
 
 # 1. "듣기" 버튼 눌렀을 때 문제 자동재생 되도록 .wav->html 태그로 변환
 def autoplay_audio(file_path: str):
