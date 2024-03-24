@@ -18,7 +18,7 @@ def get_WPM(wav_file, text):
     # 분 단위로 변환
     audio_length_min = audio_length_sec / 60
     
-    WPM = len(timestamp) / audio_length_min
+    WPM = round((len(timestamp) / audio_length_min), 2)
     return WPM, audio_length_sec
 
 def get_pause_list(text):
@@ -78,24 +78,24 @@ async def get_fluency(
     # WAV 파일 저장
     with open(wav_file.filename, "wb") as buffer:
         shutil.copyfileobj(wav_file.file, buffer)
-    #print(text)
-    # audio load
 
     ls = json.loads(text)
-
-    WPM,audio_length = get_WPM(wav_file,ls)
-#    print(WPM)
-    n_pause = get_pause_list(ls)
-    pause_rate = n_pause / audio_length
-    #print(audio_length)
-    #print(n_pause)
-    data = slice_btw(ls)
-    #print(type(ls))
-    #print(data)
-    mlr_counts = count_consecutive_low_values(data)
-    #print(mlr_counts)
-    average_mlr = sum(mlr_counts) / len(mlr_counts)
     
+    # get word per min
+    WPM,audio_length = get_WPM(wav_file,ls)
+    
+    # get pause rate
+    n_pause = get_pause_list(ls)
+    pause_rate = round((n_pause / audio_length),2) * 100
+    
+    # get mean length of run
+    data = slice_btw(ls)
+    mlr_counts = count_consecutive_low_values(data)
+    if len(mlr_counts) == 0 :
+        average_mlr = 0
+    else:
+        average_mlr = round(sum(mlr_counts) / len(mlr_counts), 2)
+
     return {"WPM":WPM, "Pause_rate":pause_rate, "mlr_count": average_mlr}
 
 

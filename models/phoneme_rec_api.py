@@ -261,12 +261,11 @@ async def upload_wav_and_json(
         #거리 계산
         # distance = levenshtein(pho_model_1, pho_model_2)
         distance = levenshtein(result_1, result_2)
-        print(result_1)
-        print(result_2)
-        print(f"Number of phonemes that differ: {distance}")
-        return {"different phenomes":distance}
+        diff_rate = (1-(distance / len(result_1))) * 100
+        diff_rate_2f = round(diff_rate, 2)
+        return diff_rate_2f
     except Exception as e:
-        return {"wav_filename": None, "json_data": None, "status": f"Error: {str(e)}"}
+        return 0
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8888)
