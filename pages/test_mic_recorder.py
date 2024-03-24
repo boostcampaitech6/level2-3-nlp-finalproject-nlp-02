@@ -7,7 +7,7 @@ import requests
 test = "http://localhost:8000/test"
 
 st.title("Daily Test")
-st.image("AVA.jpg", caption="문제를 두 번 들려드린 후 바로 녹음을 시작해주세요.", width=300)
+st.image("AVA.png", caption="문제를 두 번 들려드린 후 바로 녹음을 시작해주세요.", width=300)
 
 
 #When "listen" button is pressed, Convert .wav->html tag to autoplay
