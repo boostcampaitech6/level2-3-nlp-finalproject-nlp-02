@@ -11,12 +11,12 @@ from sqlalchemy.orm import Session
 
 from auth_router import get_current_user, get_current
 from database.connection import get_db
-from database.orm import Question, Test, User
+from database.orm import Question, Test, User, Score
 from database.repository import (create_test, get_personal_tests,
                                  get_questions_by_date, get_result,
-                                 get_user_by_email)
+                                 get_user_by_email, get_result_by_q_num)
 from schema.request import CreateTestRequest
-from schema.response import QuestionSchema, TestListSchema, TestSchema
+from schema.response import QuestionSchema, TestListSchema, TestSchema, ScoreSchema
 
 router = APIRouter()
 
@@ -129,6 +129,6 @@ async def get_result_by_date(
     user_email = user_info.get("email")
 
     user: User = get_user_by_email(session=session, email=user_email)
-    test: Test = get_result(session=session, date=date, user=user)
+    score: Score = get_result(session=session, date=date, user=user)
 
-    return TestSchema.from_orm(test)
+    return ScoreSchema.from_orm(score)
