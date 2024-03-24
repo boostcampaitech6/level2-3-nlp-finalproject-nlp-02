@@ -80,9 +80,12 @@ class Question(Base):
     q1 = Column(String, nullable=False)
     q2 = Column(String, nullable=False)
     q3 = Column(String, nullable=False)
+    q1_wav = Column(String, nullable=True)
+    q2_wav = Column(String, nullable=True)
+    q3_wav = Column(String, nullable=True)
 
     def __repr__(self):
-        return f"Q date={self.date}), q1={self.q1}, q2={self.q2}, q3={self.q3}"
+        return f"Q date={self.date}), q1={self.q1}, q2={self.q2}, q3={self.q3}, q1_wav={self.q1_wav}, q2_wav={self.q2_wav}, q3_wav={self.q3_wav}"
 
 class Score(Base):
     __tablename__ = "scores"

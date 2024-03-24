@@ -47,6 +47,9 @@ class QuestionSchema(BaseModel):
     q1: str
     q2: str
     q3: str
+    q1_wav: str
+    q2_wav: str
+    q3_wav: str
 
     class Config:
         orm_mode = True
