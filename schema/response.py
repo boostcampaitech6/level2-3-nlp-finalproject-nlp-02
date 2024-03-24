@@ -32,7 +32,7 @@ class TestSchema(BaseModel):
     mlr: float
     q_num: int
     createdDate: date
-    
+
     class Config:
         orm_mode = True
 
@@ -54,3 +54,13 @@ class QuestionSchema(BaseModel):
 
 class QuestionListSchema(BaseModel):
     questions: List[QuestionSchema]
+
+class ScoreSchema(BaseModel):
+    id: int
+    user_id: int
+    date: date
+    score: str
+
+    class Config:
+        orm_mode = True
+

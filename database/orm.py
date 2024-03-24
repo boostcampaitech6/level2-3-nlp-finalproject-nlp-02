@@ -1,9 +1,7 @@
-from sqlalchemy import Boolean, Column, Date, Float, Integer, String
-from sqlalchemy.dialects.postgresql import JSONB
+from sqlalchemy import Boolean, Column, Date, Float, Integer, String, JSON
 from sqlalchemy.orm import declarative_base
-from sqlalchemy_json import mutable_json_type
 
-from schema.request import CreateTestRequest, CreateUserRequest
+from schema.request import CreateTestRequest, CreateUserRequest, CreateScoreRequest
 
 Base = declarative_base()
 
@@ -85,3 +83,18 @@ class Question(Base):
 
     def __repr__(self):
         return f"Q date={self.date}), q1={self.q1}, q2={self.q2}, q3={self.q3}"
+
+class Score(Base):
+    __tablename__ = "scores"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, nullable=False)
+    date = Column(Date, nullable=False)
+    score = Column(String, nullable=False)
+
+    def __repr__(self):
+        return f"Score user_id={self.user_id}, date={self.date}), score={self.score}"
+    
+    @classmethod
+    def create(cls, request:CreateScoreRequest) -> "Score":
+        return cls(user_id=request.user_id, date=request.date, score=request.score)

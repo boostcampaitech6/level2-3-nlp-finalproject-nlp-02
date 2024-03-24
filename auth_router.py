@@ -1,18 +1,20 @@
-from fastapi import APIRouter, Depends, Request, HTTPException
+import requests
+from fastapi import APIRouter, Depends, HTTPException, Request
 from fastapi.responses import RedirectResponse
-from sqlalchemy.orm import Session
 from pydantic import BaseModel
+from sqlalchemy.orm import Session
 
 from database.connection import get_db
 from database.orm import User
 from database.repository import create_user, get_user_by_email
 from oauth import oauth  # main.py 혹은 app의 설정을 import 해야 합니다.
-import requests
 
 router = APIRouter()
 
+
 class TokenData(BaseModel):
     token: str
+
 
 @router.get("/login")
 async def login(request: Request):
@@ -46,15 +48,22 @@ async def get_current_user(request: Request, session: Session = Depends(get_db))
     return {"message": "no session"}
 
 
-
-@router.post("/get-me/")
-async def get_user_info(token_data: TokenData):
+def get_current(token: TokenData) -> User:
     google_userinfo_url = "https://www.googleapis.com/oauth2/v3/userinfo"
-    headers = {"Authorization": f"Bearer {token_data.token}"}
+    headers = {"Authorization": f"Bearer {token}"}
     response = requests.get(google_userinfo_url, headers=headers)
-    
+
     if response.status_code == 200:
         user_info = response.json()
+
         return user_info
-    else:
-        raise HTTPException(status_code=response.status_code, detail="사용자 정보를 조회할 수 없습니다.")
+
+
+@router.get("/get-me")
+async def get_user_info(request: Request, session: Session = Depends(get_db)):
+    user_info = get_current(token=request.headers.get("access_token"))
+    user_email = user_info.get("email")
+
+    user: User = get_user_by_email(session=session, email=user_email)
+
+    return {"name": user.name, "streak": user.streak}
