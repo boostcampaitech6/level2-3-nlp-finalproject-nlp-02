@@ -132,3 +132,15 @@ async def get_result_by_date(
     score: Score = get_result(session=session, date=date, user=user)
 
     return ScoreSchema.from_orm(score)
+
+@router.get("/me/result/{date}/{q_num}")
+async def get_result_by_question(
+    request: Request, date: date, q_num: int, session: Session = Depends(get_db)
+):
+    user_info = get_current(token=request.headers.get("access_token"))
+    user_email = user_info.get("email")
+
+    user: User = get_user_by_email(session=session, email=user_email)
+    test: Test = get_result_by_q_num(session=session, date=date, user=user, q_num=q_num)
+
+    return TestSchema.from_orm(test)
