@@ -1,16 +1,32 @@
-import streamlit as st
-import requests
 from datetime import datetime
+
+import requests
+import streamlit as st
+
+st.markdown("""
+    <style>
+        section[data-testid="stSidebar"][aria-expanded="true"]{
+            display: none;
+        }
+    </style>
+    """, unsafe_allow_html=True)
+
+
 
 today: datetime.date = datetime.today()
 
-tested_date = st.date_input("시험 본 날을 골라주세요.", today)
-response = requests.get(url=f"http://mopic.today/api/me/result/{tested_date}", headers={"access_token": st.session_state['token']['access_token']})
+tested_date = st.date_input("When's your birthday", today)
+response = requests.get(
+    url=f"https://mopic.today/api/me/result/{tested_date}",
+    headers={"access_token": st.session_state["token"]["access_token"]},
+)
 
 
 if response.status_code == 200:
-    # 응답 데이터 처리 (예: JSON 형태의 응답을 가정)
     result = response.json()
-    st.write("응답 데이터:", result)
+    st.session_state["date"] = tested_date
+    if st.button("보러가기"):
+        st.switch_page("pages/feedback.py")
 else:
     st.error("해당 날짜에 응시한 시험이 없습니다.")
+    st.session_state["date"] = None

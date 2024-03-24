@@ -20,3 +20,9 @@ class CreateTestRequest(BaseModel):
     mlr: float
     q_num: int
     createdDate: date
+
+
+class CreateScoreRequest(BaseModel):
+    user_id: int
+    date: date
+    score: str
