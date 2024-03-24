@@ -1,7 +1,13 @@
 import requests
 import streamlit as st
 
-st.subheader("달력을 넣으면 이전 시험 기록 보기를 없애기...")
+st.markdown("""
+    <style>
+        section[data-testid="stSidebar"][aria-expanded="true"]{
+            display: none;
+        }
+    </style>
+    """, unsafe_allow_html=True)
 
 response = requests.post(
     "http://mopic.today/api/get-me",

@@ -3,6 +3,16 @@ from datetime import datetime
 import requests
 import streamlit as st
 
+st.markdown("""
+    <style>
+        section[data-testid="stSidebar"][aria-expanded="true"]{
+            display: none;
+        }
+    </style>
+    """, unsafe_allow_html=True)
+
+
+
 today: datetime.date = datetime.today()
 
 tested_date = st.date_input("When's your birthday", today)

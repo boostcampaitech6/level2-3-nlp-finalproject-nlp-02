@@ -5,6 +5,14 @@ import streamlit as st
 import yaml
 from streamlit_oauth import OAuth2Component
 
+st.markdown("""
+    <style>
+        section[data-testid="stSidebar"][aria-expanded="true"]{
+            display: none;
+        }
+    </style>
+    """, unsafe_allow_html=True)
+
 
 # load config.yaml
 def load_config(filename):
@@ -37,7 +45,7 @@ if "auth" not in st.session_state:
     result = oauth2.authorize_button(
         name="인증을 위해 한 번 더 클릭해주세요.",
         icon="https://www.google.com.tw/favicon.ico",
-        redirect_uri="https://mopic.today/",
+        redirect_uri="https://mopic.today/session",
         scope="openid email profile",
         key="google",
         extras_params={"prompt": "consent", "access_type": "offline"},

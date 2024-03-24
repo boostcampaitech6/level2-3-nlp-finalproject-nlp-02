@@ -1,5 +1,13 @@
 import streamlit as st
 
+st.markdown("""
+    <style>
+        section[data-testid="stSidebar"][aria-expanded="true"]{
+            display: none;
+        }
+    </style>
+    """, unsafe_allow_html=True)
+
 login = "http://mopic.today/api/login"
 
 st.title("MOPIc")

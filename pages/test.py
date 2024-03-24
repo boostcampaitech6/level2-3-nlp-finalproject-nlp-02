@@ -7,6 +7,16 @@ import pyaudio
 import requests
 import streamlit as st
 
+
+st.markdown("""
+    <style>
+        section[data-testid="stSidebar"][aria-expanded="true"]{
+            display: none;
+        }
+    </style>
+    """, unsafe_allow_html=True)
+
+
 # 전역 변수 설정
 is_recording = False
 frames = []

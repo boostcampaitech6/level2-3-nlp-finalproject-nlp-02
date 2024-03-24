@@ -1,6 +1,15 @@
 import requests
 import streamlit as st
 
+st.markdown("""
+    <style>
+        section[data-testid="stSidebar"][aria-expanded="true"]{
+            display: none;
+        }
+    </style>
+    """, unsafe_allow_html=True)
+
+
 response = requests.get(
     url=f"https://mopic.today/api/me/result/{st.session_state['date']}",
     headers={"access_token": st.session_state["token"]["access_token"]},
