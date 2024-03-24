@@ -75,7 +75,7 @@ def check_grammar(json_data, server_url):
 
 
 # 4.GPT Json transcript coherence 생성
-def check_coherence(json_data, coherence):
+def check_coherence(json_data, question):
     print("Run check_coherence")
     answer = "{" + json_data["transcription"] + "}"
     # question = 추후 예정
@@ -86,6 +86,7 @@ def check_coherence(json_data, coherence):
         model="ft:gpt-3.5-turbo-0125:personal::8yvBw03H",
         messages=[
             {"role": "system", "content": "질문에 대한 대답 스크립트가 입력되었을 때 문맥이 적합한지 평가"},
+            {"role": "assistant", "content": "{높음, 중간, 낮음} 중 하나로 평가"},
             # {"role": "user", "content": "{How has your interest in plays changed over the last few years? What kind of play did you like in the past? What about now?}, {Okay, Lets talk about My taste in concerts... Actually, I have seen a lot of concerts. Right. Nowadays, I love k-pop concerts such as BTS concerts, Aespa concerts, Blackpink concerts, and whatever. K-pop concerts are a trend these days. And there are a lot of k-pop concerts in Korea. Those concerts are so fun and spectacular. But in the past, Um... yeah, I liked piano concerts. Because the first concert I have seen in my life is called Classic. That concert was a piano concert. It was so impressive and touched me. But I like k-pop concerts now. You know, it makes me feel like Im a k-pop star. What about you?}" }
             {"role": "user", "content": content},
         ],
