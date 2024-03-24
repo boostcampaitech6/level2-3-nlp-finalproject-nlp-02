@@ -1,6 +1,6 @@
 import string
-from typing import List, Dict, Literal, get_args
-from .gram_out_json import get_cleaned_token_list, get_scrs_tok
+from typing import Dict, Literal, get_args
+from out_json import get_cleaned_token_list, get_scrs_tok
 
 
 def get_error_count(
@@ -33,7 +33,7 @@ def get_error_rate_sen(
     error_count = get_error_count(checker_data=checker_data)
     sentence_count = len(og_list)
 
-    return error_count / sentence_count
+    return round(error_count / sentence_count, 2)
 
 
 def get_error_rate_word(
@@ -47,11 +47,13 @@ def get_error_rate_word(
         # remove punctuations
         new_sen = sen.translate(str.maketrans('', '', string.punctuation))
         word_count += len(new_sen.split(" "))
+        result = (1 - (error_count / word_count)) * 100
 
-    return 1 - (error_count / word_count)
+    return round(result, 2)
 
 # ec = error count, psc = per sentence count, pwc = per word count
 _TYPES = Literal["ec", "psc", "pwc"]
+
 
 def get_score(
         checker_data: Dict,

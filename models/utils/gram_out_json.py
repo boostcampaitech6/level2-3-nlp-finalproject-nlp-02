@@ -205,6 +205,7 @@ def get_phase_1_data(
 def get_phase_2_inner_data(
         sid: int, 
         sent: str, 
+        corr_sent: str,
         edited: bool,
         ref_word_list: List,
         tag_list: List,
@@ -213,6 +214,7 @@ def get_phase_2_inner_data(
     inner = {
         "sid": int,
         "sentence": str,
+        "corrected_sentence": str,
         "edited": False,
         "ref_word": [],
         "category": [],
@@ -221,6 +223,7 @@ def get_phase_2_inner_data(
     }
     inner["sid"] = sid
     inner["sentence"] = sent
+    inner["corrected_sentence"] = corr_sent
     inner["edited"] = edited
     inner["ref_word"] = ref_word_list
     inner["tag"] = tag_list
@@ -251,11 +254,12 @@ def get_phase_2_data(
         gector_dict = get_scrs_tok(inner_dict, ctl)
         sid = sentence_list.index(og_sent)
         sent = og_sent
+        corr_sent = inner_dict["fin_sentence"]
         edited = inner_dict["edited"]
         ref_word_list = gector_dict["og_word"]
         tag_list = gector_dict["full_tag"]
         if edited == True:
-            inner = get_phase_2_inner_data(sid=sid, sent=sent, edited=edited, ref_word_list=ref_word_list, 
+            inner = get_phase_2_inner_data(sid=sid, sent=sent, corr_sent=corr_sent, edited=edited, ref_word_list=ref_word_list, 
                                         tag_list=tag_list, tag_grammar=tag_grammar)
             tag_gram_dict["tag_grammar_info"].append(inner)
 
