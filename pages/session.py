@@ -64,8 +64,8 @@ if "auth" not in st.session_state:
         st.rerun()
 
 else:
-    if st.seeion_state["auth"]:
-        st.write(st.seeion_state["auth"])
+    if st.session_state["auth"]:
+        st.write(st.session_state["auth"])
         if st.button("인증 완료! 다음으로 넘어가주세요."):
             st.switch_page("pages/lobby.py")
     else:
