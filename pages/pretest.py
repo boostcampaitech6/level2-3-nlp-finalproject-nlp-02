@@ -18,6 +18,9 @@ st.write("조용한 환경에서 응시해주세요. 보다 정확한 결과가 
 st.write("마이크를 허용해주시고, 아래 버튼으로 녹음하여 녹음이 제대로 되는지 확인하세요.")
 
 voicecheck = audiorecorder("check your voice")
+st.session_state.my_recorder_output = None
+st.session_state.question_num = None
+
 
 if len(voicecheck) > 0:
     # To play audio in frontend:
