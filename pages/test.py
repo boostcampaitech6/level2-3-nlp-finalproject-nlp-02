@@ -3,13 +3,31 @@ from streamlit_mic_recorder import mic_recorder
 import base64
 import requests
 
+#remove navigation bar
+st.markdown("""
+    <style>
+        section[data-testid="stSidebar"][aria-expanded="true"]{
+            display: none; 
+        }
+    </style>
+    """, unsafe_allow_html=True)
 
-test = "http://0.0.0.0:0000/test/"
+
+test = "http://mopic.test/api/test"
+
 
 st.title("Daily Test")
-st.image(
-    "AVA.png", caption="문제를 두 번 들려드린 후 바로 녹음을 시작해주세요.", width=300
-)
+st.image("AVA.png", caption="문제를 두 번 들려드린 후 바로 녹음을 시작해주세요.", width=300)
+
+
+#remove image expansion
+st.markdown("""
+    <style>
+        [data-testid="StyledFullScreenButton"]{
+            visibility: hidden;
+        }
+    </style>
+    """, unsafe_allow_html=True)
 
 
 # When "listen" button is pressed, Convert .wav->html tag to autoplay
@@ -24,11 +42,6 @@ def autoplay_audio(file_path: str):
 def save_recording(audio_data):
     files = {"file": ("recording4.wav", audio_data, "audio/wav")}
     response = requests.post(test, files=files)
-    print(response.text)
-    if response.ok:
-        st.success("The recording was successfully saved.")
-    else:
-        st.error("Failed to save the recording.")
 
 
 def callback():
@@ -65,8 +78,6 @@ div.stButton > button:first-child {
 """
 st.markdown(button_style, unsafe_allow_html=True)
 
-# Create a holder for the Start Recording button
-recorder_holder = st.empty()
 
 # Apply a button styles
 button_style = """
@@ -113,3 +124,6 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
+
+
