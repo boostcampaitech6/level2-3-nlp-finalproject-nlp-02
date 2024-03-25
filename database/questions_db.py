@@ -9,7 +9,6 @@ from transformers import SpeechT5Processor, SpeechT5ForTextToSpeech, SpeechT5Hif
 from datasets import load_dataset
 import torch
 import soundfile as sf
-from datasets import load_dataset
 
 
 def load_config(filename):
@@ -62,7 +61,7 @@ conn = psycopg2.connect(host=host_ip, database=db, user=user, password=password)
 
 cur = conn.cursor()
 
-qdata_path = '/home/dashic/level2-3-nlp-finalproject-nlp-02/data/generated_question.json'
+qdata_path = '../data/generated_question.json'
 tts_save_path = '../tts_data'
 tts_db_path = 'level2-3-nlp-finalproject-nlp-02/tts_data'
 with open(qdata_path, "r") as f:
@@ -73,13 +72,20 @@ with open(qdata_path, "r") as f:
         q1 = line["Q1"]
         q2 = line["Q2"]
         q3 = line["Q3"]
-        run_tts(q1, os.path.join(tts_save_path, f"{today}_q1.wav"))
-        run_tts(q2, os.path.join(tts_save_path, f"{today}_q2.wav"))
-        run_tts(q3, os.path.join(tts_save_path, f"{today}_q3.wav"))
-        q1_wav_db_path = os.path.join(tts_db_path, f"{today}_q1.wav")
-        q2_wav_db_path = os.path.join(tts_db_path, f"{today}_q1.wav")
-        q3_wav_db_path = os.path.join(tts_db_path, f"{today}_q1.wav")
 
+        # 경로에 wav파일이 존재하면 
+        if os.path.exists(os.path.join(tts_save_path, f"{today}_q1.wav")):
+            run_tts(q1, os.path.join(tts_save_path, f"{today}_q1.wav"))
+        if os.path.exists(os.path.join(tts_save_path, f"{today}_q2.wav")):
+            run_tts(q2, os.path.join(tts_save_path, f"{today}_q2.wav"))
+        if os.path.exists(os.path.join(tts_save_path, f"{today}_q3.wav")):
+            run_tts(q3, os.path.join(tts_save_path, f"{today}_q3.wav"))
+
+        q1_wav_db_path = os.path.join(tts_db_path, f"{today}_q1.wav")
+        q2_wav_db_path = os.path.join(tts_db_path, f"{today}_q2.wav")
+        q3_wav_db_path = os.path.join(tts_db_path, f"{today}_q3.wav")
+
+        # row가 이미 존재하는지 확인
         cur.execute("SELECT EXISTS(SELECT 1 FROM questions WHERE date=%s)", (today,))
         if cur.fetchone()[0]:
             print(f"Question with data {today} already exists in the database.")
