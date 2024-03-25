@@ -261,9 +261,15 @@ async def upload_wav_and_json(
         #거리 계산
         # distance = levenshtein(pho_model_1, pho_model_2)
         distance = levenshtein(result_1, result_2)
-        diff_rate = (1-(distance / len(result_1))) * 100
-        diff_rate_2f = round(diff_rate, 2)
-        return diff_rate_2f
+        diff_rate = distance / len(result_1)
+
+        # 발음이 잘못된 경우가 많을 경우:
+        if diff_rate >= 1 :
+            return  0 
+        else:
+            correct_rate = (1-diff_rate) * 100
+            correct_rate_2f = round(correct_rate, 2)
+        return correct_rate_2f
     except Exception as e:
         return 0
 
