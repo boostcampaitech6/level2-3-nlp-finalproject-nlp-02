@@ -13,6 +13,7 @@ st.markdown("""
     """, unsafe_allow_html=True)
 
 
+# Define the endpoint URL of the server where you want to save the recording
 test = "http://mopic.test/api/test"
 
 
@@ -39,33 +40,23 @@ def autoplay_audio(file_path: str):
         st.markdown(audio_html, unsafe_allow_html=True)
 
 
-def save_recording(audio_data):
-    files = {"file": ("recording4.wav", audio_data, "audio/wav")}
+# question_num : 사용자 음성파일 이름변경을 위한 변수
+def save_recording(audio_data, question_num):
+    files = {"file": (f"test{question_num}.wav", audio_data, "audio/wav")}
     response = requests.post(test, files=files)
 
 
 def callback():
+    question_num = st.session_state.question_num
     # Check 'my_recorder_output' in st.session_state
     if "my_recorder_output" in st.session_state:
         audio_data = st.session_state.my_recorder_output["bytes"]
         if audio_data is not None:
-            save_recording(audio_data)
+            save_recording(audio_data, question_num)
             st.audio(audio_data, format="audio/wav")
         else:
             st.error("오디오 데이터를 찾을 수 없습니다.")
 
-
-def save_recording_locally(audio_data):
-    # Convert the audio data to a downloadable file
-    audio_file = base64.b64encode(audio_data).decode()
-    href = f'<a href="data:file/wav;base64,{audio_file}" download="recording.wav">Download recording</a>'
-    st.markdown(href, unsafe_allow_html=True)
-
-
-# question file path
-q_audio_path_1 = "q_1.wav"
-q_audio_path_2 = "q_2.wav"
-q_audio_path_3 = "q_3.wav"
 
 # button shape
 button_style = """
@@ -76,6 +67,7 @@ div.stButton > button:first-child {
 }
 </style>
 """
+
 st.markdown(button_style, unsafe_allow_html=True)
 
 
@@ -89,28 +81,67 @@ div.stButton > button {
 }
 </style>
 """
-st.markdown(button_style, unsafe_allow_html=True)
 
 cols = st.columns([1, 1, 1, 11])
-recorder_holder = st.empty()  # Fix the position of the "Start recording" button
+recorder_holder = st.empty()  # "녹음 시작" 버튼 위치 고정
 
 
-def main() -> None:
-    # each question button
+# 질문 오디오 파일 경로
+q_audio_paths = {"1": "q_1.wav", "2": "q_2.wav", "3": "q_3.wav"}
+
+if "question_clicked" not in st.session_state:
+    st.session_state.question_clicked = None
+
+
+def main():
+    # replay_count를 세션 상태로 초기화
+    if "replay_count" not in st.session_state:
+        st.session_state.replay_count = 0
+
+    # 오디오가 이미 재생되었는지 여부를 확인하기 위한 상태 초기화
+    if "played_1" not in st.session_state:
+        st.session_state["played_1"] = False
+    if "played_2" not in st.session_state:
+        st.session_state["played_2"] = False
+    if "played_3" not in st.session_state:
+        st.session_state["played_3"] = False
+
+    replay_limit = 1  # 재생 제한 횟수
+
     with cols[0]:
-        if st.button("1"):
-            autoplay_audio(q_audio_path_1)
+        if st.button("1") and not st.session_state["played_1"]:
+            st.session_state.question_num = 1
+            st.session_state.question_clicked = str("1")
+            autoplay_audio(q_audio_paths["1"])
+            st.session_state["played_1"] = True
+            st.session_state.replay_count = 0
 
     with cols[1]:
-        if st.button("2"):
-            autoplay_audio(q_audio_path_2)
+        if st.button("2") and not st.session_state["played_2"]:
+            st.session_state.question_num = 2
+            st.session_state.question_clicked = str("2")
+            autoplay_audio(q_audio_paths["2"])
+            st.session_state["played_2"] = True
+            st.session_state.replay_count = 0
 
     with cols[2]:
-        if st.button("3"):
-            autoplay_audio(q_audio_path_3)
+        if st.button("3") and not st.session_state["played_3"]:
+            st.session_state.question_num = 3
+            st.session_state.question_clicked = str("3")
+            autoplay_audio(q_audio_paths["3"])
+            st.session_state["played_3"] = True
+            st.session_state.replay_count = 0
 
-    # Start & stop recording buttons
-    with recorder_holder.container():
+    if st.session_state.question_clicked:
+        # 'Replay' 버튼 추가
+        if st.button("Replay", help="문제를 다시 듣고 싶다면 클릭해주세요."):
+            if st.session_state.replay_count < replay_limit:
+                autoplay_audio(q_audio_paths[st.session_state.question_clicked])
+                st.session_state.replay_count += 1
+            else:
+                st.warning("재생 횟수를 초과하였습니다.", icon="⚠️")
+
+        # 녹음 버튼 추가
         mic_recorder(
             start_prompt="녹음 시작",
             stop_prompt="다음",
@@ -124,6 +155,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-
-
-
