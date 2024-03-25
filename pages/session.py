@@ -56,9 +56,11 @@ if "auth" not in st.session_state:
     if result:
         id_token = result["token"]["id_token"]
         payload = id_token.split(".")[1]
-        payload += "=" * (-len(payload) % 4)
-        payload = json.loads(base64.b64decode(payload))
-        email = payload["email"]
+        padded_payload = payload + "=" * (4 - len(payload) % 4)
+        decoded_payload = json.loads(
+            base64.urlsafe_b64decode(bytes(padded_payload, "utf-8"))
+        )
+        email = decoded_payload["email"]
         st.session_state["auth"] = email
         st.session_state["token"] = result["token"]
         st.rerun()
