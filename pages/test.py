@@ -24,11 +24,6 @@ def autoplay_audio(file_path: str):
 def save_recording(audio_data):
     files = {"file": ("recording4.wav", audio_data, "audio/wav")}
     response = requests.post(test, files=files)
-    print(response.text)
-    if response.ok:
-        st.success("The recording was successfully saved.")
-    else:
-        st.error("Failed to save the recording.")
 
 
 def callback():
@@ -65,8 +60,6 @@ div.stButton > button:first-child {
 """
 st.markdown(button_style, unsafe_allow_html=True)
 
-# Create a holder for the Start Recording button
-recorder_holder = st.empty()
 
 # Apply a button styles
 button_style = """
