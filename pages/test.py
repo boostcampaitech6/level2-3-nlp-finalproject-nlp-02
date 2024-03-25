@@ -1,18 +1,20 @@
-
 import base64
 
 import requests
 import streamlit as st
 from streamlit_mic_recorder import mic_recorder
 
-#remove navigation bar
-st.markdown("""
+# remove navigation bar
+st.markdown(
+    """
     <style>
         section[data-testid="stSidebar"][aria-expanded="true"]{
             display: none; 
         }
     </style>
-    """, unsafe_allow_html=True)
+    """,
+    unsafe_allow_html=True,
+)
 
 
 # Define the endpoint URL of the server where you want to save the recording
@@ -23,14 +25,17 @@ st.title("Daily Test")
 st.image("AVA.png", caption="문제를 두 번 들려드린 후 바로 녹음을 시작해주세요.", width=300)
 
 
-#remove image expansion
-st.markdown("""
+# remove image expansion
+st.markdown(
+    """
     <style>
         [data-testid="StyledFullScreenButton"]{
             visibility: hidden;
         }
     </style>
-    """, unsafe_allow_html=True)
+    """,
+    unsafe_allow_html=True,
+)
 
 # When "listen" button is pressed, Convert .wav->html tag to autoplay
 def autoplay_audio(file_path: str):

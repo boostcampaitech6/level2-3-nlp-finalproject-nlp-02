@@ -8,16 +8,20 @@ from tempfile import NamedTemporaryFile
 from typing import List
 
 import requests
-from fastapi import (APIRouter, Depends, File, HTTPException, Request,
-                     UploadFile, status)
+from fastapi import APIRouter, Depends, File, HTTPException, Request, UploadFile, status
 from sqlalchemy.orm import Session
 
 from auth_router import get_current_user, get_current
 from database.connection import get_db
 from database.orm import Question, Test, User, Score
-from database.repository import (create_test, get_personal_tests,
-                                 get_questions_by_date, get_result,
-                                 get_user_by_email, get_result_by_q_num)
+from database.repository import (
+    create_test,
+    get_personal_tests,
+    get_questions_by_date,
+    get_result,
+    get_user_by_email,
+    get_result_by_q_num,
+)
 from schema.request import CreateTestRequest
 from schema.response import QuestionSchema, TestListSchema, TestSchema, ScoreSchema
 
@@ -33,22 +37,21 @@ async def save_temp_file(file,):
 
 async def save_file(file, user_id, q_num):
     wavfile = await file.read()
-    #name = file.filename
+    # name = file.filename
     name = f"{str(uuid.uuid4())}_{q_num}.wav"
     target_sr = 16000
     UPLOAD_DIR = f"./uploads/{user_id}"
-    #UPLOAD_DIR = "./uploads/"
+    # UPLOAD_DIR = "./uploads/"
     resampled_path = os.path.join(UPLOAD_DIR, name)
-    #print(resampled_path)
+    # print(resampled_path)
     os.makedirs(os.path.dirname(UPLOAD_DIR), exist_ok=True)
-
 
     # BytesIO 객체 생성 및 다운샘플링
     wav_bytes = io.BytesIO(wavfile)
     y, sr = librosa.load(wav_bytes, sr=44100)
-    
+
     # y_resampling
-    y_resampled = librosa.resample(y, orig_sr = sr, target_sr = target_sr)
+    y_resampled = librosa.resample(y, orig_sr=sr, target_sr=target_sr)
 
     # 다운샘플링된 파일 저장
     sf.write(resampled_path, y_resampled, target_sr)
@@ -161,6 +164,7 @@ async def get_result_by_date(
     score: Score = get_result(session=session, date=date, user=user)
 
     return ScoreSchema.from_orm(score)
+
 
 @router.get("/me/result/{date}/{q_num}")
 async def get_result_by_question(

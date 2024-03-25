@@ -101,18 +101,24 @@ def check_complexity(json_data):
     print("Run check_complexity")
     answer = json_data["transcription"]
     response = client_2.chat.completions.create(
-        model = "gpt-4-turbo-preview",
+        model="gpt-4-turbo-preview",
         messages=[
-                {"role": "system", "content": "Count the Compound Sentence, Complex Sentence, and Simple Sentence, Incomplete Sentence in the input script, and give simple feedback in korean on the composition according to the sentence ratio"},
-                {"role": "assistant", "content": "- Compound sentence: 1개 \n - Complexity sentence: 3개 \n - Simple Sentence: 4개 \n\n - Not a sentence: 0개 \n\n Feedback: \"전체적인 구성은 좋지만 Compound 문장을 더 만들어볼까요?\""},
-                {"role": "user", "content": answer},
+            {
+                "role": "system",
+                "content": "Count the Compound Sentence, Complex Sentence, and Simple Sentence, Incomplete Sentence in the input script, and give simple feedback in korean on the composition according to the sentence ratio",
+            },
+            {
+                "role": "assistant",
+                "content": '- Compound sentence: 1개 \n - Complexity sentence: 3개 \n - Simple Sentence: 4개 \n\n - Not a sentence: 0개 \n\n Feedback: "전체적인 구성은 좋지만 Compound 문장을 더 만들어볼까요?"',
+            },
+            {"role": "user", "content": answer},
         ],
     )
     res_json = json.loads(response.json())
     output = res_json["choices"][0]["message"]["content"]
     # print(output)
 
-    output  = re.findall(r'(?<=: ).*$', output)
+    output = re.findall(r"(?<=: ).*$", output)
     print("Done check_complexity")
     return output[0]
 

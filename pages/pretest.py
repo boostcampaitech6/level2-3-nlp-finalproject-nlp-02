@@ -2,14 +2,16 @@ import streamlit as st
 from audiorecorder import audiorecorder
 
 
-st.markdown("""
+st.markdown(
+    """
     <style>
         section[data-testid="stSidebar"][aria-expanded="true"]{
             display: none;
         }
     </style>
-    """, unsafe_allow_html=True)
-
+    """,
+    unsafe_allow_html=True,
+)
 
 
 st.write("시험은 하루에 한 번만 볼 수 있습니다. 중도 이탈 시 데이터는 저장되지 않습니다.")

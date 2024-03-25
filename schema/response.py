@@ -57,8 +57,10 @@ class QuestionSchema(BaseModel):
         orm_mode = True
         from_attributes = True
 
+
 class QuestionListSchema(BaseModel):
     questions: List[QuestionSchema]
+
 
 class ScoreSchema(BaseModel):
     id: int
@@ -69,4 +71,3 @@ class ScoreSchema(BaseModel):
     class Config:
         orm_mode = True
         from_attributes = True
-

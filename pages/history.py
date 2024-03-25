@@ -3,14 +3,16 @@ from datetime import datetime
 import requests
 import streamlit as st
 
-st.markdown("""
+st.markdown(
+    """
     <style>
         section[data-testid="stSidebar"][aria-expanded="true"]{
             display: none;
         }
     </style>
-    """, unsafe_allow_html=True)
-
+    """,
+    unsafe_allow_html=True,
+)
 
 
 today: datetime.date = datetime.today()

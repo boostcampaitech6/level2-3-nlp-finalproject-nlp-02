@@ -18,7 +18,7 @@ def load_config(filename):
 
 
 def create_date(data):
-    pattern = '%Y-%m-%d'
+    pattern = "%Y-%m-%d"
     start_date = datetime(2024, 3, 21).date()
     num_values = len(data)
     interval = timedelta(days=1)
@@ -28,23 +28,31 @@ def create_date(data):
 
 
 def run_tts(input_text, save_path):
-    #모델 경로 지정
-    model_save_path = 'microsoft/speecht5_tts'
-    vocoder_save_path = 'microsoft/speecht5_hifigan'
-    processor_save_path = 'microsoft/speecht5_tts'
+    # 모델 경로 지정
+    model_save_path = "microsoft/speecht5_tts"
+    vocoder_save_path = "microsoft/speecht5_hifigan"
+    processor_save_path = "microsoft/speecht5_tts"
 
-    #모델 불러오기
-    processor = SpeechT5Processor.from_pretrained(processor_save_path, cache_dir="/dev/shm")
+    # 모델 불러오기
+    processor = SpeechT5Processor.from_pretrained(
+        processor_save_path, cache_dir="/dev/shm"
+    )
     vocoder = SpeechT5HifiGan.from_pretrained(vocoder_save_path, cache_dir="/dev/shm")
-    model = SpeechT5ForTextToSpeech.from_pretrained(model_save_path, cache_dir="/dev/shm")
+    model = SpeechT5ForTextToSpeech.from_pretrained(
+        model_save_path, cache_dir="/dev/shm"
+    )
 
     inputs = processor(text=input_text, return_tensors="pt")
 
     # load xvector containing speaker's voice characteristics from a dataset
-    embeddings_dataset = load_dataset("Matthijs/cmu-arctic-xvectors", split="validation")
+    embeddings_dataset = load_dataset(
+        "Matthijs/cmu-arctic-xvectors", split="validation"
+    )
     speaker_embeddings = torch.tensor(embeddings_dataset[7306]["xvector"]).unsqueeze(0)
 
-    speech = model.generate_speech(inputs["input_ids"], speaker_embeddings, vocoder=vocoder)
+    speech = model.generate_speech(
+        inputs["input_ids"], speaker_embeddings, vocoder=vocoder
+    )
 
     sf.write(save_path, speech.numpy(), samplerate=16000)
 
@@ -61,9 +69,9 @@ conn = psycopg2.connect(host=host_ip, database=db, user=user, password=password)
 
 cur = conn.cursor()
 
-qdata_path = '../data/generated_question.json'
-tts_save_path = '../tts_data'
-tts_db_path = 'level2-3-nlp-finalproject-nlp-02/tts_data'
+qdata_path = "../data/generated_question.json"
+tts_save_path = "../tts_data"
+tts_db_path = "level2-3-nlp-finalproject-nlp-02/tts_data"
 with open(qdata_path, "r") as f:
     data = json.load(f)
     date = create_date(data)
@@ -73,7 +81,7 @@ with open(qdata_path, "r") as f:
         q2 = line["Q2"]
         q3 = line["Q3"]
 
-        # 경로에 wav파일이 존재하면 
+        # 경로에 wav파일이 존재하면
         if os.path.exists(os.path.join(tts_save_path, f"{today}_q1.wav")):
             run_tts(q1, os.path.join(tts_save_path, f"{today}_q1.wav"))
         if os.path.exists(os.path.join(tts_save_path, f"{today}_q2.wav")):

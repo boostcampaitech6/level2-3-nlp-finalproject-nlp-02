@@ -5,13 +5,16 @@ import streamlit as st
 import yaml
 from streamlit_oauth import OAuth2Component
 
-st.markdown("""
+st.markdown(
+    """
     <style>
         section[data-testid="stSidebar"][aria-expanded="true"]{
             display: none;
         }
     </style>
-    """, unsafe_allow_html=True)
+    """,
+    unsafe_allow_html=True,
+)
 
 
 # load config.yaml

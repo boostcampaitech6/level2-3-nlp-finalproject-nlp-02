@@ -1,17 +1,20 @@
 import requests
 import streamlit as st
 
-st.markdown("""
+st.markdown(
+    """
     <style>
         section[data-testid="stSidebar"][aria-expanded="true"]{
             display: none;
         }
     </style>
-    """, unsafe_allow_html=True)
+    """,
+    unsafe_allow_html=True,
+)
 
 response = requests.get(
     "http://mopic.today/api/get-me",
-    headers={"Access-Token": st.session_state['token']['access_token']},
+    headers={"Access-Token": st.session_state["token"]["access_token"]},
 )
 
 if response.status_code == 200:

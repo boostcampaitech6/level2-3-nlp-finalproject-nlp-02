@@ -87,6 +87,7 @@ class Question(Base):
     def __repr__(self):
         return f"Q date={self.date}), q1={self.q1}, q2={self.q2}, q3={self.q3}, q1_wav={self.q1_wav}, q2_wav={self.q2_wav}, q3_wav={self.q3_wav}"
 
+
 class Score(Base):
     __tablename__ = "scores"
 
@@ -97,7 +98,7 @@ class Score(Base):
 
     def __repr__(self):
         return f"Score user_id={self.user_id}, date={self.date}), score={self.score}"
-    
+
     @classmethod
-    def create(cls, request:CreateScoreRequest) -> "Score":
+    def create(cls, request: CreateScoreRequest) -> "Score":
         return cls(user_id=request.user_id, date=request.date, score=request.score)
