@@ -16,7 +16,7 @@ st.markdown("""
 
 
 # Define the endpoint URL of the server where you want to save the recording
-test = "http://mopic.test/api/test"
+test = "https://mopic.today/api/test"
 
 
 st.title("Daily Test")
