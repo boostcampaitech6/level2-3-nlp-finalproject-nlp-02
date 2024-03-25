@@ -1587,6 +1587,24 @@ files = [
 ]
 
 [[package]]
+name = "speechrecognition"
+version = "3.10.1"
+description = "Library for performing speech recognition, with support for several engines and APIs, online and offline."
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "SpeechRecognition-3.10.1-py2.py3-none-any.whl", hash = "sha256:69898b2b0bbd5bc65647c5ef833fe318ad74f02e8a6af5c9fd671933083660bc"},
+    {file = "SpeechRecognition-3.10.1.tar.gz", hash = "sha256:718731886b7836e20a06b9a2c6cace12a9e130971bb6af1b1dd130b22bad9f82"},
+]
+
+[package.dependencies]
+requests = ">=2.26.0"
+typing-extensions = "*"
+
+[package.extras]
+whisper-api = ["openai"]
+
+[[package]]
 name = "sqlalchemy"
 version = "2.0.28"
 description = "Database Abstraction Library"
@@ -1755,6 +1773,21 @@ files = [
 
 [package.dependencies]
 pydub = ">=0.24"
+streamlit = ">=0.63"
+
+[[package]]
+name = "streamlit-mic-recorder"
+version = "0.0.8"
+description = "Streamlit component that allows to record mono audio from the user's microphone, and/or perform speech recognition directly."
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "streamlit_mic_recorder-0.0.8-py3-none-any.whl", hash = "sha256:acbd5ed868dba083d567341c85f1740ae42bd03259c2780dce7f69d5bc109ac8"},
+    {file = "streamlit_mic_recorder-0.0.8.tar.gz", hash = "sha256:5a29a98f3bd1582f9d5d90911ef498b32244863d646759c2f5ceec515befb6cf"},
+]
+
+[package.dependencies]
+SpeechRecognition = "*"
 streamlit = ">=0.63"
 
 [[package]]
@@ -1928,4 +1961,4 @@ test = ["pytest (>=6.0.0)", "setuptools (>=65)"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11.8"
-content-hash = "58fcb878f3859d354e4b009e425a97e4b13249e0317c6894b1fc216df3429d4d"
+content-hash = "fe80574505f58d9ec709e3177d8c6b11cd6acb33fd8871e70a2225f321273dac"

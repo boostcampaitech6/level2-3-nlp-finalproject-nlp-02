@@ -22,6 +22,7 @@ wheel = "^0.43.0"
 audiorecorder = "^0.1"
 streamlit-audiorecorder = "^0.0.4"
 ffmpeg = "^1.4"
+streamlit-mic-recorder = "^0.0.8"
 
 
 [build-system]
