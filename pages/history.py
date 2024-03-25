@@ -18,7 +18,7 @@ today: datetime.date = datetime.today()
 tested_date = st.date_input("When's your birthday", today)
 response = requests.get(
     url=f"https://mopic.today/api/me/result/{tested_date}",
-    headers={"access_token": st.session_state["token"]["access_token"]},
+    headers={"Access-Token": st.session_state["token"]["access_token"]},
 )
 
 

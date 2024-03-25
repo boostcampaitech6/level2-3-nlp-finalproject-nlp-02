@@ -150,7 +150,7 @@ def get_result_handler(
 async def get_result_by_date(
     request: Request, date: date, session: Session = Depends(get_db)
 ):
-    user_info = get_current(token=request.headers.get("access_token"))
+    user_info = get_current(token=request.headers.get("Access-Token"))
     user_email = user_info.get("email")
 
     user: User = get_user_by_email(session=session, email=user_email)
@@ -162,7 +162,7 @@ async def get_result_by_date(
 async def get_result_by_question(
     request: Request, date: date, q_num: int, session: Session = Depends(get_db)
 ):
-    user_info = get_current(token=request.headers.get("access_token"))
+    user_info = get_current(token=request.headers.get("Access-Token"))
     user_email = user_info.get("email")
 
     user: User = get_user_by_email(session=session, email=user_email)
