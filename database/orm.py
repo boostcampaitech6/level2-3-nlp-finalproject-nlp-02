@@ -1,9 +1,7 @@
-from sqlalchemy import Boolean, Column, Integer, String, Date, Float
+from sqlalchemy import Boolean, Column, Date, Float, Integer, String, JSON
 from sqlalchemy.orm import declarative_base
-from sqlalchemy_json import mutable_json_type
-from sqlalchemy.dialects.postgresql import JSONB
 
-from schema.request import CreateUserRequest, CreateTestRequest
+from schema.request import CreateTestRequest, CreateUserRequest, CreateScoreRequest
 
 Base = declarative_base()
 
@@ -41,22 +39,34 @@ class Test(Base):
     __tablename__ = "tests"
 
     id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(Integer, nullable=False)
-    path = Column(String, nullable=False)
-    inference1 = Column(mutable_json_type(dbtype=JSONB, nested=True))
-    inference2 = Column(Float, nullable=False)
-    inference3 = Column(mutable_json_type(dbtype=JSONB, nested=True))
-    q_num = Column(Integer, nullable=False)
-    createdDate = Column(Date, nullable=False)
+    user_id = Column(Integer, nullable=False)  # user_id
+    path = Column(String, nullable=False)  # path_to_wav
+    mpr = Column(Float, nullable=False)  # mispronunciation_rate
+    grammar = Column(JSON, nullable=False)  # grammar
+    coherence = Column(Float, nullable=False)  # coherence_level
+    complexity = Column(String, nullable=False)  # complexity_analysis
+    wpm = Column(Float, nullable=False)  # word_per_minute
+    pause = Column(Float, nullable=False)  # pause_rate
+    mlr = Column(Float, nullable=False)  # mean_length_of_run
+    q_num = Column(Integer, nullable=False)  # question_number
+    createdDate = Column(Date, nullable=False)  # date
 
     def __repr__(self):
         return f"Test user_id={self.user_id}), createdDate={self.createdDate}, q_num={self.q_num}"
 
     @classmethod
-    def create(cls, request: CreateTestRequest, user: User, filepath: str) -> "Test":
+    # def create(cls, request: CreateTestRequest, user: User, filepath: str, output: dict) -> "Test":
+    def create(cls, request: CreateTestRequest) -> "Test":
         return cls(
-            user_id=user.id,
-            path=filepath,
+            user_id=request.user_id,
+            path=request.path,
+            mpr=request.mpr,
+            grammar=request.grammar,
+            coherence=request.coherence,
+            complexity=request.complexity,
+            wpm=request.wpm,
+            pause=request.pause,
+            mlr=request.mlr,
             q_num=request.q_num,
             createdDate=request.createdDate,
         )
@@ -70,6 +80,24 @@ class Question(Base):
     q1 = Column(String, nullable=False)
     q2 = Column(String, nullable=False)
     q3 = Column(String, nullable=False)
+    q1_wav = Column(String, nullable=True)
+    q2_wav = Column(String, nullable=True)
+    q3_wav = Column(String, nullable=True)
 
     def __repr__(self):
-        return f"Q date={self.date}), q1={self.q1}, q2={self.q2}, q3={self.q3}"
+        return f"Q date={self.date}), q1={self.q1}, q2={self.q2}, q3={self.q3}, q1_wav={self.q1_wav}, q2_wav={self.q2_wav}, q3_wav={self.q3_wav}"
+
+class Score(Base):
+    __tablename__ = "scores"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, nullable=False)
+    date = Column(Date, nullable=False)
+    score = Column(String, nullable=False)
+
+    def __repr__(self):
+        return f"Score user_id={self.user_id}, date={self.date}), score={self.score}"
+    
+    @classmethod
+    def create(cls, request:CreateScoreRequest) -> "Score":
+        return cls(user_id=request.user_id, date=request.date, score=request.score)

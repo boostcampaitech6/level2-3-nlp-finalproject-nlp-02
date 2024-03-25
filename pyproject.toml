@@ -1,0 +1,29 @@
+[tool.poetry]
+name = "mopic"
+version = "0.1.0"
+description = ""
+authors = ["C7C4FF <c7c4ff.beom@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11.8"
+uvicorn = "^0.28.1"
+fastapi = "^0.110.0"
+streamlit = "^1.32.2"
+sqlalchemy = "^2.0.28"
+sqlalchemy-json = "^0.7.0"
+python-multipart = "^0.0.9"
+authlib = "^1.3.0"
+httpx = "^0.27.0"
+itsdangerous = "^2.1.2"
+pyyaml = "^6.0.1"
+psycopg2-binary = "^2.9.9"
+wheel = "^0.43.0"
+audiorecorder = "^0.1"
+streamlit-audiorecorder = "^0.0.4"
+ffmpeg = "^1.4"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
