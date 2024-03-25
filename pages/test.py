@@ -1,13 +1,9 @@
-import base64
-import os
-import threading
-import wave
-
-import pyaudio
-import requests
 import streamlit as st
+from streamlit_mic_recorder import mic_recorder
+import base64
+import requests
 
-
+#remove navigation bar
 st.markdown("""
     <style>
         section[data-testid="stSidebar"][aria-expanded="true"]{
@@ -17,18 +13,14 @@ st.markdown("""
     """, unsafe_allow_html=True)
 
 
-
-# 전역 변수 설정
-is_recording = False
-frames = []
-
-
 test = "http://mopic.test/api/test"
+
 
 st.title("Daily Test")
 st.image("AVA.png", caption="문제를 두 번 들려드린 후 바로 녹음을 시작해주세요.", width=300)
 
 
+#remove image expansion
 st.markdown("""
     <style>
         [data-testid="StyledFullScreenButton"]{
@@ -38,7 +30,7 @@ st.markdown("""
     """, unsafe_allow_html=True)
 
 
-# 1. "듣기" 버튼 눌렀을 때 문제 자동재생 되도록 .wav->html 태그로 변환
+# When "listen" button is pressed, Convert .wav->html tag to autoplay
 def autoplay_audio(file_path: str):
     with open(file_path, "rb") as audio_file:
         audio_bytes = audio_file.read()
@@ -47,91 +39,91 @@ def autoplay_audio(file_path: str):
         st.markdown(audio_html, unsafe_allow_html=True)
 
 
-# 2. 녹음
-def recording():
-    global is_recording, frames
-    is_recording = True
-    frames = []
-
-    # 오디오 설정
-    chunk = 1024
-    format = pyaudio.paInt16
-    channels = 1
-    rate = 16000
-
-    p = pyaudio.PyAudio()
-
-    stream = p.open(
-        format=format, channels=channels, rate=rate, input=True, frames_per_buffer=chunk
-    )
-
-    # 녹음 중 데이터를 frames array에 저장하기
-    while is_recording:
-        data = stream.read(chunk)
-        frames.append(data)
-
-    # stream 정지 & 종료
-    stream.stop_stream()
-    stream.close()
-    p.terminate()
+def save_recording(audio_data):
+    files = {"file": ("recording4.wav", audio_data, "audio/wav")}
+    response = requests.post(test, files=files)
 
 
-# 3. 정지&저장
-def stop_and_save_recording(filename):
-    global is_recording
-    is_recording = False
-    if frames:
-        wf = wave.open(filename, "wb")
-        wf.setnchannels(2)
-        wf.setsampwidth(pyaudio.PyAudio().get_sample_size(pyaudio.paInt16))
-        wf.setframerate(16000)
-        wf.writeframes(b"".join(frames))
-        wf.close()
-        st.success(f"Recording saved as {filename}")
-    else:
-        st.error("No recording to save.")
+def callback():
+    # Check 'my_recorder_output' in st.session_state
+    if "my_recorder_output" in st.session_state:
+        audio_data = st.session_state.my_recorder_output["bytes"]
+        if audio_data is not None:
+            save_recording(audio_data)
+            st.audio(audio_data, format="audio/wav")
+        else:
+            st.error("오디오 데이터를 찾을 수 없습니다.")
 
 
-# TODO: 옆의 이미지 확장 버튼 숨기기
+def save_recording_locally(audio_data):
+    # Convert the audio data to a downloadable file
+    audio_file = base64.b64encode(audio_data).decode()
+    href = f'<a href="data:file/wav;base64,{audio_file}" download="recording.wav">Download recording</a>'
+    st.markdown(href, unsafe_allow_html=True)
 
-# TODO: 이하의 로직이 3번 반복되도록 작성
-# qlist = requests.get(url=test)
 
-# if st.button("재생"):
-#     # TTS 로 문제 읽기
-#     pass
-#
-#     audio = audiorecorder("Start Record", "Next")
-#     # TODO: 자동으로 녹음 시작되면 좋음.
-#
-#     if len(audio) > 0:
-#         # 저장
-#         wav = audio.export("test.wav", format="wav")
-#         files = {"file": (wav.name, wav, "multipart/form-data")}
-#         response = requests.post(url=test, files=files)
-#
-#         if response.status_code == 200:
-#
-#             data = response.json()
-#             st.write(data)
+# question file path
+q_audio_path_1 = "q_1.wav"
+q_audio_path_2 = "q_2.wav"
+q_audio_path_3 = "q_3.wav"
+
+# button shape
+button_style = """
+<style>
+div.stButton > button:first-child {
+    margin: 0px 5px;
+    width: 100%;
+}
+</style>
+"""
+st.markdown(button_style, unsafe_allow_html=True)
+
+
+# Apply a button styles
+button_style = """
+<style>
+div.stButton > button {
+    display: block;
+    margin: 0px 5px ;
+    width: 50%;
+}
+</style>
+"""
+st.markdown(button_style, unsafe_allow_html=True)
+
+cols = st.columns([1, 1, 1, 11])
+recorder_holder = st.empty()  # Fix the position of the "Start recording" button
 
 
 def main() -> None:
-    q_audio_path = "test_q.wav"  # question file path
+    # each question button
+    with cols[0]:
+        if st.button("1"):
+            autoplay_audio(q_audio_path_1)
 
-    # 1. "듣기" 누르면 문제 자동재생
-    if st.button("듣기"):
-        autoplay_audio(q_audio_path)
+    with cols[1]:
+        if st.button("2"):
+            autoplay_audio(q_audio_path_2)
 
-    # 2. "녹음 시작" 누르면 녹음 시작
-    if st.button("녹음 시작"):
-        threading.Thread(target=recording).start()
-        st.write("Recording...")
+    with cols[2]:
+        if st.button("3"):
+            autoplay_audio(q_audio_path_3)
 
-    # 3. "다음" 누르면 녹음 정지 및 저장
-    if st.button("다음"):
-        stop_and_save_recording("output.wav")
+    # Start & stop recording buttons
+    with recorder_holder.container():
+        mic_recorder(
+            start_prompt="녹음 시작",
+            stop_prompt="다음",
+            just_once=True,
+            key="my_recorder",
+            use_container_width=True,
+            format="wav",
+            callback=callback,
+        )
 
 
 if __name__ == "__main__":
     main()
+
+
+
