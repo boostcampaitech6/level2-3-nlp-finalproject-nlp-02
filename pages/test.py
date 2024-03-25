@@ -3,14 +3,32 @@ from streamlit_mic_recorder import mic_recorder
 import base64
 import requests
 
+#remove navigation bar
+st.markdown("""
+    <style>
+        section[data-testid="stSidebar"][aria-expanded="true"]{
+            display: none; 
+        }
+    </style>
+    """, unsafe_allow_html=True)
+
 
 # Define the endpoint URL of the server where you want to save the recording
-test = "http://0.0.0.0:8000/save_recording/"
+test = "http://mopic.test/api/test"
+
 
 st.title("Daily Test")
-st.image(
-    "AVA.png", caption="문제를 두 번 들려드린 후 바로 녹음을 시작해주세요.", width=300
-)
+st.image("AVA.png", caption="문제를 두 번 들려드린 후 바로 녹음을 시작해주세요.", width=300)
+
+
+#remove image expansion
+st.markdown("""
+    <style>
+        [data-testid="StyledFullScreenButton"]{
+            visibility: hidden;
+        }
+    </style>
+    """, unsafe_allow_html=True)
 
 
 # When "listen" button is pressed, Convert .wav->html tag to autoplay
@@ -51,6 +69,7 @@ div.stButton > button:first-child {
 """
 
 st.markdown(button_style, unsafe_allow_html=True)
+
 
 # Apply a button styles
 button_style = """
