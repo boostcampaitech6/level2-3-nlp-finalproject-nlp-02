@@ -2,14 +2,9 @@ import streamlit as st
 from streamlit_mic_recorder import mic_recorder
 import base64
 import requests
-
-
 test = "https://mopic.today/api/test"
-
 st.title("Daily Test")
 st.image("AVA.png", caption="문제를 두 번 들려드린 후 바로 녹음을 시작해주세요.", width=300)
-
-
 #When "listen" button is pressed, Convert .wav->html tag to autoplay
 def autoplay_audio(file_path: str):
     with open(file_path, "rb") as audio_file:
@@ -17,8 +12,6 @@ def autoplay_audio(file_path: str):
         audio_base64 = base64.b64encode(audio_bytes).decode('utf-8')
         audio_html = f'<audio autoplay><source src="data:audio/wav;base64,{audio_base64}" type="audio/wav"></audio>'
         st.markdown(audio_html, unsafe_allow_html=True)
-
-
 def save_recording(audio_data,question_num):
     files = {'file': (f'test{question_num}.wav', audio_data, 'audio/wav')}
     response = requests.post(url=test, files=files, headers={"Access-Token": st.session_state['token']['access_token']},)
@@ -27,8 +20,6 @@ def save_recording(audio_data,question_num):
         st.success("The recording was successfully saved.")
     else:
         st.error("Failed to save the recording.")
-
-
 def callback():
     question_num = st.session_state.question_num
     # Check if 'my_recorder_output' exists in st.session_state
@@ -41,21 +32,16 @@ def callback():
             st.error("오디오 데이터를 찾을 수 없습니다.")
     else:
         st.error("문제를 듣고 녹음을 시작해주세요.")
-
     st.session_state.my_recorder_output = None
-
-
 def save_recording_locally(audio_data):
     # Convert the audio data to a downloadable file
     audio_file = base64.b64encode(audio_data).decode()
     href = f'<a href="data:file/wav;base64,{audio_file}" download="recording.wav">Download recording</a>'
     st.markdown(href, unsafe_allow_html=True)
-
 #question file path
 q_audio_path_1 = "/home/beom/mopic/tts_data/2024-03-25_q1.wav"
 q_audio_path_2 = "/home/beom/mopic/tts_data/2024-03-25_q2.wav"
 q_audio_path_3 = "/home/beom/mopic/tts_data/2024-03-25_q3.wav"
-
 #button shape
 button_style = """
 <style>
@@ -66,10 +52,8 @@ div.stButton > button:first-child {
 </style>
 """
 st.markdown(button_style, unsafe_allow_html=True)
-
 #Create a holder for the Start Recording button
 recorder_holder = st.empty()
-
 #Apply a button styles
 button_style = """
 <style>
@@ -81,33 +65,31 @@ div.stButton > button {
 </style>
 """
 st.markdown(button_style, unsafe_allow_html=True)
-
 cols = st.columns([1, 1, 1, 11])
 recorder_holder = st.empty()  #Fix the position of the "Start recording" button
 
-def main() -> None:
-    if 'question_num' not in st.session_state:
-        st.session_state.question_num = 0
-    with cols[0]:
-        if st.button("1"):
-            # Session state에 question_num 할당 후 버튼 클릭 시 바뀌게 설정
-            st.session_state.question_num = 1
-            autoplay_audio(q_audio_path_1)
-            #callback(1)
-    with cols[1]:
-        if st.button("2"):
-            st.session_state.question_num = 2
-            autoplay_audio(q_audio_path_2)
+if 'question_num' not in st.session_state:
+    st.session_state.question_num = 0
+with cols[0]:
+    if st.button("1"):
+        # Session state에 question_num 할당 후 버튼 클릭 시 바뀌게 설정
+        st.session_state.question_num = 1
+        autoplay_audio(q_audio_path_1)
+        #callback(1)
+with cols[1]:
+    if st.button("2"):
+        st.session_state.question_num = 2
+        autoplay_audio(q_audio_path_2)
 
-    with cols[2]:
-        if st.button("3"):
-            st.session_state.question_num = 3
-            autoplay_audio(q_audio_path_3)
+with cols[2]:
+    if st.button("3"):
+        st.session_state.question_num = 3
+        autoplay_audio(q_audio_path_3)
 
-    # #Start & stop recording buttons
-    with recorder_holder.container():
-        mic_recorder(start_prompt="녹음 시작", stop_prompt="다음", key='my_recorder', use_container_width=True, format="wav", callback=callback)
+# #Start & stop recording buttons
+with recorder_holder.container():
+    mic_recorder(start_prompt="녹음 시작", stop_prompt="다음", key='my_recorder', use_container_width=True, format="wav", callback=callback)
 
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()
