@@ -13,6 +13,7 @@ class UserSchema(BaseModel):
 
     class Config:
         orm_mode = True
+        from_attributes = True
 
 
 class UserListSchema(BaseModel):
@@ -35,6 +36,7 @@ class TestSchema(BaseModel):
 
     class Config:
         orm_mode = True
+        from_attributes = True
 
 
 class TestListSchema(BaseModel):
@@ -66,4 +68,5 @@ class ScoreSchema(BaseModel):
 
     class Config:
         orm_mode = True
+        from_attributes = True
 
