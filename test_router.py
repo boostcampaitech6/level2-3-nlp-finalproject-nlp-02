@@ -37,7 +37,7 @@ async def save_file(file, user_id, q_num):
     # name = file.filename
     name = f"{str(uuid.uuid4())}_{q_num}.wav"
     target_sr = 16000
-    UPLOAD_DIR = f"./uploads/{user_id}"
+    UPLOAD_DIR = f"./uploads/{user_id}/"
     # UPLOAD_DIR = "./uploads/"
     resampled_path = os.path.join(UPLOAD_DIR, name)
     # print(resampled_path)
@@ -111,7 +111,7 @@ async def upload_temp(
     }
     # <starlette.requests.Request object at 0x7f61f4161b90>
     # $body = await request.body()
-    file_path = await save_file(file, user.user_id, q_num)
+    file_path = await save_file(file, user.id, q_num)
     # question = question_data.q1
     question = q_num_question_mapping.get(q_num, "질문을 찾을 수 없음")
     output = await run_inference(file_path, question)
