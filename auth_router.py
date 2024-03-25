@@ -61,7 +61,7 @@ def get_current(token: TokenData) -> User:
 
 @router.get("/get-me")
 async def get_user_info(request: Request, session: Session = Depends(get_db)):
-    user_info = get_current(token=request.headers.get("access_token"))
+    user_info = get_current(token=request.headers.get("Access-Token"))
     user_email = user_info.get("email")
 
     user: User = get_user_by_email(session=session, email=user_email)

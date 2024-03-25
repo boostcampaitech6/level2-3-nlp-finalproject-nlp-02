@@ -9,22 +9,10 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
-response = requests.post(
+response = requests.get(
     "http://mopic.today/api/get-me",
-    json={"token": st.session_state["token"]["access_token"]},
+    headers={"Access-Token": st.session_state['token']['access_token']},
 )
-
-# response 예제
-# {
-#     "sub":"00..123456789...00"
-#     "name":"full name"
-#     "given_name":"given_name"
-#     "family_name":"family_name"
-#     "picture":"https://lh3.googleusercontent.com/a/ ... "
-#     "email":"example@gmail.com"
-#     "email_verified":true
-#     "locale":"en"
-# }
 
 if response.status_code == 200:
     user_info = response.json()
