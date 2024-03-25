@@ -43,7 +43,7 @@ class Test(Base):
     path = Column(String, nullable=False)  # path_to_wav
     mpr = Column(Float, nullable=False)  # mispronunciation_rate
     grammar = Column(JSON, nullable=False)  # grammar
-    coherence = Column(Float, nullable=False)  # coherence_level
+    coherence = Column(String, nullable=False)  # coherence_level
     complexity = Column(String, nullable=False)  # complexity_analysis
     wpm = Column(Float, nullable=False)  # word_per_minute
     pause = Column(Float, nullable=False)  # pause_rate
