@@ -1,5 +1,6 @@
 import streamlit as st
 
+
 st.markdown("""
     <style>
         section[data-testid="stSidebar"][aria-expanded="true"]{
