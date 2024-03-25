@@ -1,0 +1,188 @@
+[
+    {
+        "Selected_topic": "Watching TV",
+        "Q1": "What kinds of TV shows do you like to watch the most? When do you usually watch TV? ",
+        "Q2": "What is the most popular TV show in your country? Please describe it in detail. ",
+        "Q3": "Do you think that TV programs are usually suitable for all audiences? What do you think?"
+    },
+    {
+        "Selected_topic": "Hobbies",
+        "Q1": "What hobbies do you usually enjoy? ",
+        "Q2": "How did you start it? Please explain. ",
+        "Q3": "How often do you join in your hobby? Please be specific."
+    },
+    {
+        "Selected_topic": "Sports",
+        "Q1": "Do you usually play any sport? Or, do you have any favorite sports? ",
+        "Q2": "Do people in your country like playing or watching sports? Why? ",
+        "Q3": "In your opinion, what are the most popular sports in your country? Why?"
+    },
+    {
+        "Selected_topic": "Travel",
+        "Q1": "What kinds of places do you like to visit? Where do you often go for travel? ",
+        "Q2": "Have you ever traveled to a foreign country? When and where was it? Please describe your travel as detailed as possible. ",
+        "Q3": "When will you plan your next foreign trip? Where do you want to go?"
+    },
+    {
+        "Selected_topic": "Transportation",
+        "Q1": "How do you arrive at school or work? And how long does it take? ",
+        "Q2": "What city do you find the best public transportation? What kind of public transport is the most efficient and why? ",
+        "Q3": "Would you like public transportation in your city better in any way? Please describe."
+    },
+    {
+        "Selected_topic": "Shopping",
+        "Q1": "Where do you usually buy clothes or shoes? Why? Can you look around this place? ",
+        "Q2": "Do you prefer going shopping by yourself or with someone else? Why? ",
+        "Q3": "Do you like to go shopping online or in person? Why or why not? Wait, there are online shopping malls in your country, right?"
+    },
+    {
+        "Selected_topic": "Friend",
+        "Q1": "Who is your best friend? How did you meet them? How long have you known each other? ",
+        "Q2": "What did you do when you hang out with your best friend recently? When did the meeting happen? ",
+        "Q3": "What does your friend like to do for their hobby?"
+    },
+    {
+        "Selected_topic": "Eat out",
+        "Q1": "Where do people usually go out to eat in your country, like restaurants, cafes, fast-food outlets? What's different prices and order methods with others ",
+        "Q2": "What's your favorite restaurant in your country? How often do you eat there? ",
+        "Q3": "What kind of food do you like to eat the most? Why?"
+    },
+    {
+        "Selected_topic": "Books",
+        "Q1": "What book are you reading these days? Can you introduce the book in detail? ",
+        "Q2": "How do you usually feel after reading the book? Or how does the book influence your life? ",
+        "Q3": "What kind of book did you usually enjoy when you were young? What has changed now?"
+    },
+    {
+        "Selected_topic": "Friend",
+        "Q1": "Who is your best friend? How did you meet them? How long have you known each other? ",
+        "Q2": "What did you do when you hang out with your best friend recently? When did the meeting happen? ",
+        "Q3": "What does your friend like to do for their hobby?"
+    },
+    {
+        "Selected_topic": "Holidays",
+        "Q1": "What types of holidays or celebrations do you have in your country? When are they and what do people do on these holidays? ",
+        "Q2": "What holiday do you like the most? What do you usually do on this particular holiday? ",
+        "Q3": "How do people in your country usually celebrate their national day? What is the most popular national holiday in your country? Please explain it as much as you can."
+    },
+    {
+        "Selected_topic": "Movies",
+        "Q1": "How often do you watch movies? What kind of movies do you like the most? ",
+        "Q2": "Who is your favorite actor or actress, and why do you like him or her? ",
+        "Q3": "Why do you think movies are important, and what benefits do they offer?"
+    },
+    {
+        "Selected_topic": "Driving",
+        "Q1": "How often do you drive a car? What is your favourite place to drive to and why? ",
+        "Q2": "What is your most memorable driving experience? Describe it in detail. ",
+        "Q3": "What do you like about driving, and do you think driving is a necessary skill?"
+    },
+    {
+        "Selected_topic": "Reading newspapers",
+        "Q1": "How often do you read newspapers? When and where do you usually read them? ",
+        "Q2": "Which section do you like the most and why? ",
+        "Q3": "Do you think reading newspapers is helpful, and how does it benefit you?"
+    },
+    {
+        "Selected_topic": "Camping",
+        "Q1": "How often do you go camping? Where do you usually go camping, and why do you like it? ",
+        "Q2": "What is the most memorable experience you had while camping, and why was it unforgettable? ",
+        "Q3": "What appeals to you about camping, and how does it positively affect you?"
+    },
+    {
+        "Selected_topic": "Soccer",
+        "Q1": "How often do you play or watch soccer? Why are you interested in soccer? ",
+        "Q2": "Which soccer player or team impresses you the most and why? ",
+        "Q3": "What is your opinion about soccer's popularity in Korea, and what makes soccer so appealing worldwide?"
+    },
+    {
+        "Selected_topic": "Music",
+        "Q1": "What kind of music do you enjoy listening to the most? When do you usually listen to music? ",
+        "Q2": "Who is the most famous singer or band in your country? Tell me about them. ",
+        "Q3": "Why do you think music is so important in our society?"
+    },
+    {
+        "Selected_topic": "Taking photos",
+        "Q1": "How often do you take photos? What is your favorite subject? ",
+        "Q2": "Where and when was the most memorable photo you took? Describe it. ",
+        "Q3": "Why do you think taking photos is essential and what does photography mean to you? "
+    },
+    {
+        "Selected_topic": "Family",
+        "Q1": "How often do you spend time with your family? What kind of activities do you usually do together? ",
+        "Q2": "What is the most important family tradition in your country? Explain it. ",
+        "Q3": "How do you think family ties influence your personality and life?"
+    },
+    {
+        "Selected_topic": "American football",
+        "Q1": "How often do you play or watch American football? Why do you like American football? ",
+        "Q2": "Which American football players or teams do you admire, and what makes them special? ",
+        "Q3": "What is your opinion about the popularity of American football and the impact it has on society?"
+    },
+    {
+        "Selected_topic": "Role-playing",
+        "Q1": "How often do you participate in role-playing activities? What kind of role-playing games or scenarios do you prefer? ",
+        "Q2": "What is the most memorable experience you have had while role-playing, and why was it unforgettable? ",
+        "Q3": "What do you enjoy most about role-playing, and what benefits does it bring you?"
+    },
+    {
+        "Selected_topic": "Living alone",
+        "Q1": "How long have you been living alone? What is the most challenging aspect of living alone? ",
+        "Q2": "What is the happiest aspect of living alone? Describe why. ",
+        "Q3": "How does it feel to live alone during the pandemic?"
+    },
+    {
+        "Selected_topic": "Living together",
+        "Q1": "Do you live with your family or friends? Describe your living environment. ",
+        "Q2": "Who is the most eccentric person in your house? Share the interesting story of that person with the interviewer. ",
+        "Q3": "Have you clashed with the people you live with? Please tell me about an unforgettable experience you had."
+    },
+    {
+        "Selected_topic": "Family",
+        "Q1": "How big is your family? How often do you spend time with them? ",
+        "Q2": "Who is your favorite family member and why? Describe the significant event that strengthened the bond between you and the person. ",
+        "Q3": "What do you object to most when it comes to family matters?"
+    },
+    {
+        "Selected_topic": "Movies",
+        "Q1": "What kind of movies do you like to watch the most? When do you usually watch a movie? ",
+        "Q2": "What's the most impressive movie you've watched recently? Elaborate on what makes it so impressive. ",
+        "Q3": "Do you think that people watch movies differently depending on their ethnicity or gender? What do you think the reason is?"
+    },
+    {
+        "Selected_topic": "Going to clubs",
+        "Q1": "How often do you go to night clubs? When was the last time you went to a club? ",
+        "Q2": "What are the most popular clubs in your country? Can you describe them? ",
+        "Q3": "What do you think are the advantages and disadvantages of going to clubs?"
+    },
+    {
+        "Selected_topic": "Going to museums",
+        "Q1": "How often do you go to museums? What types of museums do you usually visit? ",
+        "Q2": "What is the most memorable museum or art exhibit you've been to? Describe the exhibits that you found most memorable. ",
+        "Q3": "What do you think is the purpose of museums in society?"
+    },
+    {
+        "Selected_topic": "Going to parks",
+        "Q1": "How often do you go to parks? What do you usually do there? ",
+        "Q2": "What's your favorite park in your community? Describe the reason why you love the park so much. ",
+        "Q3": "What do you think is the difference between parks in your country and foreign countries?"
+    },
+    {
+        "Selected_topic": "Watching sports",
+        "Q1": "How often do you watch sports? What is your favorite sport to watch? ",
+        "Q2": "Who is your favorite sports team? Why do you cheer on them? ",
+        "Q3": "Do you ever try to adopt some habits after watching a sports game?"
+    },
+    {
+        "Selected_topic": "Housing improvement",
+        "Q1": "Have you ever refurbished your house on your own? What did you do to improve? ",
+        "Q2": "How often do you get ideas to upgrade your house? Describe the specific examples. ",
+        "Q3": "Do you think you should seek advice from professionals when you need to improve your house? Explain the reason."
+    },
+    {
+        "Selected_topic": "Gaming",
+        "Q1": "How long have you been playing video games? What is your favorite game at the moment? ",
+        "Q2": "Do you play games online or offline? What are their differences? ",
+        "Q3": "Do you think people get the same satisfaction from playing video games and playing mobile games?"
+    }
+]
