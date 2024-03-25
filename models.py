@@ -114,7 +114,7 @@ def check_complexity(json_data):
 
     output  = re.findall(r'(?<=: ).*$', output)
     print("Done check_complexity")
-    return output
+    return output[0]
 
 
 @app.post("/run_inference/")
