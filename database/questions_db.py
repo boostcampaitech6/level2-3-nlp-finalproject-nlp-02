@@ -1,14 +1,14 @@
-import os
 import json
+import os
 from datetime import datetime, timedelta
 
 import psycopg2
-import yaml
-
-from transformers import SpeechT5Processor, SpeechT5ForTextToSpeech, SpeechT5HifiGan
-from datasets import load_dataset
-import torch
 import soundfile as sf
+import torch
+import yaml
+from datasets import load_dataset
+from transformers import (SpeechT5ForTextToSpeech, SpeechT5HifiGan,
+                          SpeechT5Processor)
 
 
 def load_config(filename):

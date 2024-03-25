@@ -4,7 +4,7 @@ from typing import List
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from database.orm import Question, Test, User, Score
+from database.orm import Question, Score, Test, User
 
 
 def get_user_by_email(session: Session, email: str) -> User | None:

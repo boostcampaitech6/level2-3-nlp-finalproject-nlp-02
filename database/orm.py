@@ -1,7 +1,8 @@
-from sqlalchemy import Boolean, Column, Date, Float, Integer, String, JSON
+from sqlalchemy import JSON, Boolean, Column, Date, Float, Integer, String
 from sqlalchemy.orm import declarative_base
 
-from schema.request import CreateTestRequest, CreateUserRequest, CreateScoreRequest
+from schema.request import (CreateScoreRequest, CreateTestRequest,
+                            CreateUserRequest)
 
 Base = declarative_base()
 

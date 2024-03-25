@@ -1,8 +1,8 @@
 import asyncio
 import concurrent.futures
 import json
-import re
 import os
+import re
 from typing import Annotated
 
 import requests

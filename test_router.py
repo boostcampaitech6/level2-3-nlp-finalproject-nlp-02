@@ -1,29 +1,26 @@
-import os
 import io
-import librosa
-import soundfile as sf
+import os
 import uuid
 from datetime import date, datetime
 from tempfile import NamedTemporaryFile
 from typing import List
 
+import librosa
 import requests
-from fastapi import APIRouter, Depends, File, HTTPException, Request, UploadFile, status
+import soundfile as sf
+from fastapi import (APIRouter, Depends, File, HTTPException, Request,
+                     UploadFile, status)
 from sqlalchemy.orm import Session
 
-from auth_router import get_current_user, get_current
+from auth_router import get_current, get_current_user
 from database.connection import get_db
-from database.orm import Question, Test, User, Score
-from database.repository import (
-    create_test,
-    get_personal_tests,
-    get_questions_by_date,
-    get_result,
-    get_user_by_email,
-    get_result_by_q_num,
-)
+from database.orm import Question, Score, Test, User
+from database.repository import (create_test, get_personal_tests,
+                                 get_questions_by_date, get_result,
+                                 get_result_by_q_num, get_user_by_email)
 from schema.request import CreateTestRequest
-from schema.response import QuestionSchema, TestListSchema, TestSchema, ScoreSchema
+from schema.response import (QuestionSchema, ScoreSchema, TestListSchema,
+                             TestSchema)
 
 router = APIRouter()
 

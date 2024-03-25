@@ -1,7 +1,6 @@
 import streamlit as st
 from audiorecorder import audiorecorder
 
-
 st.markdown(
     """
     <style>
