@@ -49,10 +49,10 @@ class Test(Base):
     pause = Column(Float, nullable=False)  # pause_rate
     mlr = Column(Float, nullable=False)  # mean_length_of_run
     q_num = Column(Integer, nullable=False)  # question_number
-    createdDate = Column(Date, nullable=False)  # date
+    createddate = Column(Date, nullable=False)  # date
 
     def __repr__(self):
-        return f"Test user_id={self.user_id}), createdDate={self.createdDate}, q_num={self.q_num}"
+        return f"Test user_id={self.user_id}), createddate={self.createddate}, q_num={self.q_num}"
 
     @classmethod
     # def create(cls, request: CreateTestRequest, user: User, filepath: str, output: dict) -> "Test":
@@ -68,7 +68,7 @@ class Test(Base):
             pause=request.pause,
             mlr=request.mlr,
             q_num=request.q_num,
-            createdDate=request.createdDate,
+            createddate=request.createddate,
         )
 
 
