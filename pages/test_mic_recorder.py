@@ -4,7 +4,7 @@ import base64
 import requests
 
 
-test = "http://localhost:8000/test"
+test = "https://mopic.today/api/test"
 
 st.title("Daily Test")
 st.image("AVA.png", caption="문제를 두 번 들려드린 후 바로 녹음을 시작해주세요.", width=300)
@@ -21,14 +21,12 @@ def autoplay_audio(file_path: str):
 
 def save_recording(audio_data,question_num):
     files = {'file': (f'test{question_num}.wav', audio_data, 'audio/wav')}
-    #print(files)
-    response = requests.post(test, files=files)
-    print(response.text)
-    if response.ok:
+    response = requests.post(url=test, files=files, headers={"Access-Token": st.session_state['token']['access_token']},)
+    #print(response.text)
+    if response.status_code == 200:
         st.success("The recording was successfully saved.")
     else:
         st.error("Failed to save the recording.")
-
 
 
 def callback():
@@ -44,7 +42,7 @@ def callback():
     else:
         st.error("문제를 듣고 녹음을 시작해주세요.")
 
-
+    st.session_state.my_recorder_output = None
 
 
 def save_recording_locally(audio_data):
@@ -54,9 +52,9 @@ def save_recording_locally(audio_data):
     st.markdown(href, unsafe_allow_html=True)
 
 #question file path
-q_audio_path_1 = 'q_1.wav'
-q_audio_path_2 = 'q_2.wav'
-q_audio_path_3 = 'q_3.wav'
+q_audio_path_1 = "/home/beom/mopic/tts_data/2024-03-25_q1.wav"
+q_audio_path_2 = "/home/beom/mopic/tts_data/2024-03-25_q2.wav"
+q_audio_path_3 = "/home/beom/mopic/tts_data/2024-03-25_q3.wav"
 
 #button shape
 button_style = """
@@ -88,13 +86,13 @@ cols = st.columns([1, 1, 1, 11])
 recorder_holder = st.empty()  #Fix the position of the "Start recording" button
 
 def main() -> None:
- #each question button
+    if 'question_num' not in st.session_state:
+        st.session_state.question_num = 0
     with cols[0]:
         if st.button("1"):
             # Session state에 question_num 할당 후 버튼 클릭 시 바뀌게 설정
             st.session_state.question_num = 1
             autoplay_audio(q_audio_path_1)
-
             #callback(1)
     with cols[1]:
         if st.button("2"):
@@ -108,7 +106,7 @@ def main() -> None:
 
     # #Start & stop recording buttons
     with recorder_holder.container():
-        mic_recorder(start_prompt="녹음 시작", stop_prompt="다음", just_once=True, key='my_recorder', use_container_width=True, format="wav", callback=callback)
+        mic_recorder(start_prompt="녹음 시작", stop_prompt="다음", key='my_recorder', use_container_width=True, format="wav", callback=callback)
 
 
 if __name__ == "__main__":
