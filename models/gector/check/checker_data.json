@@ -1,20 +1,14 @@
 {
-	" I don't know.": {
+	" Sorry, I can't answer this question.": {
 		"edited": false,
 		"sentence_list": [],
 		"tag_list": [],
-		"fin_sentence": " I don't know."
+		"fin_sentence": " Sorry, I can't answer this question."
 	},
-	"I prefer just shipping online because the, you know, the, what do I call them?": {
+	"I'm not good at English yet.": {
 		"edited": false,
 		"sentence_list": [],
 		"tag_list": [],
-		"fin_sentence": "I prefer just shipping online because the, you know, the, what do I call them?"
-	},
-	"The shoppers or just, I don't know.": {
-		"edited": false,
-		"sentence_list": [],
-		"tag_list": [],
-		"fin_sentence": "The shoppers or just, I don't know."
+		"fin_sentence": "I'm not good at English yet."
 	}
 }

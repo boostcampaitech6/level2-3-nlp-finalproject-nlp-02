@@ -41,8 +41,8 @@ async def upload_json(
 ):
     try:
         
-        gector_path = "/home/dashic/level2-3-nlp-finalproject-nlp-02/models/gector"
-        verb_path = "/home/dashic/level2-3-nlp-finalproject-nlp-02/models/gector/data/verb-form-vocab.txt"
+        gector_path = "./gector"
+        verb_path = "./gector/data/verb-form-vocab.txt"
         
 
         nltk.download('punkt')

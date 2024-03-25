@@ -15,7 +15,7 @@ def load_token_list(
 
 
 def get_cleaned_token_list(
-        token_path: str = "/home/dashic/gector-test/gector-test/gector/data/token_labels.txt"
+        token_path: str = "../gector/data/token_labels.txt"
     ):
     print("=== Removing Tokens ===")
     

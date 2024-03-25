@@ -44,7 +44,7 @@ def visualizer_json(iteration_log: List[List[Dict]], out_sentence):
 
 
 if __name__ == "__main__":
-    gector_path = "/home/dashic/gector-test/gector-test/gector"
+    gector_path = "../gector"
 
     with open(os.path.join(gector_path, "input", "macominatya.txt"), "r", encoding="utf-8") as file:
         sents = file.readlines()
