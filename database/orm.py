@@ -39,6 +39,11 @@ class User(Base):
         self.streak += 1
         return self
 
+    def addstreak(self) -> "User":
+        self.streak += 1
+        return self
+    
+    
 
 class Test(Base):
     __tablename__ = "tests"
