@@ -137,6 +137,57 @@ async def upload_temp(
     return test
 
 
+
+@router.post("/test1")
+async def upload_test1(
+    file: UploadFile = File(...),
+    session: Session = Depends(get_db),
+    user: User = Depends(get_current_user),
+    question_data: QuestionSchema = Depends(get_question_handler),
+):
+    
+    q_num = file.filename[-5]
+ 
+    q_num_question_mapping = {
+    "1": question_data.q1,
+    "2": question_data.q2,
+    "3": question_data.q3,
+}
+    
+    file_path = await save_file(file, user.id, q_num)
+    #question = question_data.q1
+    question = q_num_question_mapping.get(q_num, "질문을 찾을 수 없음")
+    output = await run_inference(file_path, question)
+
+    request = CreateTestRequest
+    request.user_id = user.id
+    request.path = file_path
+    request.mpr = output["mpr"]
+    request.grammar = output["grammar"]
+    request.coherence = output["coherence"]
+    request.complexity = output["complexity"]
+    request.pause = output["pause"]
+    request.wpm = output["wpm"]
+    request.mlr = output["mlr"]
+    request.q_num = q_num
+    now = datetime.now()
+    formatted_date = now.strftime("%Y-%m-%d")
+    request.createddate = formatted_date
+
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="User not found"
+        )
+
+    test: Test | None = Test.create(request=request)
+    test: Test = create_test(session=session, test=test)
+    
+    user.addstreak()
+    user.done()
+
+    return test
+
+
 @router.get("/me/result", status_code=200)
 def get_result_handler(
     session: Session = Depends(get_db), user: User = Depends(get_current_user)
