@@ -74,7 +74,7 @@ conn = psycopg2.connect(
 
 cur = conn.cursor()
 
-qdata_path = "../data/generated_question.json"
+qdata_path = "../Models/data/generated_question.json"
 tts_save_path = "../tts_data"
 tts_db_path = "level2-3-nlp-finalproject-nlp-02/tts_data"
 with open(qdata_path, "r") as f:
