@@ -2,6 +2,7 @@ import base64
 
 import requests
 import streamlit as st
+from datetime import datetime
 from streamlit_mic_recorder import mic_recorder
 
 # remove navigation bar
@@ -101,10 +102,11 @@ recorder_holder = st.empty()  # "녹음 시작" 버튼 위치 고정
 
 
 # 질문 오디오 파일 경로
+today = datetime.today().date()
 q_audio_paths = {
-    "1": "/home/beom/mopic/tts_data/2024-03-26_q1.wav",
-    "2": "/home/beom/mopic/tts_data/2024-03-26_q2.wav",
-    "3": "/home/beom/mopic/tts_data/2024-03-26_q3.wav",
+    "1": f"../tts_data/{today}_q1.wav",
+    "2": f"../tts_data/{today}_q2.wav",
+    "3": f"../tts_data/{today}_q3.wav",
 }
 
 if "question_clicked" not in st.session_state:
