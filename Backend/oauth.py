@@ -10,7 +10,7 @@ def load_config(filename):
     return config
 
 
-config = load_config("config.yaml")
+config = load_config("../config.yaml")
 google_config = config.get("google")
 
 oauth.register(

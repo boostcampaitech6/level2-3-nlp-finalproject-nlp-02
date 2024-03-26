@@ -9,7 +9,7 @@ def load_config(filename):
     return config
 
 
-config = load_config("config.yaml")
+config = load_config("../config.yaml")
 db_config = config.get("database")
 
 DATABASE_URL = db_config.get("dbname")

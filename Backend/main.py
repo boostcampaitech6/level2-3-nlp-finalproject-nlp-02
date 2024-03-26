@@ -19,7 +19,7 @@ def load_config(filename):
     return config
 
 
-config = load_config("config.yaml")
+config = load_config("../config.yaml")
 google_config = config.get("google")
 app.add_middleware(
     SessionMiddleware, secret_key=google_config.get("middleware_secret_key")

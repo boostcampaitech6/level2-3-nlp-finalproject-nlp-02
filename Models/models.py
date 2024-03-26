@@ -20,7 +20,7 @@ def load_config(filename):
     return config
 
 
-config = load_config("config.yaml")
+config = load_config("../config.yaml")
 model_config = config.get("models")
 server_config = config.get("servers")
 # 0.chatgpt 프롬프팅 구간
