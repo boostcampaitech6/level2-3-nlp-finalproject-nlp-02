@@ -34,6 +34,10 @@ class User(Base):
     def undone(self) -> "User":
         self.is_done = False
         return self
+    
+    def streakupdate(self) -> "User":
+        self.streak += 1
+        return self
 
 
 class Test(Base):
