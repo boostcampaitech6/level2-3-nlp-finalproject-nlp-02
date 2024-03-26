@@ -142,7 +142,7 @@ async def upload_temp(
 
 
 
-@router.post("/test1")
+@router.post("/test_q3")
 async def upload_test1(
     file: UploadFile = File(...),
     session: Session = Depends(get_db),
