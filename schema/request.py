@@ -1,5 +1,6 @@
-from pydantic import BaseModel
 from datetime import date
+
+from pydantic import BaseModel
 
 
 class CreateUserRequest(BaseModel):
@@ -10,6 +11,18 @@ class CreateUserRequest(BaseModel):
 class CreateTestRequest(BaseModel):
     user_id: int
     path: str
-    result: dict
+    mpr: float
+    grammar: str
+    coherence: str
+    complexity: str
+    wpm: float
+    pause: float
+    mlr: float
     q_num: int
-    createdDate: date
+    createddate: date
+
+
+class CreateScoreRequest(BaseModel):
+    user_id: int
+    date: date
+    score: str

@@ -1,5 +1,5 @@
-from typing import List
 from datetime import date
+from typing import List
 
 from pydantic import BaseModel
 
@@ -13,6 +13,7 @@ class UserSchema(BaseModel):
 
     class Config:
         orm_mode = True
+        from_attributes = True
 
 
 class UserListSchema(BaseModel):
@@ -23,12 +24,19 @@ class TestSchema(BaseModel):
     id: int
     user_id: int
     path: str
-    result: dict
+    mpr: float
+    grammar: str
+    coherence: str
+    complexity: str
+    wpm: float
+    pause: float
+    mlr: float
     q_num: int
-    createdDate: date
+    createddate: date
 
     class Config:
         orm_mode = True
+        from_attributes = True
 
 
 class TestListSchema(BaseModel):
@@ -37,14 +45,29 @@ class TestListSchema(BaseModel):
 
 class QuestionSchema(BaseModel):
     id: int
-    date: str
+    date: date
     q1: str
     q2: str
     q3: str
+    q1_wav: str
+    q2_wav: str
+    q3_wav: str
 
     class Config:
         orm_mode = True
+        from_attributes = True
 
 
 class QuestionListSchema(BaseModel):
     questions: List[QuestionSchema]
+
+
+class ScoreSchema(BaseModel):
+    id: int
+    user_id: int
+    date: date
+    score: str
+
+    class Config:
+        orm_mode = True
+        from_attributes = True
