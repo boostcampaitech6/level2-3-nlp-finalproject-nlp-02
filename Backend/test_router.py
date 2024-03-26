@@ -144,12 +144,17 @@ async def upload_temp(
 
 @router.post("/test_q3")
 async def upload_test1(
+    requestsss: Request,
     file: UploadFile = File(...),
     session: Session = Depends(get_db),
     user: User = Depends(get_current_user),
     question_data: QuestionSchema = Depends(get_question_handler),
 ):
-    
+    user_info = get_current(token=requestsss.headers.get("Access-Token"))
+    user_email = user_info.get("email")
+
+    user: User = get_user_by_email(session=session, email=user_email)
+
     q_num = file.filename[-5]
  
     q_num_question_mapping = {
