@@ -49,6 +49,6 @@ def get_result(session: Session, date: date, user: User) -> Score:
 def get_result_by_q_num(session: Session, date: date, user: User, q_num: int) -> Test:
     return session.scalar(
         select(Test).where(
-            Test.date == date, Test.user_id == user.id, Test.q_num == q_num
+            Test.createddate == date, Test.user_id == user.id, Test.q_num == q_num
         )
     )

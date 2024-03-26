@@ -12,7 +12,7 @@ class CreateTestRequest(BaseModel):
     user_id: int
     path: str
     mpr: float
-    grammar: str
+    grammar: dict
     coherence: str
     complexity: str
     wpm: float
