@@ -13,7 +13,7 @@ st.markdown(
 )
 
 response = requests.get(
-    "http://mopic.today/api/get-me",
+    "https://mopic.today/api/get-me",
     headers={"Access-Token": st.session_state["token"]["access_token"]},
 )
 

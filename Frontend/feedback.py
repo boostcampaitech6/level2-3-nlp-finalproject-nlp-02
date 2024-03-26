@@ -158,7 +158,7 @@ st.markdown(
 
 
 response = requests.get(
-    url=f"http://mopic.today/api/me/result/{st.session_state['date']}",
+    url=f"https://mopic.today/api/me/result/{st.session_state['date']}",
     headers={"Access-Token": st.session_state["token"]["access_token"]},
 )
 if response.status_code == 200:
@@ -183,11 +183,11 @@ st.markdown(
 )
 
 tab1, tab2, tab3 = st.tabs(["1번", "2번", "3번"])
-questions = requests.get(url="http://mopic.today/api/test").json()
+questions = requests.get(url="https://mopic.today/api/test").json()
 
 with tab1:
     question_response_1 = requests.get(
-        url=f"http://mopic.today/api/me/result/{st.session_state['date']}/1",
+        url=f"https://mopic.today/api/me/result/{st.session_state['date']}/1",
         headers={"Access-Token": st.session_state["token"]["access_token"]},
     )
 
@@ -200,7 +200,7 @@ with tab1:
 
 with tab2:
     question_response_2 = requests.get(
-        url=f"http://mopic.today/api/me/result/{st.session_state['date']}/2",
+        url=f"https://mopic.today/api/me/result/{st.session_state['date']}/2",
         headers={"Access-Token": st.session_state["token"]["access_token"]},
     )
 
@@ -212,7 +212,7 @@ with tab2:
 
 with tab3:
     question_response_3 = requests.get(
-        url=f"http://mopic.today/api/me/result/{st.session_state['date']}/3",
+        url=f"https://mopic.today/api/me/result/{st.session_state['date']}/3",
         headers={"Access-Token": st.session_state["token"]["access_token"]},
     )
 
