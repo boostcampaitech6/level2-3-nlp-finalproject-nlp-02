@@ -124,7 +124,7 @@ def check_complexity(json_data):
     
     # GPT output이 다르게 뱉어내는 경우
     else: 
-        output
+        return output
 
 
 @app.post("/run_inference/")
