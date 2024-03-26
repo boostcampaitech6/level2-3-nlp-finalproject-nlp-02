@@ -1,0 +1,102 @@
+{
+	"phase_2": {
+		"error_count": 9,
+		"original_passage": "I am live in Korea. I am study right now. You are run. I running. I want to having a break time right now, but I am not supposing to.",
+		"corrected_passage": "I am live in Korea. I am studying right now. You are run. I running. I want to have a break right now, but I am not supposed to.",
+		"tag_grammar_info": [
+			{
+				"sid": 0,
+				"sentence": "I am live in Korea.",
+				"edited": false,
+				"ref_word": [],
+				"category": [],
+				"tag": [],
+				"grammar_description": []
+			},
+			{
+				"sid": 1,
+				"sentence": "I am study right now.",
+				"edited": true,
+				"ref_word": [
+					"study"
+				],
+				"category": [
+					"동사 형태"
+				],
+				"tag": [
+					"$TRANSFORM_VERB_VB_VBG"
+				],
+				"grammar_description": [
+					"PRESENT TO PRESENT PARTICIPLE"
+				]
+			},
+			{
+				"sid": 2,
+				"sentence": "You are run.",
+				"edited": true,
+				"ref_word": [
+					"run.",
+					"run.",
+					"run.",
+					"run.",
+					"run."
+				],
+				"category": [
+					"동사 형태",
+					"동사 형태",
+					"동사 형태",
+					"동사 형태",
+					"동사 형태"
+				],
+				"tag": [
+					"$TRANSFORM_VERB_VBN_VBG",
+					"$TRANSFORM_VERB_VBN_VBG",
+					"$TRANSFORM_VERB_VBN_VBG",
+					"$TRANSFORM_VERB_VBN_VBG",
+					"$TRANSFORM_VERB_VBN_VBG"
+				],
+				"grammar_description": [
+					"PAST PARTICIPLE TO PRESENT PARTICIPLE",
+					"PAST PARTICIPLE TO PRESENT PARTICIPLE",
+					"PAST PARTICIPLE TO PRESENT PARTICIPLE",
+					"PAST PARTICIPLE TO PRESENT PARTICIPLE",
+					"PAST PARTICIPLE TO PRESENT PARTICIPLE"
+				]
+			},
+			{
+				"sid": 3,
+				"sentence": "I running.",
+				"edited": false,
+				"ref_word": [],
+				"category": [],
+				"tag": [],
+				"grammar_description": []
+			},
+			{
+				"sid": 4,
+				"sentence": "I want to having a break time right now, but I am not supposing to.",
+				"edited": true,
+				"ref_word": [
+					"having",
+					"time",
+					"supposing"
+				],
+				"category": [
+					"어휘",
+					"어휘",
+					"어휘"
+				],
+				"tag": [
+					"$REPLACE_have",
+					"$DELETE",
+					"$REPLACE_supposed"
+				],
+				"grammar_description": [
+					"WRONG USE OF VOCABULARY",
+					"WRONG USE OF VOCABULARY",
+					"WRONG USE OF VOCABULARY"
+				]
+			}
+		]
+	}
+}
