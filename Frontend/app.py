@@ -11,7 +11,7 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-login = "http://mopic.today/api/login"
+login = "https://mopic.today/api/login"
 
 st.title("MOPIc")
 st.write("구글 아이디로 로그인하시면 자동으로 회원으로 등록됩니다.")
