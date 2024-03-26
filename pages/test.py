@@ -20,6 +20,7 @@ st.markdown(
 
 # Define the endpoint URL of the server where you want to save the recording
 test = "https://mopic.today/api/test"
+test_q3 = "https://mopic.today/api/test_q3"
 
 
 st.title("Daily Test")
@@ -50,12 +51,19 @@ def autoplay_audio(file_path: str):
 # question_num : 사용자 음성파일 이름변경을 위한 변수
 def save_recording(audio_data, question_num):
     files = {"file": (f"test{question_num}.wav", audio_data, "audio/wav")}
-    response = requests.post(
-        url=test,
+    if question_num == 3:
+        response = requests.post(
+        url=test_q3,
         files=files,
         headers={"Access-Token": st.session_state["token"]["access_token"]},
     )
-    # print(response.text)
+    else:
+        response = requests.post(
+            url=test,
+            files=files,
+            headers={"Access-Token": st.session_state["token"]["access_token"]},
+        )
+        # print(response.text)
     if response.status_code == 200:
         st.success("The recording was successfully saved.")
     else:
