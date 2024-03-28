@@ -1,8 +1,7 @@
-from sqlalchemy import JSON, Boolean, Column, Date, Float, Integer, String
-from sqlalchemy.orm import declarative_base
-
 from schema.request import (CreateScoreRequest, CreateTestRequest,
                             CreateUserRequest)
+from sqlalchemy import JSON, Boolean, Column, Date, Float, Integer, String
+from sqlalchemy.orm import declarative_base
 
 Base = declarative_base()
 
@@ -34,7 +33,7 @@ class User(Base):
     def undone(self) -> "User":
         self.is_done = False
         return self
-    
+
     def streakupdate(self) -> "User":
         self.streak += 1
         return self
@@ -42,8 +41,7 @@ class User(Base):
     def addstreak(self) -> "User":
         self.streak += 1
         return self
-    
-    
+
 
 class Test(Base):
     __tablename__ = "tests"

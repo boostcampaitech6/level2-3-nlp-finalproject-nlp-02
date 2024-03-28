@@ -1,9 +1,12 @@
-import torch
 import os
-from tqdm import tqdm
-from .modeling import GECToR
-from transformers import PreTrainedTokenizer
 from typing import List
+
+import torch
+from tqdm import tqdm
+from transformers import PreTrainedTokenizer
+
+from .modeling import GECToR
+
 
 def load_verb_dict(verb_file: str):
     path_to_dict = os.path.join(verb_file)
@@ -19,89 +22,79 @@ def load_verb_dict(verb_file: str):
                 decode[decode_key] = word2
     return encode, decode
 
+
 def edit_src_by_tags(
-    srcs: List[List[str]],
-    pred_labels: List[List[str]],
-    encode: dict,
-    decode: dict
+    srcs: List[List[str]], pred_labels: List[List[str]], encode: dict, decode: dict
 ) -> List[str]:
     edited_srcs = []
     for tokens, labels in zip(srcs, pred_labels):
         edited_tokens = []
-        for t, l, in zip(tokens, labels):
+        for t, l in zip(tokens, labels):
             n_token = process_token(t, l, encode, decode)
             if n_token == None:
                 n_token = t
-            edited_tokens += n_token.split(' ')
+            edited_tokens += n_token.split(" ")
         if len(tokens) > len(labels):
-            omitted_tokens = tokens[len(labels):]
+            omitted_tokens = tokens[len(labels) :]
             edited_tokens += omitted_tokens
-        temp_str = ' '.join(edited_tokens) \
-            .replace(' $MERGE_HYPHEN ', '-') \
-            .replace(' $MERGE_SPACE ', '') \
-            .replace(' $DELETE', '') \
-            .replace('$DELETE ', '')
-        edited_srcs.append(temp_str.split(' '))
+        temp_str = (
+            " ".join(edited_tokens)
+            .replace(" $MERGE_HYPHEN ", "-")
+            .replace(" $MERGE_SPACE ", "")
+            .replace(" $DELETE", "")
+            .replace("$DELETE ", "")
+        )
+        edited_srcs.append(temp_str.split(" "))
     return edited_srcs
 
-def process_token(
-    token: str,
-    label: str,
-    encode: dict,
-    decode: dict
-) -> str:
-    if '$APPEND_' in label:
-        return token + ' ' + label.replace('$APPEND_', '')
-    elif token == '$START':
+
+def process_token(token: str, label: str, encode: dict, decode: dict) -> str:
+    if "$APPEND_" in label:
+        return token + " " + label.replace("$APPEND_", "")
+    elif token == "$START":
         # [unused1] token cannot be replaced with another token and cannot be deleted.
         return token
-    elif label in ['<PAD>', '<OOV>', '$KEEP']:
+    elif label in ["<PAD>", "<OOV>", "$KEEP"]:
         return token
-    elif '$APPEND_' in label:
-        return token + ' ' + label.replace('$APPEND_', '')
-    elif '$TRANSFORM_' in label:
+    elif "$APPEND_" in label:
+        return token + " " + label.replace("$APPEND_", "")
+    elif "$TRANSFORM_" in label:
         return g_transform_processer(token, label, encode, decode)
-    elif '$REPLACE_' in label:
-        return label.replace('$REPLACE_', '')
-    elif label == '$DELETE':
+    elif "$REPLACE_" in label:
+        return label.replace("$REPLACE_", "")
+    elif label == "$DELETE":
         return label
-    elif '$MERGE_' in label:
-        return token + ' ' + label
+    elif "$MERGE_" in label:
+        return token + " " + label
     else:
         return token
-    
-def g_transform_processer(
-    token: str,
-    label: str,
-    encode: dict,
-    decode: dict
-) -> str:
+
+
+def g_transform_processer(token: str, label: str, encode: dict, decode: dict) -> str:
     # Case related
-    if label == '$TRANSFORM_CASE_LOWER':
+    if label == "$TRANSFORM_CASE_LOWER":
         return token.lower()
-    elif label == '$TRANSFORM_CASE_UPPER':
+    elif label == "$TRANSFORM_CASE_UPPER":
         return token.upper()
-    elif label == '$TRANSFORM_CASE_CAPITAL':
+    elif label == "$TRANSFORM_CASE_CAPITAL":
         return token.capitalize()
-    elif label == '$TRANSFORM_CASE_CAPITAL_1':
+    elif label == "$TRANSFORM_CASE_CAPITAL_1":
         if len(token) <= 1:
             return token
         return token[0] + token[1:].capitalize()
-    elif label == '$TRANSFORM_AGREEMENT_PLURAL':
-        return token + 's'
-    elif label == '$TRANSFORM_AGREEMENT_SINGULAR':
+    elif label == "$TRANSFORM_AGREEMENT_PLURAL":
+        return token + "s"
+    elif label == "$TRANSFORM_AGREEMENT_SINGULAR":
         return token[:-1]
-    elif label == '$TRANSFORM_SPLIT_HYPHEN':
-        return ' '.join(token.split('-'))
+    elif label == "$TRANSFORM_SPLIT_HYPHEN":
+        return " ".join(token.split("-"))
     else:
         encoding_part = f"{token}_{label[len('$TRANSFORM_VERB_'):]}"
         decoded_target_word = decode.get(encoding_part)
         return decoded_target_word
 
-def get_word_masks_from_word_ids(
-    word_ids: List[List[int]],
-    n: int
-):
+
+def get_word_masks_from_word_ids(word_ids: List[List[int]], n: int):
     word_masks = []
     for i in range(n):
         previous_id = 0
@@ -117,41 +110,39 @@ def get_word_masks_from_word_ids(
         word_masks.append(mask)
     return word_masks
 
+
 def _predict(
     model: GECToR,
     tokenizer: PreTrainedTokenizer,
     srcs: List[str],
-    keep_confidence: float=0,
-    min_error_prob: float=0,
-    batch_size: int=128
+    keep_confidence: float = 0,
+    min_error_prob: float = 0,
+    batch_size: int = 128,
 ):
     itr = list(range(0, len(srcs), batch_size))
     pred_labels = []
     no_corrections = []
     for i in tqdm(itr):
         batch = tokenizer(
-            srcs[i:i+batch_size],
-            return_tensors='pt',
+            srcs[i : i + batch_size],
+            return_tensors="pt",
             max_length=model.config.max_length,
-            padding='max_length',
+            padding="max_length",
             truncation=True,
-            is_split_into_words=True
+            is_split_into_words=True,
         )
-        batch['word_masks'] = torch.tensor(
-            get_word_masks_from_word_ids(
-                batch.word_ids,
-                batch['input_ids'].size(0)
-            )
+        batch["word_masks"] = torch.tensor(
+            get_word_masks_from_word_ids(batch.word_ids, batch["input_ids"].size(0))
         )
         word_ids = batch.word_ids
         if torch.cuda.is_available():
-            batch = {k:v.cuda() for k,v in batch.items()}
+            batch = {k: v.cuda() for k, v in batch.items()}
         outputs = model.predict(
-            batch['input_ids'],
-            batch['attention_mask'],
-            batch['word_masks'],
+            batch["input_ids"],
+            batch["attention_mask"],
+            batch["word_masks"],
             keep_confidence,
-            min_error_prob
+            min_error_prob,
         )
         # Align subword-level label to word-level label
         for i in range(len(outputs.pred_labels)):
@@ -172,37 +163,40 @@ def _predict(
     # print(pred_labels)
     return pred_labels, no_corrections
 
+
 def predict(
     model: GECToR,
     tokenizer: PreTrainedTokenizer,
     srcs: List[str],
     encode: dict,
     decode: dict,
-    keep_confidence: float=0,
-    min_error_prob: float=0,
-    batch_size: int=128,
-    n_iteration: int=5
+    keep_confidence: float = 0,
+    min_error_prob: float = 0,
+    batch_size: int = 128,
+    n_iteration: int = 5,
 ) -> List[str]:
-    srcs = [['$START'] + src.split(' ') for src in srcs]
-    final_edited_sents = ['-1'] * len(srcs)
+    srcs = [["$START"] + src.split(" ") for src in srcs]
+    final_edited_sents = ["-1"] * len(srcs)
     to_be_processed = srcs
     original_sent_idx = list(range(0, len(srcs)))
     for itr in range(n_iteration):
-        print(f'Iteratoin {itr}. the number of to_be_processed: {len(to_be_processed)}')
+        print(f"Iteratoin {itr}. the number of to_be_processed: {len(to_be_processed)}")
         pred_labels, no_corrections = _predict(
             model,
             tokenizer,
             to_be_processed,
             keep_confidence,
             min_error_prob,
-            batch_size
+            batch_size,
         )
         current_srcs = []
         current_pred_labels = []
         current_orig_idx = []
         for i, yes in enumerate(no_corrections):
-            if yes: # there's no corrections?
-                final_edited_sents[original_sent_idx[i]] = ' '.join(to_be_processed[i]).replace('$START ', '')
+            if yes:  # there's no corrections?
+                final_edited_sents[original_sent_idx[i]] = " ".join(
+                    to_be_processed[i]
+                ).replace("$START ", "")
             else:
                 current_srcs.append(to_be_processed[i])
                 current_pred_labels.append(pred_labels[i])
@@ -214,19 +208,18 @@ def predict(
         #     for l in current_pred_labels:
         #         print(l)
         edited_srcs = edit_src_by_tags(
-            current_srcs,
-            current_pred_labels,
-            encode,
-            decode
+            current_srcs, current_pred_labels, encode, decode
         )
         to_be_processed = edited_srcs
         original_sent_idx = current_orig_idx
-        
+
         # print(f'=== Iteration {itr} ===')
         # print('\n'.join(final_edited_sents))
         # print(to_be_processed)
         # print(have_corrections)
     for i in range(len(to_be_processed)):
-        final_edited_sents[original_sent_idx[i]] = ' '.join(to_be_processed[i]).replace('$START ', '')
-    assert('-1' not in final_edited_sents)
+        final_edited_sents[original_sent_idx[i]] = " ".join(to_be_processed[i]).replace(
+            "$START ", ""
+        )
+    assert "-1" not in final_edited_sents
     return final_edited_sents

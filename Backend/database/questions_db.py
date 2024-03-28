@@ -65,12 +65,7 @@ db = db_config["dbname"][48:55]
 user = db_config["username"]
 password = db_config["password"]
 
-conn = psycopg2.connect(
-    host=host_ip, 
-    database=db, 
-    user=user, 
-    password=password
-)
+conn = psycopg2.connect(host=host_ip, database=db, user=user, password=password)
 
 cur = conn.cursor()
 

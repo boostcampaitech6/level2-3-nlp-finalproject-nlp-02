@@ -1,13 +1,12 @@
 import requests
-from fastapi import APIRouter, Depends, HTTPException, Request
-from fastapi.responses import RedirectResponse
-from pydantic import BaseModel
-from sqlalchemy.orm import Session
-
 from database.connection import get_db
 from database.orm import User
 from database.repository import create_user, get_user_by_email
+from fastapi import APIRouter, Depends, HTTPException, Request
+from fastapi.responses import RedirectResponse
 from oauth import oauth  # main.py 혹은 app의 설정을 import 해야 합니다.
+from pydantic import BaseModel
+from sqlalchemy.orm import Session
 
 router = APIRouter()
 

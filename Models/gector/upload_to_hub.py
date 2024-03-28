@@ -1,12 +1,11 @@
 import argparse
-from huggingface_hub import create_repo, upload_folder, ModelCard
+
+from huggingface_hub import ModelCard, create_repo, upload_folder
+
+
 def main(args):
-    create_repo(repo_id=args.repo_id, exist_ok=True, repo_type='model')
-    upload_folder(
-        folder_path=args.dir,
-        repo_id=args.repo_id,
-        repo_type="model",
-    )
+    create_repo(repo_id=args.repo_id, exist_ok=True, repo_type="model")
+    upload_folder(folder_path=args.dir, repo_id=args.repo_id, repo_type="model")
     content = f"""
 ---
 language: en
@@ -60,15 +59,15 @@ print(corrected)
     # print(card.data.to_dict())
     card.push_to_hub(args.repo_id)
 
-    
 
 def get_parser():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--repo_id', required=True)
-    parser.add_argument('--dir', required=True)
+    parser.add_argument("--repo_id", required=True)
+    parser.add_argument("--dir", required=True)
     args = parser.parse_args()
     return args
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     args = get_parser()
     main(args)

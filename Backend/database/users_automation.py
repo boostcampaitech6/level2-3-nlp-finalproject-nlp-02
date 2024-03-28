@@ -1,5 +1,5 @@
-import yaml
 import psycopg2
+import yaml
 
 
 def load_config(filename):
@@ -17,15 +17,10 @@ def execute_query():
     user = db_config["username"]
     password = db_config["password"]
 
-    conn = psycopg2.connect(
-        host=host_ip, 
-        database=db, 
-        user=user, 
-        password=password
-    )
+    conn = psycopg2.connect(host=host_ip, database=db, user=user, password=password)
 
     cur = conn.cursor()
-    
+
     # 데일리 문제 안 푼 유저 streak 초기화
     cur.execute("UPDATE users SET streak=0 WHERE is_done=False")
 
@@ -35,5 +30,6 @@ def execute_query():
     conn.commit()
     cur.close()
     conn.close()
+
 
 execute_query()

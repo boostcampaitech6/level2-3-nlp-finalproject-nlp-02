@@ -1,6 +1,5 @@
 import streamlit as st
 
-
 st.markdown(
     """
     <style>
@@ -11,7 +10,6 @@ st.markdown(
     """,
     unsafe_allow_html=True,
 )
-
 
 
 st.write("시험이 모두 종료되었습니다!")

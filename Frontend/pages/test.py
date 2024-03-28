@@ -1,8 +1,8 @@
 import base64
+from datetime import datetime
 
 import requests
 import streamlit as st
-from datetime import datetime
 from streamlit_mic_recorder import mic_recorder
 
 # remove navigation bar
@@ -53,10 +53,10 @@ def save_recording(audio_data, question_num):
     files = {"file": (f"test{question_num}.wav", audio_data, "audio/wav")}
     if question_num == 3:
         response = requests.post(
-        url=test_q3,
-        files=files,
-        headers={"Access-Token": st.session_state["token"]["access_token"]},
-    )
+            url=test_q3,
+            files=files,
+            headers={"Access-Token": st.session_state["token"]["access_token"]},
+        )
         st.switch_page("./pages/finish.py")
     else:
         response = requests.post(
@@ -113,7 +113,6 @@ recorder_holder = st.empty()  # "녹음 시작" 버튼 위치 고정
 # 질문 오디오 파일 경로
 today = datetime.today().date()
 q_audio_paths = {
-    
     "1": f"../Backend/tts_data/{today}_q1.wav",
     "2": f"../Backend/tts_data/{today}_q2.wav",
     "3": f"../Backend/tts_data/{today}_q3.wav",

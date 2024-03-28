@@ -117,13 +117,13 @@ def check_complexity(json_data):
     res_json = json.loads(response.json())
     output = res_json["choices"][0]["message"]["content"]
 
-    # GPT output이 assistant content를 따르는 경우 
+    # GPT output이 assistant content를 따르는 경우
     if output[0] == "-":
-        output_re  = re.findall(r'(?<=: ).*$', output)
-        return (output_re[0][1:-1]) 
-    
+        output_re = re.findall(r"(?<=: ).*$", output)
+        return output_re[0][1:-1]
+
     # GPT output이 다르게 뱉어내는 경우
-    else: 
+    else:
         return output
 
 

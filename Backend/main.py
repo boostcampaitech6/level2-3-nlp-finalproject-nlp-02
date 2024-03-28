@@ -2,10 +2,9 @@ from typing import List
 
 import uvicorn
 import yaml
+from auth_router import router as auth_router
 from fastapi import FastAPI
 from starlette.middleware.sessions import SessionMiddleware
-
-from auth_router import router as auth_router
 from test_router import router as test_router
 
 app = FastAPI()

@@ -8,19 +8,18 @@ from typing import List
 import librosa
 import requests
 import soundfile as sf
-from fastapi import (APIRouter, Depends, File, HTTPException, Request,
-                     UploadFile, status)
-from sqlalchemy.orm import Session
-
 from auth_router import get_current, get_current_user
 from database.connection import get_db
 from database.orm import Question, Score, Test, User
 from database.repository import (create_test, get_personal_tests,
                                  get_questions_by_date, get_result,
                                  get_result_by_q_num, get_user_by_email)
+from fastapi import (APIRouter, Depends, File, HTTPException, Request,
+                     UploadFile, status)
 from schema.request import CreateTestRequest
 from schema.response import (QuestionSchema, ScoreSchema, TestListSchema,
                              TestSchema)
+from sqlalchemy.orm import Session
 
 router = APIRouter()
 
@@ -141,7 +140,6 @@ async def upload_temp(
     return test
 
 
-
 @router.post("/test_q3")
 async def upload_test1(
     requestsss: Request,
@@ -156,15 +154,15 @@ async def upload_test1(
     user: User = get_user_by_email(session=session, email=user_email)
 
     q_num = file.filename[-5]
- 
+
     q_num_question_mapping = {
-    "1": question_data.q1,
-    "2": question_data.q2,
-    "3": question_data.q3,
-}
-    
+        "1": question_data.q1,
+        "2": question_data.q2,
+        "3": question_data.q3,
+    }
+
     file_path = await save_file(file, user.id, q_num)
-    #question = question_data.q1
+    # question = question_data.q1
     question = q_num_question_mapping.get(q_num, "질문을 찾을 수 없음")
     output = await run_inference(file_path, question)
 
@@ -190,7 +188,7 @@ async def upload_test1(
 
     test: Test | None = Test.create(request=request)
     test: Test = create_test(session=session, test=test)
-    
+
     user.addstreak()
     user.done()
 
