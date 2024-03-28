@@ -91,7 +91,8 @@ async def get_fluency(
 
     # get pause rate
     n_pause = get_pause_list(ls)
-    pause_rate = round((n_pause / audio_length), 2) * 100
+    paused_rate = (n_pause / audio_length) * 100
+    pause_rate = round(paused_rate, 2)
 
     # get mean length of run
     data = slice_btw(ls)
