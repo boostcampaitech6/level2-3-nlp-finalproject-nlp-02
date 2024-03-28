@@ -87,6 +87,10 @@
 
 시연 영상
 
+
+https://github.com/boostcampaitech6/level2-3-nlp-finalproject-nlp-02/assets/81675036/7b062126-24e7-4d88-bb5c-afdfdd6d96da
+
+
 발표 PPT
 
 랩업 리포트
