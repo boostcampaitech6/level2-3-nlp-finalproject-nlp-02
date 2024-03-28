@@ -57,6 +57,7 @@ def save_recording(audio_data, question_num):
         files=files,
         headers={"Access-Token": st.session_state["token"]["access_token"]},
     )
+        st.switch_page("./pages/finish.py")
     else:
         response = requests.post(
             url=test,
