@@ -2,7 +2,6 @@ import io
 import os
 import uuid
 from datetime import date, datetime
-from tempfile import NamedTemporaryFile
 from typing import List
 
 import librosa
@@ -11,24 +10,15 @@ import soundfile as sf
 from auth_router import get_current, get_current_user
 from database.connection import get_db
 from database.orm import Question, Score, Test, User
-from database.repository import (create_test, get_personal_tests,
-                                 get_questions_by_date, get_result,
+from database.repository import (create_test, get_questions_by_date, get_result,
                                  get_result_by_q_num, get_user_by_email)
 from fastapi import (APIRouter, Depends, File, HTTPException, Request,
                      UploadFile, status)
 from schema.request import CreateTestRequest
-from schema.response import (QuestionSchema, ScoreSchema, TestListSchema,
-                             TestSchema)
+from schema.response import QuestionSchema, ScoreSchema, TestSchema
 from sqlalchemy.orm import Session
 
 router = APIRouter()
-
-
-async def save_temp_file(file,):
-    with NamedTemporaryFile("wb", suffix=".wav", delete=False) as tempfile:
-        tempfile.write(file.read())
-
-        return tempfile.name
 
 
 async def save_file(file, user_id, q_num):
@@ -90,7 +80,7 @@ async def upload_temp(
         "2": question_data.q2,
         "3": question_data.q3,
     }
-    
+
     file_path = await save_file(file, user.id, q_num)
     question = q_num_question_mapping.get(q_num, "질문을 찾을 수 없음")
     output = await run_inference(file_path, question)
@@ -173,15 +163,6 @@ async def upload_test1(
     user.done()
 
     return test
-
-
-@router.get("/me/result", status_code=200)
-def get_result_handler(
-    session: Session = Depends(get_db), user: User = Depends(get_current_user)
-):
-    tests: List[Test] = get_personal_tests(session=session, user=user)
-
-    return TestListSchema(tests=[TestSchema.from_orm(test) for test in tests])
 
 
 @router.get("/me/result/{date}")
