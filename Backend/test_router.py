@@ -33,13 +33,10 @@ async def save_temp_file(file,):
 
 async def save_file(file, user_id, q_num):
     wavfile = await file.read()
-    # name = file.filename
     name = f"{str(uuid.uuid4())}_{q_num}.wav"
     target_sr = 16000
     UPLOAD_DIR = f"./uploads/{user_id}/"
-    # UPLOAD_DIR = "./uploads/"
     resampled_path = os.path.join(UPLOAD_DIR, name)
-    # print(resampled_path)
     os.makedirs(os.path.dirname(UPLOAD_DIR), exist_ok=True)
 
     # BytesIO 객체 생성 및 다운샘플링
@@ -61,21 +58,6 @@ async def run_inference(path: str, question: str):
         json={"data": path, "question": question},
     )
     return response.json()
-
-
-# @router.post("/save")
-# async def upload_db(
-#     file,
-#     request: CreateTestRequest,
-#     session: Session = Depends(get_db),
-#     user: User = Depends(get_current_user),
-# ):
-#     UPLOAD_DIR = "/upload/{user.id}"
-
-#     path = await save_file(file, UPLOAD_DIR)
-#     test: Test | None = Test.create(request=request, user=user, filepath=path)
-#     test: Test = create_test(session=session, test=test)
-
 
 # 오늘 날짜로 문제 받아오기
 @router.get("/test", status_code=200)
@@ -108,10 +90,8 @@ async def upload_temp(
         "2": question_data.q2,
         "3": question_data.q3,
     }
-    # <starlette.requests.Request object at 0x7f61f4161b90>
-    # $body = await request.body()
+    
     file_path = await save_file(file, user.id, q_num)
-    # question = question_data.q1
     question = q_num_question_mapping.get(q_num, "질문을 찾을 수 없음")
     output = await run_inference(file_path, question)
 
