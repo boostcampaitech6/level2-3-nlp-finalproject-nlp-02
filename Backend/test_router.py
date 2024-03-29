@@ -7,7 +7,7 @@ from typing import List
 import librosa
 import requests
 import soundfile as sf
-from auth_router import get_current, get_current_user
+from auth_router import get_current_user, find_create_user
 from database.connection import get_db
 from database.orm import Question, Score, Test, User
 from database.repository import (create_test, get_questions_by_date, get_result,
@@ -69,7 +69,7 @@ async def upload_temp(
     session: Session = Depends(get_db),
     question_data: QuestionSchema = Depends(get_question_handler),
 ):
-    user_info = get_current(token=requestsss.headers.get("Access-Token"))
+    user_info = get_current_user(token=requestsss.headers.get("Access-Token"))
     user_email = user_info.get("email")
 
     user: User = get_user_by_email(session=session, email=user_email)
@@ -115,10 +115,9 @@ async def upload_test1(
     requestsss: Request,
     file: UploadFile = File(...),
     session: Session = Depends(get_db),
-    user: User = Depends(get_current_user),
     question_data: QuestionSchema = Depends(get_question_handler),
 ):
-    user_info = get_current(token=requestsss.headers.get("Access-Token"))
+    user_info = get_current_user(token=requestsss.headers.get("Access-Token"))
     user_email = user_info.get("email")
 
     user: User = get_user_by_email(session=session, email=user_email)
@@ -169,7 +168,7 @@ async def upload_test1(
 async def get_result_by_date(
     request: Request, date: date, session: Session = Depends(get_db)
 ):
-    user_info = get_current(token=request.headers.get("Access-Token"))
+    user_info = get_current_user(token=request.headers.get("Access-Token"))
     user_email = user_info.get("email")
 
     user: User = get_user_by_email(session=session, email=user_email)
@@ -182,7 +181,7 @@ async def get_result_by_date(
 async def get_result_by_question(
     request: Request, date: date, q_num: int, session: Session = Depends(get_db)
 ):
-    user_info = get_current(token=request.headers.get("Access-Token"))
+    user_info = get_current_user(token=request.headers.get("Access-Token"))
     user_email = user_info.get("email")
 
     user: User = get_user_by_email(session=session, email=user_email)
