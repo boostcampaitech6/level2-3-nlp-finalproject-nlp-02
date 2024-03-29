@@ -21,25 +21,25 @@ from sqlalchemy.orm import Session
 router = APIRouter()
 
 
-async def save_file(file, user_id, q_num):
-    wavfile = await file.read()
-    name = f"{str(uuid.uuid4())}_{q_num}.wav"
-    target_sr = 16000
-    UPLOAD_DIR = f"./uploads/{user_id}/"
-    resampled_path = os.path.join(UPLOAD_DIR, name)
-    os.makedirs(os.path.dirname(UPLOAD_DIR), exist_ok=True)
+async def save_and_process_audio(file: UploadFile, user_id: str, q_num: str) -> str:
+    # 파일 저장 및 리샘플링 작업
+    try:
+        # 파일 저장
+        name = f"{uuid.uuid4()}_{q_num}.wav"
+        UPLOAD_DIR = f"./uploads/{user_id}/"        
+        resampled_path = os.path.join(UPLOAD_DIR, name)
+        os.makedirs(os.path.dirname(resampled_path), exist_ok=True)
 
-    # BytesIO 객체 생성 및 다운샘플링
-    wav_bytes = io.BytesIO(wavfile)
-    y, sr = librosa.load(wav_bytes, sr=44100)
+        # 리샘플링 진행
+        wav_bytes = io.BytesIO(await file.read())
+        y, sr = librosa.load(wav_bytes, sr=44100)
+        y_resampled = librosa.resample(y, orig_sr=sr, target_sr=16000)
+        sf.write(resampled_path, y_resampled, 16000)
 
-    # y_resampling
-    y_resampled = librosa.resample(y, orig_sr=sr, target_sr=target_sr)
-
-    # 다운샘플링된 파일 저장
-    sf.write(resampled_path, y_resampled, target_sr)
-
-    return resampled_path
+        return resampled_path
+    
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Audio processing failed: {e}")
 
 
 async def run_inference(path: str, question: str):
@@ -81,7 +81,7 @@ async def upload_temp(
         "3": question_data.q3,
     }
 
-    file_path = await save_file(file, user.id, q_num)
+    file_path = await save_and_process_audio(file, user.id, q_num)
     question = q_num_question_mapping.get(q_num, "질문을 찾을 수 없음")
     output = await run_inference(file_path, question)
 
@@ -130,7 +130,7 @@ async def upload_test1(
         "3": question_data.q3,
     }
 
-    file_path = await save_file(file, user.id, q_num)
+    file_path = await save_and_process_audio(file, user.id, q_num)
     # question = question_data.q1
     question = q_num_question_mapping.get(q_num, "질문을 찾을 수 없음")
     output = await run_inference(file_path, question)
@@ -160,6 +160,7 @@ async def upload_test1(
 
     user.addstreak()
     user.done()
+
 
     return test
 
