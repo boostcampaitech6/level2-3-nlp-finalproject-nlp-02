@@ -7,13 +7,13 @@ from typing import List
 import librosa
 import requests
 import soundfile as sf
-from auth_router import get_current_user, find_create_user
+from auth_router import get_authorized_user
 from database.connection import get_db
 from database.orm import Question, Score, Test, User
 from database.repository import (create_test, get_questions_by_date, get_result,
-                                 get_result_by_q_num, get_user_by_email)
-from fastapi import (APIRouter, Depends, File, HTTPException, Request,
-                     UploadFile, status)
+                                 get_result_by_q_num, create_update_user)
+from fastapi import (APIRouter, Depends, File, HTTPException,
+                     UploadFile)
 from schema.request import CreateTestRequest
 from schema.response import QuestionSchema, ScoreSchema, TestSchema
 from sqlalchemy.orm import Session
@@ -21,7 +21,7 @@ from sqlalchemy.orm import Session
 router = APIRouter()
 
 
-async def save_and_process_audio(file: UploadFile, user_id: str, q_num: str) -> str:
+async def save_and_process_audio(file: UploadFile, user_id: int, q_num: str) -> str:
     # 파일 저장 및 리샘플링 작업
     try:
         # 파일 저장
@@ -43,6 +43,7 @@ async def save_and_process_audio(file: UploadFile, user_id: str, q_num: str) -> 
 
 
 async def run_inference(path: str, question: str):
+    # 모델단으로 연결
     response = requests.post(
         "http://localhost:8001/run_inference/",
         json={"data": path, "question": question},
@@ -61,118 +62,37 @@ def get_question_handler(session: Session = Depends(get_db),) -> QuestionSchema:
         return QuestionSchema.from_orm(questions)
     raise HTTPException(status_code=404, detail="Question Not Found")
 
-
+# inference 이후 데이터 베이스에 업로드
 @router.post("/test")
-async def upload_temp(
-    requestsss: Request,
+async def upload_test(
     file: UploadFile = File(...),
+    user: User = Depends(get_authorized_user),
     session: Session = Depends(get_db),
-    question_data: QuestionSchema = Depends(get_question_handler),
 ):
-    user_info = get_current_user(token=requestsss.headers.get("Access-Token"))
-    user_email = user_info.get("email")
+    question_data = get_question_handler(session)
+    q_num = file.filename.split('_')[-1].split('.')[0][-1]
 
-    user: User = get_user_by_email(session=session, email=user_email)
+    file_path = await save_and_process_audio(file, str(user.id), q_num)
 
-    q_num = file.filename[-5]
-    q_num_question_mapping = {
-        "1": question_data.q1,
-        "2": question_data.q2,
-        "3": question_data.q3,
-    }
-
-    file_path = await save_and_process_audio(file, user.id, q_num)
-    question = q_num_question_mapping.get(q_num, "질문을 찾을 수 없음")
+    question = getattr(question_data, f"q{q_num}", "질문을 찾을 수 없음")
     output = await run_inference(file_path, question)
 
-    request = CreateTestRequest
-    request.user_id = user.id
-    request.path = file_path
-    request.mpr = output["mpr"]
-    request.grammar = output["grammar"]
-    request.coherence = output["coherence"]
-    request.complexity = output["complexity"]
-    request.pause = output["pause"]
-    request.wpm = output["wpm"]
-    request.mlr = output["mlr"]
-    request.q_num = q_num
-    now = datetime.now()
-    formatted_date = now.strftime("%Y-%m-%d")
-    request.createddate = formatted_date
+    test_request = CreateTestRequest(**output, user_id=user.id, path=file_path, q_num=int(q_num), createddate=datetime.now().strftime("%Y-%m-%d"))
+    test: Test | None = Test.create(request=test_request)
+    test = create_test(session=session, test=test)
 
-    if not user:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="User not found"
-        )
+    if q_num == 3:
+        user.addstreak()
+        user.done()
+        create_update_user()
 
-    test: Test | None = Test.create(request=request)
-    test: Test = create_test(session=session, test=test)
-    return test
-
-
-@router.post("/test_q3")
-async def upload_test1(
-    requestsss: Request,
-    file: UploadFile = File(...),
-    session: Session = Depends(get_db),
-    question_data: QuestionSchema = Depends(get_question_handler),
-):
-    user_info = get_current_user(token=requestsss.headers.get("Access-Token"))
-    user_email = user_info.get("email")
-
-    user: User = get_user_by_email(session=session, email=user_email)
-
-    q_num = file.filename[-5]
-
-    q_num_question_mapping = {
-        "1": question_data.q1,
-        "2": question_data.q2,
-        "3": question_data.q3,
-    }
-
-    file_path = await save_and_process_audio(file, user.id, q_num)
-    # question = question_data.q1
-    question = q_num_question_mapping.get(q_num, "질문을 찾을 수 없음")
-    output = await run_inference(file_path, question)
-
-    request = CreateTestRequest
-    request.user_id = user.id
-    request.path = file_path
-    request.mpr = output["mpr"]
-    request.grammar = output["grammar"]
-    request.coherence = output["coherence"]
-    request.complexity = output["complexity"]
-    request.pause = output["pause"]
-    request.wpm = output["wpm"]
-    request.mlr = output["mlr"]
-    request.q_num = q_num
-    now = datetime.now()
-    formatted_date = now.strftime("%Y-%m-%d")
-    request.createddate = formatted_date
-
-    if not user:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="User not found"
-        )
-
-    test: Test | None = Test.create(request=request)
-    test: Test = create_test(session=session, test=test)
-
-    user.addstreak()
-    user.done()
-
-
-    return test
+    return TestSchema.from_orm(test)
 
 
 @router.get("/me/result/{date}")
 async def get_result_by_date(
-    request: Request, date: date, session: Session = Depends(get_db)
+    date: date, user: User = Depends(get_authorized_user), session: Session = Depends(get_db)
 ):
-    user_info = get_current_user(token=request.headers.get("Access-Token"))
-    user_email = user_info.get("email")
-
-    user: User = get_user_by_email(session=session, email=user_email)
     score: Score = get_result(session=session, date=date, user=user)
 
     return ScoreSchema.from_orm(score)
@@ -180,12 +100,8 @@ async def get_result_by_date(
 
 @router.get("/me/result/{date}/{q_num}")
 async def get_result_by_question(
-    request: Request, date: date, q_num: int, session: Session = Depends(get_db)
+    date: date, q_num: int, user: User = Depends(get_authorized_user), session: Session = Depends(get_db)
 ):
-    user_info = get_current_user(token=request.headers.get("Access-Token"))
-    user_email = user_info.get("email")
-
-    user: User = get_user_by_email(session=session, email=user_email)
     test: Test = get_result_by_q_num(session=session, date=date, user=user, q_num=q_num)
 
     return TestSchema.from_orm(test)
