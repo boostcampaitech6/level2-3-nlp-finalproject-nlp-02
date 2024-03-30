@@ -93,8 +93,8 @@ def check_coherence(json_data, question):
     )
     res_json = json.loads(response.json())
     output = res_json["choices"][0]["message"]["content"]
-    if output not in ['높음','중간','낮음']:
-        output = '낮음'
+    if output not in ["높음", "중간", "낮음"]:
+        output = "낮음"
     print("Done check_coherence")
     return output
 

@@ -2,7 +2,7 @@ import requests
 from database.connection import get_db
 from database.orm import User
 from database.repository import create_update_user, get_user_by_email
-from fastapi import APIRouter, Depends, Request, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, Request, status
 from fastapi.responses import RedirectResponse
 from oauth import oauth  # main.py 혹은 app의 설정을 import 해야 합니다.
 from pydantic import BaseModel
@@ -32,11 +32,16 @@ async def auth(request: Request, session: Session = next(get_db())):
 
     userinfo = token.get("userinfo")
     if not userinfo:
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Token has no information")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Token has no information",
+        )
 
     user_email = userinfo.get("email")
     if not user_email:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Token has no information")
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST, detail="Token has no information"
+        )
 
     find_create_user(session, userinfo)
     request.session["user_info"] = userinfo  # 사용자 정보를 세션에 저장
@@ -67,11 +72,11 @@ def authorize_token(token: TokenData) -> User:
         print(user_info)
 
         return user_info
-    
+
 
 def get_authorized_user(request: Request, session: Session = Depends(get_db)) -> User:
     user_info = authorize_token(token=request.headers.get("Access-Token"))
-    user = get_user_by_email(session=session, email=user_info['email'])
+    user = get_user_by_email(session=session, email=user_info["email"])
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
     return user
