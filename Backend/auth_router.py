@@ -56,7 +56,7 @@ def find_create_user(session: Session, userinfo: dict) -> User:
     return user
 
 
-def get_current_user(token: TokenData) -> User:
+def authorize_token(token: TokenData) -> User:
     # 토큰으로 유저 검증
     google_userinfo_url = "https://www.googleapis.com/oauth2/v3/userinfo"
     headers = {"Authorization": f"Bearer {token}"}
@@ -64,16 +64,22 @@ def get_current_user(token: TokenData) -> User:
 
     if response.status_code == 200:
         user_info = response.json()
+        print(user_info)
 
         return user_info
+    
+
+def get_authorized_user(request: Request, session: Session = Depends(get_db)) -> User:
+    user_info = authorize_token(token=request.headers.get("Access-Token"))
+    user = get_user_by_email(session=session, email=user_info['email'])
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    return user
 
 
 @router.get("/me")
 async def get_user_info(request: Request, session: Session = Depends(get_db)) -> dict:
     # 유저 정보를 받아와서 닉네임과 streak 반환
-    user_info = get_current_user(token=request.headers.get("Access-Token"))
-    user_email = user_info.get("email")
-
-    user: User = get_user_by_email(session=session, email=user_email)
+    user = get_authorized_user(request=request, session=session)
 
     return {"name": user.name, "streak": user.streak}
