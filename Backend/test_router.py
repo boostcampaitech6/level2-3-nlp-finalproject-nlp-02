@@ -1,9 +1,11 @@
 import io
 import os
 import uuid
+import pandas as pd
 from datetime import date, datetime
 from tempfile import NamedTemporaryFile
 from typing import List
+from catboost import CatBoostClassifier
 
 import librosa
 import requests
@@ -193,6 +195,35 @@ async def upload_test1(
     user.done()
 
     return test
+
+
+@router.post("/get_score")
+async def get_score_handler(
+    request: Request, date: date, session: Session = Depends(get_db)
+):
+    user_info = get_current(token=request.headers.get("Access-Token"))
+    user_email = user_info.get("email")
+    user: User = get_user_by_email(session=session, email=user_email)
+    test_1: Test = get_result_by_q_num(session=session, date=date, user=user, q_num=1)
+    test_2: Test = get_result_by_q_num(session=session, date=date, user=user, q_num=2)
+    test_3: Test = get_result_by_q_num(session=session, date=date, user=user, q_num=3)
+    user_scores = pd.DataFrame(columns = ['WPM', 'MLR', 'Pause', 'Grammar', 'PR', 'Coherence'])
+    user_scores.loc[0] = [test_1['wpm'], test_1['mlr'], test_1['pause'], test_1['Grammar']['phase_2']['score'], test_1['mpr'], test_1['coherence']]
+    user_scores.loc[1] = [test_2['wpm'], test_2['mlr'], test_2['pause'], test_2['Grammar']['phase_2']['score'], test_2['mpr'], test_2['coherence']]
+    user_scores.loc[2] = [test_3['wpm'], test_3['mlr'], test_3['pause'], test_3['Grammar']['phase_2']['score'], test_3['mpr'], test_3['coherence']]
+    
+    # coherence label mapping 
+    coherence_mapping = {'낮음': 0,'중간': 1, '높음': 2}
+    user_scores['coherence'] = user_scores['coherence'].map(coherence_mapping)
+    # class label mapping
+    class_mapping = {'NH': 0,'IL': 1, 'IM': 2, 'IH': 3, 'AL': 4}
+    
+   # classifier모델 불러오기
+    loaded_model = CatBoostClassifier()
+    loaded_model.load_model('catboost_model.bin')
+    predictions = loaded_model.predict(user_scores)
+    user_scores['label'] = predictions
+    
 
 
 @router.get("/me/result", status_code=200)
