@@ -13,7 +13,8 @@ import soundfile as sf
 from auth_router import get_current, get_current_user
 from database.connection import get_db
 from database.orm import Question, Score, Test, User
-from database.repository import (create_test, get_personal_tests,
+from database.repository import (create_test, create_score,
+                                 get_personal_tests,
                                  get_questions_by_date, get_result,
                                  get_result_by_q_num, get_user_by_email)
 from fastapi import (APIRouter, Depends, File, HTTPException, Request,
@@ -204,9 +205,13 @@ async def get_score_handler(
     user_info = get_current(token=request.headers.get("Access-Token"))
     user_email = user_info.get("email")
     user: User = get_user_by_email(session=session, email=user_email)
+
+    # user의 result 받아오기
     test_1: Test = get_result_by_q_num(session=session, date=date, user=user, q_num=1)
     test_2: Test = get_result_by_q_num(session=session, date=date, user=user, q_num=2)
     test_3: Test = get_result_by_q_num(session=session, date=date, user=user, q_num=3)
+    
+    #user_score dataframe 생성
     user_scores = pd.DataFrame(columns = ['WPM', 'MLR', 'Pause', 'Grammar', 'PR', 'Coherence'])
     user_scores.loc[0] = [test_1['wpm'], test_1['mlr'], test_1['pause'], test_1['Grammar']['phase_2']['score'], test_1['mpr'], test_1['coherence']]
     user_scores.loc[1] = [test_2['wpm'], test_2['mlr'], test_2['pause'], test_2['Grammar']['phase_2']['score'], test_2['mpr'], test_2['coherence']]
@@ -220,10 +225,20 @@ async def get_score_handler(
     
    # classifier모델 불러오기
     loaded_model = CatBoostClassifier()
-    loaded_model.load_model('catboost_model.bin')
+    loaded_model.load_model('../Models/catboost/catboost_model.bin')
+
+    # prediction 진행
     predictions = loaded_model.predict(user_scores)
-    user_scores['label'] = predictions
-    
+    # predictions의 mapping을 위해 평균값을 정수형 변환
+    average_predictions = int(round(predictions.mean()))
+    predicted_class = [key for key, value in class_mapping.items() if value == average_predictions][0]
+
+    score: Score | None = Score.create(request=request)
+    score: Score = create_score(session = session, date = date, score = predicted_class)
+    return score
+
+
+
 
 
 @router.get("/me/result", status_code=200)
