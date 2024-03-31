@@ -21,6 +21,8 @@ st.markdown(
 # Define the endpoint URL of the server where you want to save the recording
 test = "https://mopic.today/api/test"
 
+# Define the endpoint URL of the server where you want to inference the score
+score = "https://mopic.today/api/get_score"
 
 st.title("Daily Test")
 st.image("AVA.png", caption="문제를 두 번 들려드린 후 바로 녹음을 시작해주세요.", width=300)
@@ -57,6 +59,10 @@ def save_recording(audio_data, question_num):
     )
     if question_num == 3:
         st.switch_page("./pages/finish.py")
+        response_score = requests.post(
+            url=score,
+            headers={"Access-Token": st.session_state["token"]["access_token"]},
+        )
     # print(response.text)
     if response.status_code == 200:
         st.success("The recording was successfully saved.")
