@@ -11,11 +11,12 @@ import soundfile as sf
 from auth_router import get_authorized_user
 from database.connection import get_db
 from database.orm import Question, Score, Test, User
-from database.repository import (create_test, create_update_user,
+from database.repository import (create_score, create_test,
+                                 create_update_user,
                                  get_questions_by_date, get_result,
                                  get_result_by_q_num)
 from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
-from schema.request import CreateTestRequest
+from schema.request import CreateTestRequest, CreateScoreRequest
 from schema.response import QuestionSchema, ScoreSchema, TestSchema
 from sqlalchemy.orm import Session
 
@@ -101,12 +102,11 @@ async def upload_test(
 
 @router.post("/get_score")
 async def get_score_handler(
-    request: Request, date: date, session: Session = Depends(get_db)
+     user: User = Depends(get_authorized_user),
+     session: Session = Depends(get_db)
 ):
-    user_info = get_current(token=request.headers.get("Access-Token"))
-    user_email = user_info.get("email")
-    user: User = get_user_by_email(session=session, email=user_email)
 
+    date = datetime.now().strftime("%Y-%m-%d")
     # user의 result 받아오기
     test_1: Test = get_result_by_q_num(session=session, date=date, user=user, q_num=1)
     test_2: Test = get_result_by_q_num(session=session, date=date, user=user, q_num=2)
@@ -133,9 +133,13 @@ async def get_score_handler(
     # predictions의 mapping을 위해 평균값을 정수형 변환
     average_predictions = int(round(predictions.mean()))
     predicted_class = [key for key, value in class_mapping.items() if value == average_predictions][0]
-
-    score: Score | None = Score.create(request=request)
-    score: Score = create_score(session = session, date = date, score = predicted_class)
+    score_request = CreateTestRequest(
+        user_id=user.id,
+        createddate=date,
+        score=predicted_class
+    )
+    score: Score | None = Score.create(request=score_request)
+    score: Score = create_score(session = session, score = score)
     return score
 
 
