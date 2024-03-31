@@ -10,17 +10,10 @@ def get_user_by_email(session: Session, email: str) -> User | None:
     return session.scalar(select(User).where(User.email == email))
 
 
-def create_user(session: Session, user: User) -> User:
+def create_update_user(session: Session, user: User) -> User:
     session.add(instance=user)
     session.commit()  # db save
     session.refresh(instance=user)  # db_read
-    return user
-
-
-def update_user(session: Session, user: User) -> User:
-    session.add(instance=user)
-    session.commit()  # db save
-    session.refresh(instance=user)
     return user
 
 
@@ -29,6 +22,7 @@ def create_test(session: Session, test: Test) -> Test:
     session.commit()
     session.refresh(instance=test)
     return test
+
 
 def create_score(session: Session, score: Score) -> Score:
     session.add(instance = score)
