@@ -58,11 +58,12 @@ def save_recording(audio_data, question_num):
         headers={"Access-Token": st.session_state["token"]["access_token"]},
     )
     if question_num == 3:
-        st.switch_page("./pages/finish.py")
         response_score = requests.post(
             url=score,
             headers={"Access-Token": st.session_state["token"]["access_token"]},
         )
+        st.switch_page("./pages/finish.py")
+
     # print(response.text)
     if response.status_code == 200:
         st.success("The recording was successfully saved.")
