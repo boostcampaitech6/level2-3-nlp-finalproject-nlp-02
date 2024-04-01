@@ -24,6 +24,13 @@ def create_test(session: Session, test: Test) -> Test:
     return test
 
 
+def create_score(session: Session, score: Score) -> Score:
+    session.add(instance=score)
+    session.commit()
+    session.refresh(instance=score)
+    return score
+
+
 def get_questions_by_date(session: Session, date: date) -> Question | None:
     return session.scalar(select(Question).where(Question.date == date))
 

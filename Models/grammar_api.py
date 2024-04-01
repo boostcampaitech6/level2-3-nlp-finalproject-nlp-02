@@ -32,7 +32,9 @@ model.eval()
 
 
 @app.post("/upload/")
-async def upload_json(text: Annotated[str, Form()],):
+async def upload_json(
+    text: Annotated[str, Form()],
+):
     try:
 
         gector_path = "./gector"
