@@ -25,9 +25,9 @@ def create_test(session: Session, test: Test) -> Test:
 
 
 def create_score(session: Session, score: Score) -> Score:
-    session.add(instance = score)
+    session.add(instance=score)
     session.commit()
-    session.refresh(instance = score)
+    session.refresh(instance=score)
     return score
 
 

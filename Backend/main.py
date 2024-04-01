@@ -10,6 +10,7 @@ app = FastAPI()
 app.include_router(auth_router, prefix="/api")
 app.include_router(test_router, prefix="/api")
 
+
 # load config.yaml
 def load_config(filename):
     with open(filename, "r") as config_file:

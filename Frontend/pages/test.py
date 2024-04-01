@@ -25,7 +25,9 @@ test = "https://mopic.today/api/test"
 score = "https://mopic.today/api/get_score"
 
 st.title("Daily Test")
-st.image("AVA.png", caption="문제를 두 번 들려드린 후 바로 녹음을 시작해주세요.", width=300)
+st.image(
+    "AVA.png", caption="문제를 두 번 들려드린 후 바로 녹음을 시작해주세요.", width=300
+)
 
 
 # remove image expansion
@@ -39,6 +41,7 @@ st.markdown(
     """,
     unsafe_allow_html=True,
 )
+
 
 # When "listen" button is pressed, Convert .wav->html tag to autoplay
 def autoplay_audio(file_path: str):
@@ -63,7 +66,6 @@ def save_recording(audio_data, question_num):
             headers={"Access-Token": st.session_state["token"]["access_token"]},
         )
         st.switch_page("./pages/finish.py")
-
 
     # print(response.text)
     if response.status_code == 200:
