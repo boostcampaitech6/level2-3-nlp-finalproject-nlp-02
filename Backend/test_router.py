@@ -100,6 +100,19 @@ async def upload_test(
 
 
 
+def collect_tests_scores(session, date, user) -> pd.DataFrame:
+    columns = ['WPM', 'MLR', 'Pause', 'Grammar', 'PR', 'Coherence']
+    data = []
+    for q_num in range(1, 4):
+   # 나중에 풀버전을 위해서 반복문으로 만들면 좋을 것 같아요.
+        test = get_result_by_q_num(session=session, date=date, user=user, q_num=q_num)
+        data.append([
+            test.wpm, test.mlr, test.pause, test.grammar['phase_2']['score'], test.mpr, test.coherence
+        ])
+    return pd.DataFrame(data, columns=columns)
+
+
+
 @router.post("/get_score")
 async def get_score_handler(
      user: User = Depends(get_authorized_user),
@@ -107,16 +120,9 @@ async def get_score_handler(
 ):
 
     date = datetime.now().strftime("%Y-%m-%d")
-    # user의 result 받아오기
-    test_1: Test = get_result_by_q_num(session=session, date=date, user=user, q_num=1)
-    test_2: Test = get_result_by_q_num(session=session, date=date, user=user, q_num=2)
-    test_3: Test = get_result_by_q_num(session=session, date=date, user=user, q_num=3)
-    
+
     #user_score dataframe 생성
-    user_scores = pd.DataFrame(columns = ['WPM', 'MLR', 'Pause', 'Grammar', 'PR', 'Coherence'])
-    user_scores.loc[0] = [test_1.wpm, test_1.mlr, test_1.pause, test_1.grammar['phase_2']['score'], test_1.mpr, test_1.coherence]
-    user_scores.loc[1] = [test_2.wpm, test_2.mlr, test_2.pause, test_2.grammar['phase_2']['score'], test_2.mpr, test_2.coherence]
-    user_scores.loc[2] = [test_3.wpm, test_3.mlr, test_3.pause, test_3.grammar['phase_2']['score'], test_3.mpr, test_3.coherence]
+    user_scores = collect_tests_scores(session=session, date=date, user=user)
     
     # coherence label mapping 
     coherence_mapping = {'낮음': 0,'중간': 1, '높음': 2}
