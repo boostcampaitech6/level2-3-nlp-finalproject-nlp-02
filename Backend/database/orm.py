@@ -34,10 +34,6 @@ class User(Base):
         self.is_done = False
         return self
 
-    def streakupdate(self) -> "User":
-        self.streak += 1
-        return self
-
     def addstreak(self) -> "User":
         self.streak += 1
         return self
