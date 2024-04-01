@@ -17,6 +17,7 @@ from database.repository import (create_score, create_test,
                                  get_result_by_q_num)
 from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
 from schema.request import CreateTestRequest, CreateScoreRequest
+
 from schema.response import QuestionSchema, ScoreSchema, TestSchema
 from sqlalchemy.orm import Session
 
@@ -147,6 +148,7 @@ async def get_score_handler(
     score: Score | None = Score.create(request=score_request)
     score: Score = create_score(session = session, score = score)
     return score
+
 
 
 
