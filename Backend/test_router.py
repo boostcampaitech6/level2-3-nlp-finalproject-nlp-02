@@ -94,7 +94,7 @@ async def upload_test(
     if q_num == 3:
         user.addstreak()
         user.done()
-        create_update_user()
+        create_update_user(session=session, user=user)
 
     return TestSchema.from_orm(test)
 
@@ -114,13 +114,13 @@ async def get_score_handler(
     
     #user_score dataframe 생성
     user_scores = pd.DataFrame(columns = ['WPM', 'MLR', 'Pause', 'Grammar', 'PR', 'Coherence'])
-    user_scores.loc[0] = [test_1['wpm'], test_1['mlr'], test_1['pause'], test_1['Grammar']['phase_2']['score'], test_1['mpr'], test_1['coherence']]
-    user_scores.loc[1] = [test_2['wpm'], test_2['mlr'], test_2['pause'], test_2['Grammar']['phase_2']['score'], test_2['mpr'], test_2['coherence']]
-    user_scores.loc[2] = [test_3['wpm'], test_3['mlr'], test_3['pause'], test_3['Grammar']['phase_2']['score'], test_3['mpr'], test_3['coherence']]
+    user_scores.loc[0] = [test_1.wpm, test_1.mlr, test_1.pause, test_1.grammar['phase_2']['score'], test_1.mpr, test_1.coherence]
+    user_scores.loc[1] = [test_2.wpm, test_2.mlr, test_2.pause, test_2.grammar['phase_2']['score'], test_2.mpr, test_2.coherence]
+    user_scores.loc[2] = [test_3.wpm, test_3.mlr, test_3.pause, test_3.grammar['phase_2']['score'], test_3.mpr, test_3.coherence]
     
     # coherence label mapping 
     coherence_mapping = {'낮음': 0,'중간': 1, '높음': 2}
-    user_scores['coherence'] = user_scores['coherence'].map(coherence_mapping)
+    user_scores['Coherence'] = user_scores['Coherence'].map(coherence_mapping)
     # class label mapping
     class_mapping = {'NH': 0,'IL': 1, 'IM': 2, 'IH': 3, 'AL': 4}
     
@@ -133,9 +133,9 @@ async def get_score_handler(
     # predictions의 mapping을 위해 평균값을 정수형 변환
     average_predictions = int(round(predictions.mean()))
     predicted_class = [key for key, value in class_mapping.items() if value == average_predictions][0]
-    score_request = CreateTestRequest(
+    score_request = CreateScoreRequest(
         user_id=user.id,
-        createddate=date,
+        date=date,
         score=predicted_class
     )
     score: Score | None = Score.create(request=score_request)
