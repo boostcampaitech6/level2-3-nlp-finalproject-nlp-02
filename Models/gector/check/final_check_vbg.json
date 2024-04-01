@@ -1,0 +1,150 @@
+{
+	"I am live in Korea.": {
+		"edited": false,
+		"sentence_list": [],
+		"tag_list": [],
+		"fin_sentence": "I am live in Korea."
+	},
+	"I am study right now.": {
+		"edited": true,
+		"sentence_list": [
+			[
+				"$START",
+				"I",
+				"am",
+				"study",
+				"right",
+				"now."
+			]
+		],
+		"tag_list": [
+			[
+				"$KEEP",
+				"$KEEP",
+				"$KEEP",
+				"$TRANSFORM_VERB_VB_VBG",
+				"$KEEP",
+				"$KEEP"
+			]
+		],
+		"fin_sentence": "I am studying right now."
+	},
+	"You are run.": {
+		"edited": true,
+		"sentence_list": [
+			[
+				"$START",
+				"You",
+				"are",
+				"run."
+			],
+			[
+				"$START",
+				"You",
+				"are",
+				"run."
+			],
+			[
+				"$START",
+				"You",
+				"are",
+				"run."
+			],
+			[
+				"$START",
+				"You",
+				"are",
+				"run."
+			],
+			[
+				"$START",
+				"You",
+				"are",
+				"run."
+			]
+		],
+		"tag_list": [
+			[
+				"$KEEP",
+				"$KEEP",
+				"$KEEP",
+				"$TRANSFORM_VERB_VBN_VBG"
+			],
+			[
+				"$KEEP",
+				"$KEEP",
+				"$KEEP",
+				"$TRANSFORM_VERB_VBN_VBG"
+			],
+			[
+				"$KEEP",
+				"$KEEP",
+				"$KEEP",
+				"$TRANSFORM_VERB_VBN_VBG"
+			],
+			[
+				"$KEEP",
+				"$KEEP",
+				"$KEEP",
+				"$TRANSFORM_VERB_VBN_VBG"
+			],
+			[
+				"$KEEP",
+				"$KEEP",
+				"$KEEP",
+				"$TRANSFORM_VERB_VBN_VBG"
+			]
+		],
+		"fin_sentence": "You are run."
+	},
+	"I running.": {
+		"edited": false,
+		"sentence_list": [],
+		"tag_list": [],
+		"fin_sentence": "I running."
+	},
+	"I want to having a break time right now, but I am not supposing to.": {
+		"edited": true,
+		"sentence_list": [
+			[
+				"$START",
+				"I",
+				"want",
+				"to",
+				"having",
+				"a",
+				"break",
+				"time",
+				"right",
+				"now,",
+				"but",
+				"I",
+				"am",
+				"not",
+				"supposing",
+				"to."
+			]
+		],
+		"tag_list": [
+			[
+				"$KEEP",
+				"$KEEP",
+				"$KEEP",
+				"$KEEP",
+				"$REPLACE_have",
+				"$KEEP",
+				"$KEEP",
+				"$DELETE",
+				"$KEEP",
+				"$KEEP",
+				"$KEEP",
+				"$KEEP",
+				"$KEEP",
+				"$KEEP",
+				"$REPLACE_supposed",
+				"$KEEP"
+			]
+		],
+		"fin_sentence": "I want to have a break right now, but I am not supposed to."
+	}
+}

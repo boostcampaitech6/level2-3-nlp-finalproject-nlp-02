@@ -1,0 +1,66 @@
+=== Line 0 ===
+== Iteration 0 ==
+|$START |Your  |question |is,   |my    |free  |time  |with             |not   |exercising, |right? |
+|$KEEP  |$KEEP |$KEEP    |$KEEP |$KEEP |$KEEP |$KEEP |$REPLACE_without |$KEEP |$KEEP       |$KEEP  |
+Your question is, my free time without not exercising, right?
+
+=== Line 1 ===
+You know, Eva, I don't like exercise, so my time is always not exercising.
+
+=== Line 2 ===
+So, I will tell you about my free time.
+
+=== Line 3 ===
+== Iteration 0 ==
+|$START |On    |weekdays, |Usually               |I     |study |my    |major. |
+|$KEEP  |$KEEP |$KEEP     |$TRANSFORM_CASE_LOWER |$KEEP |$KEEP |$KEEP |$KEEP  |
+On weekdays, usually I study my major.
+
+=== Line 4 ===
+== Iteration 0 ==
+|$START |You   |know, |my    |major |is    |computer |science, |so    |I     |usually |study |to          |my    |computer. |
+|$KEEP  |$KEEP |$KEEP |$KEEP |$KEEP |$KEEP |$KEEP    |$KEEP    |$KEEP |$KEEP |$KEEP   |$KEEP |$REPLACE_on |$KEEP |$KEEP     |
+You know, my major is computer science, so I usually study on my computer.
+
+=== Line 5 ===
+== Iteration 0 ==
+|$START |And   |after |study,                 |I     |watch |the     |YouTube |on    |my    |computer |or    |I     |listen |to    |the     |music |on          |my    |bed.  |
+|$KEEP  |$KEEP |$KEEP |$TRANSFORM_VERB_VB_VBG |$KEEP |$KEEP |$DELETE |$KEEP   |$KEEP |$KEEP |$KEEP    |$KEEP |$KEEP |$KEEP  |$KEEP |$DELETE |$KEEP |$REPLACE_in |$KEEP |$KEEP |
+== Iteration 1 ==
+|$START |And   |after |study,                 |I     |watch |YouTube |on    |my    |computer |or    |I     |listen |to    |music |in    |my    |bed.  |
+|$KEEP  |$KEEP |$KEEP |$TRANSFORM_VERB_VB_VBG |$KEEP |$KEEP |$KEEP   |$KEEP |$KEEP |$KEEP    |$KEEP |$KEEP |$KEEP  |$KEEP |$KEEP |$KEEP |$KEEP |$KEEP |
+== Iteration 2 ==
+|$START |And   |after |study,                 |I     |watch |YouTube |on    |my    |computer |or    |I     |listen |to    |music |in    |my    |bed.  |
+|$KEEP  |$KEEP |$KEEP |$TRANSFORM_VERB_VB_VBG |$KEEP |$KEEP |$KEEP   |$KEEP |$KEEP |$KEEP    |$KEEP |$KEEP |$KEEP  |$KEEP |$KEEP |$KEEP |$KEEP |$KEEP |
+== Iteration 3 ==
+|$START |And   |after |study,                 |I     |watch |YouTube |on    |my    |computer |or    |I     |listen |to    |music |in    |my    |bed.  |
+|$KEEP  |$KEEP |$KEEP |$TRANSFORM_VERB_VB_VBG |$KEEP |$KEEP |$KEEP   |$KEEP |$KEEP |$KEEP    |$KEEP |$KEEP |$KEEP  |$KEEP |$KEEP |$KEEP |$KEEP |$KEEP |
+== Iteration 4 ==
+|$START |And   |after |study,                 |I     |watch |YouTube |on    |my    |computer |or    |I     |listen |to    |music |in    |my    |bed.  |
+|$KEEP  |$KEEP |$KEEP |$TRANSFORM_VERB_VB_VBG |$KEEP |$KEEP |$KEEP   |$KEEP |$KEEP |$KEEP    |$KEEP |$KEEP |$KEEP  |$KEEP |$KEEP |$KEEP |$KEEP |$KEEP |
+And after study, I watch YouTube on my computer or I listen to music in my bed.
+
+=== Line 6 ===
+== Iteration 0 ==
+|$START |That's |our     |What                  |I     |do    |most  |of    |my    |time. |
+|$KEEP  |$KEEP  |$DELETE |$TRANSFORM_CASE_LOWER |$KEEP |$KEEP |$KEEP |$KEEP |$KEEP |$KEEP |
+That's what I do most of my time.
+
+=== Line 7 ===
+On weekends, I go to the.
+
+=== Line 8 ===
+I always go to the park near my home.
+
+=== Line 9 ===
+Because I never exercise on weekdays.
+
+=== Line 10 ===
+Get about five minutes of food from my home.
+
+=== Line 11 ===
+== Iteration 0 ==
+|$START |So,   |I           |easily |go    |to    |the   |park  |and   |when  |I     |want  |to    |go    |to    |the   |park, |I     |just  |go    |outside. |
+|$KEEP  |$KEEP |$APPEND_can |$KEEP  |$KEEP |$KEEP |$KEEP |$KEEP |$KEEP |$KEEP |$KEEP |$KEEP |$KEEP |$KEEP |$KEEP |$KEEP |$KEEP |$KEEP |$KEEP |$KEEP |$KEEP    |
+So, I can easily go to the park and when I want to go to the park, I just go outside.
+
