@@ -30,6 +30,7 @@ client_1.fine_tuning.jobs.retrieve(model_config.get("gpt_model_ft1"))
 client_2 = OpenAI(api_key=api_key)
 client_2.fine_tuning.jobs.retrieve(model_config.get("gpt_model_ft2"))
 
+
 # 1.send_wav_to_STT
 async def whisperx(file_path, server_url):
     print("Run whisperx")
@@ -85,15 +86,21 @@ def check_coherence(json_data, question):
     response = client_1.chat.completions.create(
         model="ft:gpt-3.5-turbo-0125:personal::8yvBw03H",
         messages=[
-            {"role": "system", "content": "질문에 대한 대답 스크립트가 입력되었을 때 문맥이 적합한지 평가"},
+            {
+                "role": "system",
+                "content": "질문에 대한 대답 스크립트가 입력되었을 때 문맥이 적합한지 평가",
+            },
             {"role": "assistant", "content": "{높음, 중간, 낮음} 중 하나로 평가"},
             # {"role": "user", "content": "{How has your interest in plays changed over the last few years? What kind of play did you like in the past? What about now?}, {Okay, Lets talk about My taste in concerts... Actually, I have seen a lot of concerts. Right. Nowadays, I love k-pop concerts such as BTS concerts, Aespa concerts, Blackpink concerts, and whatever. K-pop concerts are a trend these days. And there are a lot of k-pop concerts in Korea. Those concerts are so fun and spectacular. But in the past, Um... yeah, I liked piano concerts. Because the first concert I have seen in my life is called Classic. That concert was a piano concert. It was so impressive and touched me. But I like k-pop concerts now. You know, it makes me feel like Im a k-pop star. What about you?}" }
             {"role": "user", "content": content},
         ],
     )
     res_json = json.loads(response.json())
+    output = res_json["choices"][0]["message"]["content"]
+    if output not in ["높음", "중간", "낮음"]:
+        output = "낮음"
     print("Done check_coherence")
-    return res_json["choices"][0]["message"]["content"]
+    return output
 
 
 # 5.GPT JSON transccript complexity 생성
@@ -131,7 +138,7 @@ def check_complexity(json_data):
 # 비동기 병렬처리
 async def process_responses(
     # file: UploadFile = File(...)
-    data: dict
+    data: dict,
 ):
 
     # 이후에 유저 인풋 wav_binary로 교체

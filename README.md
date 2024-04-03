@@ -1,4 +1,4 @@
-# MOPIc - Mocking OPIc
+# MOPIc - Mock OPIc
 
 <div align='center'>
 <img alt="Static Badge" src="https://img.shields.io/badge/Dunning–Kruger-445B97"> &nbsp; <img alt="Static Badge" src="https://img.shields.io/badge/mopic.today-271522"> &nbsp; <img alt="Static Badge" src="https://img.shields.io/badge/License-GPL_3.0-B08A6E"> 
@@ -60,12 +60,12 @@
 
 ## Service Architecture
 
-![SA](https://github.com/boostcampaitech6/level2-3-nlp-finalproject-nlp-02/assets/80257041/7e5b1151-c25b-4b13-93a7-6daf625f2acc)
+![SA](https://github.com/boostcampaitech6/level2-3-nlp-finalproject-nlp-02/assets/80257041/9d30d2fd-dd2b-4b31-80db-82dad671a3e7)
 <br />
 
 ## Demo
 
-추가 예정
+[데모 영상](https://github.com/boostcampaitech6/level2-3-nlp-finalproject-nlp-02/assets/81675036/7b062126-24e7-4d88-bb5c-afdfdd6d96da)
 
 <br />
 
@@ -73,9 +73,9 @@
 
 <div align='center'>
   
-| [구다연](https://github.com/9ooDa) | [김동현](https://github.com/valofosho) | [김희범](https://github.com/C7C4FF) | [이민아](https://github.com/minari1505) | [이지인](https://github.com/Boribori12) |
+| 구다연 &nbsp; [<img src="Images/github-mark.png" width="20" style="vertical-align:middle;">](https://github.com/9ooDa) | 김동현 &nbsp; [<img src="Images/github-mark.png" width="20" style="vertical-align:middle;">](https://github.com/valofosho) | 김희범 &nbsp; [<img src="Images/github-mark.png" width="20" style="vertical-align:middle;">](https://github.com/C7C4FF) | 이민아 &nbsp; [<img src="Images/github-mark.png" width="20" style="vertical-align:middle;">](https://github.com/minari1505) | 이지인 &nbsp; [<img src="Images/github-mark.png" width="20" style="vertical-align:middle;">](https://github.com/Boribori12) |
 | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
-| <img style="height:auto;" alt="View 9ooDa's full-sized avatar" src="https://avatars.githubusercontent.com/u/79597984?v=4" width="50" height="50"> | <img style="height:auto;" src="https://avatars.githubusercontent.com/u/58420112?v=4" width="50" height="50"> | <img style="height:auto;" src="https://avatars.githubusercontent.com/u/80257041?v=4" width="50" height="50"> | <img style="height:auto;" src="https://avatars.githubusercontent.com/u/81675036?v=4" width="50" height="50"> | <img style="height:auto;" src="https://avatars.githubusercontent.com/u/93438663?v=4" width="50" height="50"> |
+| <img style="height:auto;" alt="View 9ooDa's full-sized avatar" src="https://avatars.githubusercontent.com/u/79597984?v=4" width="150" height="150"> | <img style="height:auto;" src="https://avatars.githubusercontent.com/u/58420112?v=4" width="150" height="150"> | <img style="height:auto;" src="https://avatars.githubusercontent.com/u/80257041?v=4" width="150" height="150"> | <img style="height:auto;" src="https://avatars.githubusercontent.com/u/81675036?v=4" width="150" height="150"> | <img style="height:auto;" src="https://avatars.githubusercontent.com/u/93438663?v=4" width="150" height="150"> |
 |                 [Mail](dayeonkuhk@gmail.com)                 |                 [Mail](whgdk1880@gmail.com)                  |                [Mail](c7c4ff.beom@gmail.com)                 |                 [Mail](minari1505@naver.com)                 |                 [Mail](sos000523@naver.com)                  |
 
 </div>
@@ -85,11 +85,9 @@
 
 ## Further reading
 
-시연 영상
+[![발표 영상](http://img.youtube.com/vi/Ad8xC3UUlrs/0.jpg)](https://youtu.be/Ad8xC3UUlrs)  
 
-
-https://github.com/boostcampaitech6/level2-3-nlp-finalproject-nlp-02/assets/81675036/7b062126-24e7-4d88-bb5c-afdfdd6d96da
-
+[발표 PPT](https://docs.google.com/presentation/d/1bP9dre4PmzO4kCoLYUsN_iXXshh313VEoJUIk5MPQfY/edit#slide=id.g2c68cc6bf36_1_10)
 
 발표 PPT
 

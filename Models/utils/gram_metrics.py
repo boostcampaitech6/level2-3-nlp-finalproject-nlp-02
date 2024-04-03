@@ -4,7 +4,9 @@ from typing import Dict, Literal, get_args
 from .gram_out_json import get_cleaned_token_list, get_scrs_tok
 
 
-def get_error_count(checker_data: Dict,):
+def get_error_count(
+    checker_data: Dict,
+):
     metric_data = {"main": {}}
     ctl = get_cleaned_token_list()
     for og_sent, inner_dict in checker_data.items():
@@ -26,7 +28,9 @@ def get_error_count(checker_data: Dict,):
     return error_count
 
 
-def get_error_rate_sen(checker_data: Dict,):
+def get_error_rate_sen(
+    checker_data: Dict,
+):
     og_list = list(checker_data.keys())
     error_count = get_error_count(checker_data=checker_data)
     sentence_count = len(og_list)
@@ -34,7 +38,9 @@ def get_error_rate_sen(checker_data: Dict,):
     return round(error_count / sentence_count, 2)
 
 
-def get_error_rate_word(checker_data: Dict,):
+def get_error_rate_word(
+    checker_data: Dict,
+):
     og_list = list(checker_data.keys())
     error_count = get_error_count(checker_data=checker_data)
 

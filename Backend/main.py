@@ -1,6 +1,5 @@
 from typing import List
 
-import uvicorn
 import yaml
 from auth_router import router as auth_router
 from fastapi import FastAPI
@@ -10,6 +9,7 @@ from test_router import router as test_router
 app = FastAPI()
 app.include_router(auth_router, prefix="/api")
 app.include_router(test_router, prefix="/api")
+
 
 # load config.yaml
 def load_config(filename):
@@ -29,7 +29,3 @@ app.add_middleware(
 @app.get("/")
 def connection_test_handler():
     return {"Dunning": "Kruger"}
-
-
-if __name__ == "__main__":
-    uvicorn.run(app, host="localhost", port=8000)

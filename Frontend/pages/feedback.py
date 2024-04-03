@@ -127,7 +127,9 @@ def make_layout(question_data):
     with by_text:
         grammar = question_data["grammar"]["phase_2"]
         st.subheader("grammar")
-        st.markdown(f"전체 발화 문장 중 올바른 문법 사용 비율은 **{grammar['score']}%** 입니다.")
+        st.markdown(
+            f"전체 발화 문장 중 올바른 문법 사용 비율은 **{grammar['score']}%** 입니다."
+        )
 
         with st.container(height=300):
             st.markdown(grammar["original_passage"])
@@ -135,13 +137,19 @@ def make_layout(question_data):
         fix_sentence(grammar["tag_grammar_info"])
 
         st.subheader("coherence")
-        st.markdown(f"- 고객님의 질문에 대한 답변의 주제 적합성은 **{question_data['coherence']}**입니다")
+        st.markdown(
+            f"- 고객님의 질문에 대한 답변의 주제 적합성은 **{question_data['coherence']}**입니다"
+        )
         st.subheader("complexity")
         st.markdown(f"{question_data['complexity']}")
 
     with by_speaking:
-        st.markdown(f"전체 발화 중 잘못된 발음 없이 명확하게 발음한 비율은 **{question_data['mpr']}%** 입니다.")
-        st.markdown(f"연속으로 발화한 평균 단어 수는 **{question_data['mlr']}개** 입니다.")
+        st.markdown(
+            f"전체 발화 중 잘못된 발음 없이 명확하게 발음한 비율은 **{question_data['mpr']}%** 입니다."
+        )
+        st.markdown(
+            f"연속으로 발화한 평균 단어 수는 **{question_data['mlr']}개** 입니다."
+        )
         st.markdown(f"전체 발화 중 pause 비율은 **{question_data['pause']}%** 입니다.")
 
 

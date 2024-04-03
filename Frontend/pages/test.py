@@ -20,11 +20,14 @@ st.markdown(
 
 # Define the endpoint URL of the server where you want to save the recording
 test = "https://mopic.today/api/test"
-test_q3 = "https://mopic.today/api/test_q3"
 
+# Define the endpoint URL of the server where you want to inference the score
+score = "https://mopic.today/api/get_score"
 
 st.title("Daily Test")
-st.image("AVA.png", caption="문제를 두 번 들려드린 후 바로 녹음을 시작해주세요.", width=300)
+st.image(
+    "AVA.png", caption="문제를 두 번 들려드린 후 바로 녹음을 시작해주세요.", width=300
+)
 
 
 # remove image expansion
@@ -39,6 +42,7 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
+
 # When "listen" button is pressed, Convert .wav->html tag to autoplay
 def autoplay_audio(file_path: str):
     with open(file_path, "rb") as audio_file:
@@ -51,20 +55,19 @@ def autoplay_audio(file_path: str):
 # question_num : 사용자 음성파일 이름변경을 위한 변수
 def save_recording(audio_data, question_num):
     files = {"file": (f"test{question_num}.wav", audio_data, "audio/wav")}
+    response = requests.post(
+        url=test,
+        files=files,
+        headers={"Access-Token": st.session_state["token"]["access_token"]},
+    )
     if question_num == 3:
-        response = requests.post(
-            url=test_q3,
-            files=files,
+        response_score = requests.post(
+            url=score,
             headers={"Access-Token": st.session_state["token"]["access_token"]},
         )
         st.switch_page("./pages/finish.py")
-    else:
-        response = requests.post(
-            url=test,
-            files=files,
-            headers={"Access-Token": st.session_state["token"]["access_token"]},
-        )
-        # print(response.text)
+
+    # print(response.text)
     if response.status_code == 200:
         st.success("The recording was successfully saved.")
     else:
