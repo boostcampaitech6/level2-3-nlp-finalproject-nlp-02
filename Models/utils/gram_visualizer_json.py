@@ -8,6 +8,24 @@ from gector.gector import GECToR, load_verb_dict, predict_verbose
 from transformers import AutoTokenizer
 
 
+def process_input_text(input_text: str):
+    punctuation_marks = {'.', '!', '?'}
+
+    sentences = []
+    start = 0
+    for i, char in enumerate(input_text):
+        if char in punctuation_marks:
+            sentence = input_text[start:i+1].strip()
+            if sentence:
+                sentences.append(sentence)
+            start = i + 1
+
+    if start < len(input_text):
+        sentences.append(input_text[start:].strip())
+
+    return sentences
+
+
 def visualizer_json(iteration_log: List[List[Dict]], out_sentence):
     # Generate a string to visualize the predictions.
     outer_data = {}
