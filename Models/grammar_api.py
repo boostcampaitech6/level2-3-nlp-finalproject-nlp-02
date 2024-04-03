@@ -1,12 +1,10 @@
 import json
 import os
 
-import nltk
 import torch
 import uvicorn
 from fastapi import FastAPI, Form
 from gector.gector import GECToR, load_verb_dict, predict_verbose
-from nltk.tokenize import sent_tokenize
 from transformers import AutoTokenizer
 from typing_extensions import Annotated
 from utils import gram_metrics, gram_out_json, gram_visualizer_json
@@ -24,7 +22,6 @@ app = FastAPI()
 #     }
 
 model_path = "gotutiyan/gector-roberta-large-5k"
-# input_path = os.path.join(gector_path, "input", "macominatya.json")
 
 model = GECToR.from_pretrained(model_path)
 tokenizer = AutoTokenizer.from_pretrained(model_path)
@@ -40,9 +37,6 @@ async def upload_json(
         gector_path = "./gector"
         verb_path = "./gector/data/verb-form-vocab.txt"
 
-        # nltk.download("punkt")
-        # print(text)
-        # srcs = sent_tokenize(text)
         srcs = gram_visualizer_json.process_input_text(text)
         encode, decode = load_verb_dict(verb_path)
 
@@ -79,11 +73,6 @@ async def upload_json(
 
         with open(check, "w", encoding="utf-8") as c:
             json.dump(checker_data, c, indent="\t")
-
-        # Run this part if you want the metric json file
-        # metric = os.path.join(gector_path, "metric", "metric.json")
-        # with open(metric, "w", encoding="utf-8") as r:
-        #     json.dump(metric_data, r, indent="\t")
 
         # Final output
         phase = "phase_2"  # either "phase_1" or "phase_2"

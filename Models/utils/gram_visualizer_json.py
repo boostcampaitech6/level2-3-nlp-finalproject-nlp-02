@@ -13,7 +13,6 @@ def process_input_text(input_text: str):
 
     sentences = []
     start = 0
-
     for i, char in enumerate(input_text):
         if char in punctuation_marks:
             sentence = input_text[start:i+1].strip()
