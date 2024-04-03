@@ -45,7 +45,7 @@ def get_error_rate_word(checker_data: Dict,):
         word_count += len(new_sen.split(" "))
         result = (1 - (error_count / word_count)) * 100
 
-    return round(result, 2)
+    return round(result, 2) if result > 0 else 0
 
 
 # ec = error count, psc = per sentence count, pwc = per word count

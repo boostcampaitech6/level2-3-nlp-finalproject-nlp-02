@@ -1,14 +1,8 @@
 {
-	" Sorry, I can't answer this question.": {
+	"My favorite?": {
 		"edited": false,
 		"sentence_list": [],
 		"tag_list": [],
-		"fin_sentence": " Sorry, I can't answer this question."
-	},
-	"I'm not good at English yet.": {
-		"edited": false,
-		"sentence_list": [],
-		"tag_list": [],
-		"fin_sentence": "I'm not good at English yet."
+		"fin_sentence": "My favorite?"
 	}
 }

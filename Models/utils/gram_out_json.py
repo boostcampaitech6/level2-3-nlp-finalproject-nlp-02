@@ -11,7 +11,7 @@ def load_token_list(token_path: str):
     return token_list
 
 
-def get_cleaned_token_list(token_path: str = "../gector/data/token_labels.txt"):
+def get_cleaned_token_list(token_path: str = "/home/dashic/level2-3-nlp-finalproject-nlp-02/Models/gector/data/token_labels.txt"):
     print("=== Removing Tokens ===")
 
     token_list = load_token_list(token_path)
@@ -295,7 +295,7 @@ def create_json(phase: str, out_path: str, score: float, check_data: Dict):
             p1_data=data, check_data=check_data, ctl=ctl, tag_grammar=tag_grammar
         )
 
-    # with open(out_path, "w", encoding="utf-8") as out:
-    #    json.dump(data, out, ensure_ascii = False, indent="\t")
+    with open(out_path, "w", encoding="utf-8") as out:
+       json.dump(data, out, ensure_ascii = False, indent="\t")
 
     return data

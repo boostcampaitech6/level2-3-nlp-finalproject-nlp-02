@@ -38,9 +38,10 @@ async def upload_json(text: Annotated[str, Form()],):
         gector_path = "./gector"
         verb_path = "./gector/data/verb-form-vocab.txt"
 
-        nltk.download("punkt")
-        print(text)
-        srcs = sent_tokenize(text)
+        # nltk.download("punkt")
+        # print(text)
+        # srcs = sent_tokenize(text)
+        srcs = gram_visualizer_json.process_input_text(text)
         encode, decode = load_verb_dict(verb_path)
 
         transcription = text
