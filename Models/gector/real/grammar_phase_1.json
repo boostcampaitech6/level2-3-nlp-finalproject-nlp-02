@@ -1,0 +1,7 @@
+{
+	"phase_1": {
+		"error_count": 11,
+		"original_passage": "Your question is, my free time with not exercising, right? You know, Eva, I don't like exercise, so my time is always not exercising. So, I will tell you about my free time. On weekdays, Usually I study my major. You know, my major is computer science, so I usually study to my computer. And after study, I watch the YouTube on my computer or I listen to the music on my bed. That's our What I do most of my time. On weekends, I go to the. I always go to the park near my home. Because I never exercise on weekdays. Get about five minutes of food from my home. So, I easily go to the park and when I want to go to the park, I just go outside.",
+		"corrected_passage": "Your question is, my free time with not exercising, right? You know, Eva, I don't like exercise, so my time is always not exercising. So, I will tell you about my free time. On weekdays, Usually I study my major. You know, my major is computer science, so I usually study on my computer. And after study, I watch YouTube on my computer or I listen to music in my bed. That's what I do most of my time. On weekends, I go to the. I always go to the park near my home. Because I never exercise on weekdays. Get about five minutes of food from my home. So, I can easily go to the park and when I want to go to the park, I just go outside."
+	}
+}

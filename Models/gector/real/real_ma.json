@@ -1,0 +1,110 @@
+{
+	"error_count": 11,
+	"main": {
+		"Your question is, my free time with not exercising, right?": {
+			"edited": false,
+			"corrected_sentence": "Your question is, my free time with not exercising, right?"
+		},
+		"You know, Eva, I don't like exercise, so my time is always not exercising.": {
+			"edited": false,
+			"corrected_sentence": "You know, Eva, I don't like exercise, so my time is always not exercising."
+		},
+		"So, I will tell you about my free time.": {
+			"edited": false,
+			"corrected_sentence": "So, I will tell you about my free time."
+		},
+		"On weekdays, Usually I study my major.": {
+			"edited": false,
+			"corrected_sentence": "On weekdays, Usually I study my major."
+		},
+		"You know, my major is computer science, so I usually study to my computer.": {
+			"edited": true,
+			"og_word": [
+				"to"
+			],
+			"action_tag": [
+				"$REPLACE"
+			],
+			"full_tag": [
+				"$REPLACE_on"
+			],
+			"corrected_sentence": "You know, my major is computer science, so I usually study on my computer."
+		},
+		"And after study, I watch the YouTube on my computer or I listen to the music on my bed.": {
+			"edited": true,
+			"og_word": [
+				"study,",
+				"the",
+				"the",
+				"on",
+				"study,",
+				"study,",
+				"study,",
+				"study,"
+			],
+			"action_tag": [
+				"$TRANSFORM",
+				"$DELETE",
+				"$DELETE",
+				"$REPLACE",
+				"$TRANSFORM",
+				"$TRANSFORM",
+				"$TRANSFORM",
+				"$TRANSFORM"
+			],
+			"full_tag": [
+				"$TRANSFORM_VERB_VB_VBG",
+				"$DELETE",
+				"$DELETE",
+				"$REPLACE_in",
+				"$TRANSFORM_VERB_VB_VBG",
+				"$TRANSFORM_VERB_VB_VBG",
+				"$TRANSFORM_VERB_VB_VBG",
+				"$TRANSFORM_VERB_VB_VBG"
+			],
+			"corrected_sentence": "And after study, I watch YouTube on my computer or I listen to music in my bed."
+		},
+		"That's our What I do most of my time.": {
+			"edited": true,
+			"og_word": [
+				"our"
+			],
+			"action_tag": [
+				"$DELETE"
+			],
+			"full_tag": [
+				"$DELETE"
+			],
+			"corrected_sentence": "That's what I do most of my time."
+		},
+		"On weekends, I go to the.": {
+			"edited": false,
+			"corrected_sentence": "On weekends, I go to the."
+		},
+		"I always go to the park near my home.": {
+			"edited": false,
+			"corrected_sentence": "I always go to the park near my home."
+		},
+		"Because I never exercise on weekdays.": {
+			"edited": false,
+			"corrected_sentence": "Because I never exercise on weekdays."
+		},
+		"Get about five minutes of food from my home.": {
+			"edited": false,
+			"corrected_sentence": "Get about five minutes of food from my home."
+		},
+		"So, I easily go to the park and when I want to go to the park, I just go outside.": {
+			"edited": true,
+			"og_word": [
+				"I"
+			],
+			"action_tag": [
+				"$APPEND"
+			],
+			"full_tag": [
+				"$APPEND_can"
+			],
+			"corrected_sentence": "So, I can easily go to the park and when I want to go to the park, I just go outside."
+		}
+	}
+}
