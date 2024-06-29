@@ -1,0 +1,47 @@
+/* src/components/TestPage.css */
+ 
+.test-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+.character-container {
+    text-align: center;
+}
+
+.character-container img {
+    width: 300px;
+    border-radius: 3%;
+}
+
+.button-container {
+    display: flex;
+    flex-direction: row;
+    margin: 20px 0;
+}
+
+.conditional-buttons {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.button-container button {
+    margin: 0 10px;
+    padding: 10px 15px;
+}
+
+.replay-button {
+    margin-bottom: 20px;
+    width: 100px;
+    height: 50px;
+}
+
+.next-button {
+    width: 100px;
+    height: 50px;
+}
