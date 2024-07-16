@@ -1,11 +1,12 @@
-import json
 import os
+import json
+import torch
+
 from pprint import pprint
 from typing import Dict, List
-
-import torch
-from gector.gector import GECToR, load_verb_dict, predict_verbose
 from transformers import AutoTokenizer
+
+from gector.gector import GECToR, load_verb_dict, predict_verbose
 
 
 def process_input_text(input_text: str):

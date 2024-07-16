@@ -1,12 +1,13 @@
-import json
 import os
+import json
 
 import torch
 import uvicorn
 from fastapi import FastAPI, Form
-from gector.gector import GECToR, load_verb_dict, predict_verbose
 from transformers import AutoTokenizer
 from typing_extensions import Annotated
+
+from gector.gector import GECToR, load_verb_dict, predict_verbose
 from utils import gram_metrics, gram_out_json, gram_visualizer_json
 
 app = FastAPI()
@@ -65,7 +66,8 @@ async def upload_json(
         # Grammar Error Correction Process
         final_corrected_sents, iteration_log = predict_verbose(**predict_args)
         checker_data = gram_visualizer_json.visualizer_json(
-            iteration_log, final_corrected_sents
+            iteration_log=iteration_log,
+            out_sentence=final_corrected_sents
         )
 
         # dump visualized checker .json file
@@ -77,17 +79,20 @@ async def upload_json(
         # Final output
         phase = "phase_2"  # either "phase_1" or "phase_2"
         score_type = "pwc"  # "ec" or "psc" or "pwc"
+        error_count_type = "new"    # "new" or "old"
         out_path = os.path.join(gector_path, "real", f"grammar_{phase}.json")
-        score = gram_metrics.get_score(checker_data=checker_data, score_type=score_type)
+        token_path = os.path.join(gector_path, "data", "token_labels.txt")
+
+        score = gram_metrics.get_score(checker_data=checker_data, score_type=score_type,
+                                        error_count_type=error_count_type, token_path=token_path)
+
         print(
-            gram_out_json.create_json(
-                phase=phase, out_path=out_path, score=score, check_data=checker_data
-            )
+            gram_out_json.create_json(phase=phase, out_path=out_path, score=score,
+                                        checker_data=checker_data, token_path=token_path)
         )
 
-        return gram_out_json.create_json(
-            phase=phase, out_path=out_path, score=score, check_data=checker_data
-        )
+        return gram_out_json.create_json(phase=phase, out_path=out_path, score=score,
+                                            checker_data=checker_data, token_path=token_path)
 
     except Exception as e:
         return {"text": None, "status": f"Error: {str(e)}"}
