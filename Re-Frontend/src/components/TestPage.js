@@ -61,7 +61,7 @@ function TestPage() {
     const startRecording = async () => {
         if (!isRecording && !recordingStarted) {
             setIsRecording(true);
-            setRecordingStarted(true);
+            // recordingStarted 상태를 제거, 매번 녹음 가능하도록 수정
             try {
                 const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
                 mediaRecorderRef.current = new MediaRecorder(stream);
@@ -84,7 +84,6 @@ function TestPage() {
             } catch (err) {
                 console.error("Error accessing media devices.", err);
                 setIsRecording(false);
-                setRecordingStarted(false);
             }
         }
     };
@@ -109,7 +108,7 @@ function TestPage() {
         <h1>Daily Test</h1>
         <div className="character-container">
             <img src={require("../AVA.png")} alt="AVA"></img>
-            <p style={{color: '#5F5F5F'}}>문제를 두 번 들려드린 후 바로 녹음을 시작해주세요.</p>
+            <p style={{color: '#5F5F5F'}}>문제를 두 번 들으신 후 바로 녹음을 시작해주세요.</p>
         </div>
         
         <div className="button-container">
