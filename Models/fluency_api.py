@@ -106,7 +106,7 @@ async def get_fluency(
 
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8888)
+    uvicorn.run(app, host="localhost", port=8005)
 
 
 # 연속된 0.25 이하의 값을 갖는 요소들의 길이 계산
