@@ -142,3 +142,7 @@ yesi.py
 
 *.wav
 
+
+Re-Frontend/node_modules/
+node_modules/
+.node_modules/
