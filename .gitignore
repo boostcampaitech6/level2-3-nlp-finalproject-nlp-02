@@ -142,5 +142,9 @@ yesi.py
 
 *.wav
 
+Re-Frontend/node_modules/
+node_modules/
+.node_modules/
+
 # 테스트용
 mopic-app

@@ -88,3 +88,56 @@ async def get_user_info(request: Request, session: Session = Depends(get_db)) ->
     user = get_authorized_user(request=request, session=session)
 
     return {"name": user.name, "streak": user.streak}
+
+# @router.post("/verify")
+# async def verify(token: TokenData, session: Session = Depends(get_db)):
+#     google_userinfo_url = "https://www.googleapis.com/oauth2/v3/userinfo"
+#     headers = {"Authorization": f"Bearer {token.token}"}
+#     response = requests.get(google_userinfo_url, headers=headers)
+
+#     if response.status_code == 200:
+#         user_info = response.json()
+#         user_email = user_info.get("email")
+#         print("1")
+#         print(user_info, user_email)
+
+#         if not user_email:
+#             raise HTTPException(status_code=400, detail="Token has no email information")
+
+#         user = get_user_by_email(session, email=user_email)
+#         if not user:
+#             user = User.create(request=user_info)
+#             create_update_user(session, user)
+
+#         return {"message": "Token is valid", "user": {"email": user.email, "name": user.name}}
+#     else:
+#         raise HTTPException(status_code=401, detail="Invalid token")
+
+def verify_google_token(token: str):
+    google_userinfo_url = "https://www.googleapis.com/oauth2/v3/tokeninfo"
+    params = {"id_token": token}
+    response = requests.get(google_userinfo_url, params=params)
+    if response.status_code == 200:
+        return response.json()
+    else:
+        raise HTTPException(status_code=401, detail="Invalid token")
+
+
+@router.post("/verify")
+async def verify_token(token_data: TokenData, session: Session = Depends(get_db)):
+    try:
+        user_info = verify_google_token(token_data.token)
+    except HTTPException as e:
+        print(e.detail)
+        raise e
+
+    user_email = user_info.get("email")
+    if not user_email:
+        raise HTTPException(status_code=400, detail="Token has no email information")
+
+    user = get_user_by_email(session, email=user_email)
+    if not user:
+        user = User.create(request=user_info)
+        create_update_user(session, user)
+
+    return {"message": "Token is valid", "user": {"email": user.email, "name": user.name}}

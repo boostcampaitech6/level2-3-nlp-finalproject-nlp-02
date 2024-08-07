@@ -4,6 +4,7 @@ import yaml
 from auth_router import router as auth_router
 from fastapi import FastAPI
 from starlette.middleware.sessions import SessionMiddleware
+from fastapi.middleware.cors import CORSMiddleware
 from test_router import router as test_router
 
 app = FastAPI()
@@ -24,6 +25,19 @@ app.add_middleware(
     SessionMiddleware, secret_key=google_config.get("middleware_secret_key")
 )
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # 또는 특정 도메인을 설정
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+@app.middleware("http")
+async def add_coop_header(request, call_next):
+    response = await call_next(request)
+    response.headers['Cross-Origin-Opener-Policy'] = 'same-origin-allow-popups'
+    return response
 
 # 기본 연결 확인
 @app.get("/")
