@@ -23,6 +23,8 @@ audiorecorder = "^0.1"
 streamlit-audiorecorder = "^0.0.4"
 ffmpeg = "^1.4"
 streamlit-mic-recorder = "^0.0.8"
+librosa = "^0.10.2.post1"
+catboost = "^1.2.5"
 
 
 [build-system]
