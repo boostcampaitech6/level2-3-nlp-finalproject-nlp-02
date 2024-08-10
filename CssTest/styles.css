@@ -1,0 +1,245 @@
+/* Add your styling here */
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  background-color: white;
+}
+
+/* 탑바 */
+header {
+  background-color: #2F4858;
+  padding: 10px 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 1.5em;
+  font-weight: bold;
+  color: white;
+}
+
+nav a {
+  margin-left: 20px;
+  text-decoration: none;
+  color: white;
+}
+/* 탑바 */
+
+.feedback-container {
+  height: 100%;
+  width: 80%;
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  margin: auto;
+  background-color: white;
+  padding: 20px;
+  text-align: center;
+}
+
+h1 {
+  font-weight: lighter;
+  font-size: 1.2em;
+  margin-top: 150px;
+  margin-bottom: 10px;
+  color: grey;
+}
+
+h2 {
+  font-weight: bold;
+  font-size: 2.5em;
+  margin-bottom: 100px;
+  color: black;
+}
+
+.question-sentence {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  text-align: left;
+  position: relative;
+  left: 120px;
+}
+
+.question-sentence h3 {
+  font-size: 1.2em;
+  font-weight: 200;
+  color: black;
+}
+
+/* 탭 */
+.tabs, .sub-tabs {
+  display: flex;
+  justify-content: left;
+  margin-bottom: 20px;
+}
+
+.tab-button {
+  background-color: white;
+  border: none;
+  height: 40px;
+  width: 40px;
+
+  padding: 10px 20px;
+  position: relative;
+  left: 110px;
+  margin-right: 10px;
+  cursor: pointer;
+
+  font-size: 1em;
+  font-weight: normal;
+  transition: font-weight 0.3s;
+
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+
+.tab-button.active {
+  color: black;
+  font-weight: 900;
+  text-decoration-line: underline;
+  text-underline-position: under;
+  text-decoration-thickness: 3px;
+
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+
+.sub-tab-button {
+  background-color: white;
+  font-size: 1em;
+  width: 70px;
+  height: 35px;
+  overflow: hidden;
+  transition: background-color 0.3s;
+
+  border: none;
+  border-radius: 10%;
+  margin-right: 10px;
+  padding: 10px 20px;
+  cursor: pointer;
+
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+
+.sub-tab-button.active {
+  background-color: #6D8D8D;
+  color: white;
+  font-weight: bold;
+
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+/* 탭 */
+
+.tab-content, .sub-tab-content {
+  display: none;
+}
+
+.tab-content.active, .sub-tab-content.active {
+  display: block;
+}
+
+/* .feedback-box {
+  width: 80%;
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  margin: auto;
+  background-color: #f7f9f7;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.feedback-section {
+  margin-bottom: 20px;
+}
+
+.feedback-section h3 {
+  font-size: 1.1em;
+  margin-bottom: 5px;
+}
+
+.grammar .wrong {
+  color: red;
+  font-weight: bold;
+} */
+
+.feedback-box {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+
+  width: 80%;
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  margin: auto;
+  background-color: #f7f9f7;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.feedback-category {
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.grammar {
+  grid-column: 1 / -1;
+}
+
+.pr {
+  grid-row: 2 / span 1;
+}
+
+.feedback-section h3 {
+  font-size: 1.1em;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.feedback-section p {
+  margin: 0;
+  font-size: 0.95em;
+  color: #666;
+}
+
+.feedback-section p:last-child {
+  margin-bottom: 0;
+}
+
+.grammar .wrong {
+  color: red;
+  text-decoration: line-through;
+}
+
+@media (max-width: 600px) {
+  .feedback-container {
+      padding: 10px;
+  }
+
+  .tab-button, .sub-tab-button {
+      border-radius: 8px;
+      padding: 8px 16px;
+      font-size: 0.9em;
+  }
+}
