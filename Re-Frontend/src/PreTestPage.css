@@ -5,6 +5,12 @@
     padding: 15px;
 }
 
+body {
+    background-color: #c2d4c6;
+    margin: 0;
+    padding: 0;
+}
+
 .outer-container {
     background-color: #c2d4c6;
     padding: 230px;
