@@ -95,6 +95,12 @@ function TestPage() {
             mediaRecorderRef.current.stop();
             setIsRecording(false);
 
+            //녹음 중지 클릭 시 다음 문제 자동재생
+            if (activeButton === 1) {
+                handleButtonClick(2);
+            } else if (activeButton === 2) {
+                handleButtonClick(3);
+            }
         }
     };
 
