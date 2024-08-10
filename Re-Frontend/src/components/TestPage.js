@@ -1,6 +1,8 @@
 import React, {useState, useRef, useEffect} from 'react';
 import '../TestPage.css';
 import {useNavigate} from 'react-router-dom';
+import logo from '../logo/white_logo.png'
+
  
 function TestPage() {
     const [activeButton, setActiveButton] = useState(null);
@@ -92,6 +94,7 @@ function TestPage() {
         if (isRecording && mediaRecorderRef.current) {
             mediaRecorderRef.current.stop();
             setIsRecording(false);
+
         }
     };
 
@@ -104,29 +107,41 @@ function TestPage() {
     }, []);
 
     return (
-    <div className="test-page">
-        <h1>Daily Test</h1>
-        <div className="character-container">
-            <img src={require("../logo/AVA.png")} alt="AVA"></img>
-            <p style={{color: '#5F5F5F'}}>문제를 두 번 들으신 후 바로 녹음을 시작해주세요.</p>
-        </div>
-        
-        <div className="button-container">
-            <button onClick={() => handleButtonClick(1)}>1</button>
-            <button onClick={() => handleButtonClick(2)}>2</button>
-            <button onClick={() => handleButtonClick(3)}>3</button>
+    <div>
+        {/*헤더*/}
+        <div className='header'>
+            <img src={logo} alt="MOPIc 로고" style={{height: '50px'}} />
+
         </div>
 
-        {activeButton && (
-            <div className="conditional-buttons">
-                {activeButton!==3 && (<button className="replay-button" onClick={replayAudio}>Replay</button>)}
-                <button className="next-button" onClick={isRecording ? stopRecording : startRecording}>
-                    {isRecording ? '녹음 중지' : '녹음 시작'}
-                </button>
+    {/*바깥색*/}
+    <div className='outer-container'>
+        <div className="inner-box">
+            <h1>Daily Test</h1>
+            <div className="character-container">
+                <img src={require("../logo/AVA.png")} alt="AVA"></img>
+                <p style={{color: '#5F5F5F'}}>문제를 두 번 들으신 후 바로 녹음을 시작해주세요.</p>
             </div>
-        )}
-        <audio ref={audioRef} />
+            
+            <div className="button-container">
+                <button onClick={() => handleButtonClick(1)}>1</button>
+                <button onClick={() => handleButtonClick(2)}>2</button>
+                <button onClick={() => handleButtonClick(3)}>3</button>
+            </div>
+
+            {activeButton && (
+                <div className="conditional-buttons">
+                    {activeButton!==3 && (<button className="replay-button" onClick={replayAudio}>Replay</button>)}
+                    <button className="next-button" onClick={isRecording ? stopRecording : startRecording}>
+                        {isRecording ? '녹음 중지' : '녹음 시작'}
+                    </button>
+                </div>
+            )}
+            <audio ref={audioRef} />
+        </div>
+        </div>
     </div>
+    
     );
 }
 

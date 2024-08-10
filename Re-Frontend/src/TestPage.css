@@ -1,10 +1,28 @@
 /* src/components/TestPage.css */
- 
-.test-page {
+.header {
+    background-color: #2F4858;
+    color: white;
+    padding: 15px;
+}
+
+body{
+    background-color: #c2d4c6;
+    margin: 0;
+    padding: 0;
+}
+
+.outer-container {
+    background-color: #c2d4c6;
+    padding: 60px;
+}
+
+.inner-box {
+    background-color: white;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 20px;
+    padding: 50px;
+    margin: auto;
 }
 
 .character-container {
@@ -28,20 +46,36 @@
     flex-direction: column;
     align-items: center;
     gap: 10px;
+    
 }
 
 .button-container button {
     margin: 0 10px;
     padding: 10px 15px;
+
 }
 
 .replay-button {
     margin-bottom: 20px;
     width: 100px;
     height: 50px;
+    border-radius: 10px;
+    background-color: #f1f8e8;
+    border: 1px solid  #787a76;
+}
+
+.replay-button:hover {
+    background-color: #e4ebdd;
 }
 
 .next-button {
     width: 100px;
     height: 50px;
+    border-radius: 10px;
+    background-color: #f1f8e8;
+    border: 1px solid  #787a76;
+}
+
+.next-button:hover {
+    background-color: #e4ebdd;
 }
