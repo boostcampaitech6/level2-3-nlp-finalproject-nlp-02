@@ -107,7 +107,7 @@ function TestPage() {
     <div className="test-page">
         <h1>Daily Test</h1>
         <div className="character-container">
-            <img src={require("../AVA.png")} alt="AVA"></img>
+            <img src={require("../logo/AVA.png")} alt="AVA"></img>
             <p style={{color: '#5F5F5F'}}>문제를 두 번 들으신 후 바로 녹음을 시작해주세요.</p>
         </div>
         
