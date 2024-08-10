@@ -1,11 +1,7 @@
-/* Add your styling here */
-
 body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  height: 100%;
-  width: 100%;
   background-color: white;
 }
 
@@ -32,18 +28,6 @@ nav a {
 }
 /* 탑바 */
 
-.feedback-container {
-  height: 100%;
-  width: 80%;
-  position: absolute;
-  left: 0px;
-  right: 0px;
-  margin: auto;
-  background-color: white;
-  padding: 20px;
-  text-align: center;
-}
-
 h1 {
   font-weight: lighter;
   font-size: 1.2em;
@@ -59,25 +43,11 @@ h2 {
   color: black;
 }
 
-.question-sentence {
-  margin-top: 20px;
-  margin-bottom: 20px;
-  text-align: left;
-  position: relative;
-  left: 120px;
-}
-
-.question-sentence h3 {
-  font-size: 1.2em;
-  font-weight: 200;
-  color: black;
-}
-
 /* 탭 */
 .tabs, .sub-tabs {
   display: flex;
   justify-content: left;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .tab-button {
@@ -88,7 +58,7 @@ h2 {
 
   padding: 10px 20px;
   position: relative;
-  left: 110px;
+  left: 90px;
   margin-right: 10px;
   cursor: pointer;
 
@@ -125,7 +95,7 @@ h2 {
 
   border: none;
   border-radius: 10%;
-  margin-right: 10px;
+  margin: 0 5px;
   padding: 10px 20px;
   cursor: pointer;
 
@@ -136,15 +106,10 @@ h2 {
 }
 
 .sub-tab-button.active {
-  background-color: #6D8D8D;
-  color: white;
+  background-color: #C2D4C6;
+  color: black;
   font-weight: bold;
-
-  text-align: center;
-  align-items: center;
-  justify-content: center;
 }
-/* 탭 */
 
 .tab-content, .sub-tab-content {
   display: none;
@@ -153,83 +118,80 @@ h2 {
 .tab-content.active, .sub-tab-content.active {
   display: block;
 }
+/* 탭 */
 
-/* .feedback-box {
+.question-sentence {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  text-align: left;
+  position: relative;
+  left: 100px;
+}
+
+.question-sentence h3 {
+  font-size: 1.2em;
+  font-weight: 200;
+  color: black;
+}
+
+.feedback-container {
   width: 80%;
-  position: absolute;
+  /* position: relative;
   left: 0px;
-  right: 0px;
-  margin: auto;
-  background-color: #f7f9f7;
+  right: 0px; */
+  max-width: 1200px;
+  margin: 50px auto;
+  background-color: white;
   padding: 20px;
-  border-radius: 8px;
   text-align: center;
 }
 
-.feedback-section {
-  margin-bottom: 20px;
-}
-
-.feedback-section h3 {
-  font-size: 1.1em;
-  margin-bottom: 5px;
-}
-
-.grammar .wrong {
-  color: red;
-  font-weight: bold;
-} */
-
 .feedback-box {
-  display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 15px;
 
   width: 80%;
-  position: absolute;
-  left: 0px;
-  right: 0px;
   margin: auto;
-  background-color: #f7f9f7;
+  background-color: #F1F8E8;
   padding: 20px;
   border-radius: 8px;
   text-align: center;
 }
 
+.feedback-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
 .feedback-category {
-  background-color: #fff;
-  padding: 15px;
-  border-radius: 8px;
+  flex-basis: 30%;
+  background-color: white;
+  padding: 10px;
+  border-radius: 5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 10px;
 }
 
-.grammar {
-  grid-column: 1 / -1;
+.feedback-category.grammar {
+  flex-basis: 100%;
+  margin-top: 10px;
 }
 
-.pr {
-  grid-row: 2 / span 1;
+.feedback-section {
+  margin: 0 0 0 0;
 }
 
 .feedback-section h3 {
-  font-size: 1.1em;
-  margin-bottom: 5px;
+  font-size: 1em;
+  text-align: left;
+  margin-bottom: 10px;
   color: #333;
 }
 
-.feedback-section p {
-  margin: 0;
-  font-size: 0.95em;
-  color: #666;
-}
-
-.feedback-section p:last-child {
-  margin-bottom: 0;
-}
-
-.grammar .wrong {
+.wrong {
   color: red;
-  text-decoration: line-through;
 }
 
 @media (max-width: 600px) {
