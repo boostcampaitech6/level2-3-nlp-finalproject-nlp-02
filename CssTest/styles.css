@@ -11,6 +11,8 @@ header {
   padding: 10px 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   display: flex;
+  position: sticky;
+  top: 0px;
   justify-content: space-between;
   align-items: center;
 }
@@ -28,12 +30,23 @@ nav a {
 }
 /* 탑바 */
 
+.feedback-container {
+  max-width: 1200px;
+  margin: 50px auto;
+  background-color: white;
+  padding: 20px;
+}
+
 h1 {
   font-weight: lighter;
   font-size: 1.2em;
   margin-top: 150px;
   margin-bottom: 10px;
   color: grey;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 h2 {
@@ -41,35 +54,42 @@ h2 {
   font-size: 2.5em;
   margin-bottom: 100px;
   color: black;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* 탭 */
-.tabs, .sub-tabs {
+.tabs{
+  width: 100%;
   display: flex;
-  justify-content: left;
+  justify-content: flex-start;
   margin-bottom: 10px;
+  padding-left: 80px;
+}
+
+.sub-tabs {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 10px;
+  padding-left: 0;
 }
 
 .tab-button {
   background-color: white;
   border: none;
-  height: 40px;
-  width: 40px;
 
-  padding: 10px 20px;
-  position: relative;
-  left: 90px;
-  margin-right: 10px;
+  padding: 0 20px;
+  display: flex;
+  justify-content: flex-start;
+  gap: 10px;
   cursor: pointer;
 
   font-size: 1em;
   font-weight: normal;
   transition: font-weight 0.3s;
-
-  display: flex;
-  text-align: center;
-  align-items: center;
-  justify-content: center;
 }
 
 .tab-button.active {
@@ -78,11 +98,6 @@ h2 {
   text-decoration-line: underline;
   text-underline-position: under;
   text-decoration-thickness: 3px;
-
-  display: flex;
-  text-align: center;
-  align-items: center;
-  justify-content: center;
 }
 
 .sub-tab-button {
@@ -123,9 +138,12 @@ h2 {
 .question-sentence {
   margin-top: 20px;
   margin-bottom: 20px;
-  text-align: left;
   position: relative;
   left: 100px;
+
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
 }
 
 .question-sentence h3 {
@@ -134,24 +152,13 @@ h2 {
   color: black;
 }
 
-.feedback-container {
-  width: 80%;
-  /* position: relative;
-  left: 0px;
-  right: 0px; */
-  max-width: 1200px;
-  margin: 50px auto;
-  background-color: white;
-  padding: 20px;
-  text-align: center;
-}
-
 .feedback-box {
   grid-template-columns: 1fr 1fr;
-  gap: 15px;
+  grid-template-rows: minmax(100px, auto);
+  grid-gap: 10px;
 
-  width: 80%;
   margin: auto;
+  width: 80%;
   background-color: #F1F8E8;
   padding: 20px;
   border-radius: 8px;
@@ -160,34 +167,76 @@ h2 {
 
 .feedback-row {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: space-between; 
   margin-bottom: 15px;
+
+  height: auto;
+  width: auto;
+  max-height: fit-content;
+  overflow: hidden;
 }
 
 .feedback-category {
-  flex-basis: 30%;
+  flex: 1 1 calc(50% - 10px); /* Flex-grow, flex-shrink, and flex-basis properties */
+  box-sizing: border-box; /* Ensures padding and borders are included in width */
   background-color: white;
-  padding: 10px;
+  padding: 0 0 0 5px;
   border-radius: 5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  margin-bottom: 10px;
+  margin-right: 5px;
+  margin-left: 5px;
 }
 
 .feedback-category.grammar {
-  flex-basis: 100%;
-  margin-top: 10px;
+  flex: 1 1 100%;
+  overflow: hidden;
+  /* margin-right: 0; */
+}
+
+.feedback-category.pr {
+  flex: 1 1 auto;
+  max-width: 49%;
+}
+
+.feedback-category p.desc {
+  font-size: 0.8em;
+  font-weight: lighter;
+  color: grey;
+  text-align: left;
+}
+
+.feedback-category.grammar p.desc {
+  text-align: center;
+}
+
+.feedback-category p.output {
+  color: black;
+  font-size: 2em;
+  font-weight: bold;
+
+  padding: 3% 0 5% 0;
+
+  display: flex;
+  /* align-items: center; */
+  justify-content: center;
+}
+
+.feedback-category p.output.sentence {
+  font-size: 1em;
+  font-weight: lighter;
+
+  padding: 5% 3% 3% 3%;
 }
 
 .feedback-section {
-  margin: 0 0 0 0;
+  margin: 0 0 0 10px;
 }
 
 .feedback-section h3 {
-  font-size: 1em;
+  font-size: 1.3em;
   text-align: left;
   margin-bottom: 10px;
-  color: #333;
+  color: black;
 }
 
 .wrong {
@@ -197,6 +246,11 @@ h2 {
 @media (max-width: 600px) {
   .feedback-container {
       padding: 10px;
+  }
+
+  .feedback-category {
+    flex: 1 1 100%;
+    margin-right: 0;
   }
 
   .tab-button, .sub-tab-button {
