@@ -4,7 +4,7 @@ import { UserContext } from './UserContext';
 import Calendar from "react-calendar";
 import 'react-calendar/dist/Calendar.css'
 import styled from "styled-components";
-import '../Lobby.css';
+import '../css/Lobby.css';
 
 
 const StyledCalendarWrapper = styled.div`

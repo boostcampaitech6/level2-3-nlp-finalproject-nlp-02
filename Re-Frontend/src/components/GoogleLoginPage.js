@@ -4,6 +4,8 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from './UserContext';
+import '../css/GoogleLoginPage.css';
+
 
 const GoogleLoginPage = () => {
   const clientId = "373399218972-csivbh2naa28dtnjv44jnv069br2ravi.apps.googleusercontent.com";
