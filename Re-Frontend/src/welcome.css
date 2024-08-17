@@ -21,6 +21,7 @@ header {
     align-items: center;
     padding: 10px 20px;
     background-color: #6d8d8d;
+    height: 40px;
 }
 
 header h1 {
@@ -53,7 +54,7 @@ main {
     display: flex;
     justify-content: space-between;
     align-items: stretch; /* 높이 동일하게 맞추기 */
-    padding: 20px;
+    padding: 0px;
     flex: 1; /* 메인 영역이 가변적으로 확장되도록 설정 */
 }
 
@@ -73,7 +74,7 @@ main {
 
 .side-content {
     width: 40%; /* side-content의 너비를 40%로 설정 */
-    background-color: #6d8d8d;
+    background-color: #C7D9D9;
     color: #fff;
     padding: 20px;
     border-radius: 5px;
@@ -86,7 +87,7 @@ main {
 
 /* 사이드 콘텐츠의 배경 색상과 텍스트 색상 */
 .side-content {
-    background-color: #6d8d8d;
+    background-color: #C7D9D9;
     color: #fff;
 }
 
