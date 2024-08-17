@@ -1,0 +1,64 @@
+/* src/components/HistoryPage.css */
+.header {
+  background-color: #2F4858;
+  color: white;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+body{
+  background-color: #F1F8E8;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.nav a {
+  margin-left: 40px;
+  color: black;
+  text-decoration: none;
+}
+
+.files-header {
+display: flex;
+justify-content: space-between;
+align-items: center;
+margin-bottom: 20px;
+}
+
+.file-table th, .file-table td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.file-table th:nth-child(3), .file-table td:nth-child(3) {
+  width: 30%; /* Last updated column */
+}
+
+.file-table th:nth-child(4), .file-table td:nth-child(4) {
+  width: 15%; /* Levels column */
+}
+
+.file-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.file-icon {
+display: flex;
+align-items: center;
+}
+
+.folder-icon {
+font-size: 20px;
+margin-right: 10px;
+}
+
