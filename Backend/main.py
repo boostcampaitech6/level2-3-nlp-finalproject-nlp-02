@@ -7,6 +7,12 @@ from starlette.middleware.sessions import SessionMiddleware
 from fastapi.middleware.cors import CORSMiddleware
 from test_router import router as test_router
 
+#date, score 받아오는 엔드포인트 설정
+from fastapi import Depends
+from sqlalchemy.orm import Session
+from database import SessionLocal, engine
+from models import Score 
+
 app = FastAPI()
 app.include_router(auth_router, prefix="/api")
 app.include_router(test_router, prefix="/api")
@@ -43,3 +49,16 @@ async def add_coop_header(request, call_next):
 @app.get("/")
 def connection_test_handler():
     return {"Dunning": "Kruger"}
+
+#date, score 받아오는 엔드포인트 설정
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
+@app.get("/api/scores/")
+def get_scores(db: Session = Depends(get_db)):
+    scores = db.query(Score).all()  # 모든 Score 객체 가져오기
+    return scores
