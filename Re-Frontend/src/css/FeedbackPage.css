@@ -1,0 +1,244 @@
+/* test/src/css/FeedbackPage.css */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #FFFFFF !important;
+  }
+  
+  /* 탑바 */
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #6d8d8d;
+  }
+  header h1 {
+    margin: 0; 
+  }
+  header img {
+    width: 100px;
+    height: auto; 
+    margin-top: 10px;
+  }
+  header nav {
+    display: flex;
+  }
+  header nav a {
+    margin: 0 15px;
+    text-decoration: none;
+    color: #ffffff; 
+    font-size: 16px;
+  }
+  header nav a:hover {
+    color: #ccc; 
+  }
+  
+  
+  main {
+    margin: 20px auto;
+    max-width: 800px;
+  }
+  
+  
+  .feedback-container {
+    max-width: 1200px;
+    margin: 50px auto;
+    background-color: white;
+    padding: 20px;
+  }
+  .feedback-container h4 {
+    text-align: center;
+    color: grey;
+  }
+  .feedback-container h1 {
+    text-align: center;
+  }
+  
+  
+  .tabs {
+    display: flex;
+    justify-content: left;
+    margin-bottom: 20px;
+    font-weight: bold;
+    font-size: 18px;
+  }
+  .tabs button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px 10px;
+    font-size: 18px;
+    color: #000000;
+    margin: 0 10px;
+  }
+  .tabs button:hover {
+    text-decoration: underline;
+  }
+  
+  .feedback-box {
+    background-color: #edf7ed;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  .feedback-box h3 {
+    font-size: 20px;
+    font-weight: normal;
+  }
+  
+  .tab-toggle {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 20px;
+    color: #C2D4C6;
+  }
+  .tab-toggle button {
+    padding: 10px 20px;
+    margin-right: 5px;
+    background-color: #FFFFFF;
+    border: 1px solid #f9f9f9;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    color: #000000;
+    margin: 0 10px;
+  }
+  .tab-toggle button:hover {
+    background-color: #f9f9f9;
+  }
+  .tab-toggle button.active {
+    background-color: #C2D4C6;
+    border-color: #C2D4C6;
+    color: #000000;
+  }
+  
+  
+  .question h3 {
+    color: #000000;
+    font-size: 20px;
+  }
+  
+  
+  .feedback-content {
+  
+  }
+  
+  .feedback-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    text-align: left;
+  }
+  
+  .feedback-category {
+    flex: 1;
+    margin-right: 20px;
+    background-color: #ffffff;
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px solid #e3e3e3;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    font-size: 14px;
+    display: flex; 
+    flex-direction: column; 
+    justify-content: space-between; 
+  }
+  .feedback-category:last-child {
+    margin-right: 0;
+  }
+  .feedback-category h4 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #333;
+    font-weight: bold;
+  }
+  .feedback-category p {
+    font-size: 14px;
+    margin: 0;
+    color: #666;
+  }
+  
+  .feedback-category.coherence .coherence.score {
+    font-size: 36px;
+    margin-top: 10px;
+    font-weight: bold;
+    text-align: center;
+    padding: 15px;
+    color: #000000;
+  }
+  
+  .feedback-category.complexity p {
+    font-size: 16px;
+    padding: 50px 15px;
+    margin-top: 10px;
+    color: #000000;
+    text-align: center;
+  }
+  
+  .feedback-category.grammar p {
+    font-size: 16px;
+    margin-top: 10px;
+    color: #000000;
+  }
+  .feedback-category.grammar .output.score {
+    font-size: 36px;
+    color: #d9534f;
+    text-align: center;
+    font-weight: bold;
+  }
+  
+  .feedback-category.pronunciation .pronunciation.score {
+    font-size: 16px;
+    padding: 50px 15px;
+    color: #000000;
+    text-align: center;
+  }
+  
+  .feedback-category.mlr .mlr.score {
+    font-size: 32px;
+    margin-top: 10px;
+    font-weight: bold;
+    text-align: center;
+    color: #000000;
+    padding: 15px;
+  }
+  
+  .feedback-category.pr .pr.score {
+    font-size: 32px;
+    margin-top: 40px;
+    font-weight: bold;
+    text-align: center;
+    color: #000000;
+    padding: 15px;
+  }
+  
+  #final-prediction {
+    font-size: 48px;
+    font-weight: bold;
+    margin: 20px 0;
+  }
+  
+  .question {
+    margin-top: 10px;
+    font-size: 18px;
+    font-weight: normal;
+    color: #333;
+  }
+  
+  /* Responsive design adjustments */
+  @media (max-width: 768px) {
+    .feedback-row {
+        flex-direction: column;
+    }
+  
+    .feedback-category {
+        margin-right: 0;
+        margin-bottom: 20px;
+    }
+  
+    .feedback-category:last-child {
+        margin-bottom: 0;
+    }
+  }
