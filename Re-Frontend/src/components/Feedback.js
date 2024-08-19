@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../css/FeedbackPage.css';
+import '../css/Feedback.css';
 import logo from '../logo/white_logo.png'
 
 function App() {
@@ -117,7 +117,7 @@ function App() {
                     <div className="feedback-category">
                       <div className="feedback-section">
                         <h3>Coherence</h3>
-                        <p className="desc">coherence 설명 주제 적합도 어쩌구</p>
+                        <p className="desc">Coherence는 주제에 맞는 흐름을 유지하며 명확하게 전달되는지 확인하는 요소입니다.</p>
                         <p className="output score">{currentQuestion.textFeedback.coherenceScore}</p>
                       </div>
                     </div>
@@ -148,7 +148,7 @@ function App() {
                     <div className="feedback-category">
                       <div className="feedback-section">
                         <h3>Pronunciation</h3>
-                        <p className="desc">발음 설명</p>
+                        <p className="desc">사용자의 발음이 원어민과 얼마나 유사한 지 보여주는 지표입니다.</p>
                         <p class="desc">전체 발화 중 잘못된 발음 없이 명확하게 발음한 비율은</p>
                         <p className="output score">{currentQuestion.audioFeedback.pronunciation}</p>
                       </div>
@@ -156,7 +156,7 @@ function App() {
                     <div className="feedback-category">
                       <div className="feedback-section">
                         <h3>Mean Length of Run (MLR)</h3>
-                        <p className="desc">MLR 설명 어쩌구</p>
+                        <p className="desc">사용자가 연속적으로 발음한 평균 단어 수입니다. MLR이 높을수록 보다 유창함을 보여주는 지표입니다.</p>
                         <p class="desc">연속으로 발화한 평균 단어 수는</p>
                         <p className="output score">{currentQuestion.audioFeedback.mlr}</p>
                       </div>
