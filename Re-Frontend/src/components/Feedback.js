@@ -1,95 +1,185 @@
-import React from 'react';
+import React, { useState } from 'react';
+import '../css/FeedbackPage.css';
+import logo from '../logo/white_logo.png'
 
-const FeedbackPage = () => {
-  const { user, date } = useContext(UserContext);
-  const [data, setData] = useState(null);
+function App() {
+  const [activeQuestion, setActiveQuestion] = useState('Q1');
+  const [activeSubTab, setActiveSubTab] = useState('textFeedback');
 
-  const getTotalScore = async (date) => {
-    try {
-      const response = await fetch(`http://localhost:8000/api/me/result/${date}`, {
-        method: 'GET',
-        headetrs: {
-          'Content-Type': 'application/json',
-        }
-      });
-      if (response.ok) {
-        const score = await response.json();
-        console.log(data);
-        setData(score);
+  const questions = {
+    Q1: {
+      question: "What do you like to do in your free time?",
+      textFeedback: { /*사용자 개인화*/
+        complexity: "문장이 모두 간단하게 구성되어 있어 내용 전달이 명확했으나, 복문이나 긴 문장을 사용하면 한층 풍부한 문장의 다양성을 더할 수 있어요.",
+        grammarScore: "87.27 %",
+        grammarExample: "I like to watch a movie once a week sometimes.",
+        coherenceScore: "낮음"
+      },
+      audioFeedback: { /*사용자 개인화*/
+        pronunciation: "66.83 %",
+        mlr: "4 개",
+        pr: "39.0 %"
       }
-    } catch (error) {
-      console.error('Error:', error);
+    },
+    Q2: {
+      question: "Second question goes here",
+      textFeedback: { /*사용자 개인화*/
+        complexity: "문장이 모두 간단하게 구성되어 있어 내용 전달이 명확했으나, 복문이나 긴 문장을 사용하면 한층 풍부한 문장의 다양성을 더할 수 있어요.",
+        grammarScore: "80.27 %",
+        grammarExample: "I like to watch a movie once a week sometimes.",
+        coherenceScore: "낮음"
+      },
+      audioFeedback: { /*사용자 개인화*/
+        pronunciation: "66.83 %",
+        mlr: "3.33 개",
+        pr: "39.0 %"
+      }
+    },
+    Q3: {
+      question: "Third question goes here",
+      textFeedback: { /*사용자 개인화*/
+        complexity: "문장이 모두 간단하게 구성되어 있어 내용 전달이 명확했으나, 복문이나 긴 문장을 사용하면 한층 풍부한 문장의 다양성을 더할 수 있어요.",
+        grammarScore: "90.27 %",
+        grammarExample: "I like to watch a movie once a week sometimes.",
+        coherenceScore: "낮음"
+      },
+      audioFeedback: { /*사용자 개인화*/
+        pronunciation: "66.83 %",
+        mlr: "3.33 개",
+        pr: "39.0 %"
+      }
     }
   };
 
-  useEffect(() => {
-    getTotalScore(date);
-  }, [date]);
-
-  const getResult = async (date, q_num) => {
-    try {
-      const response = await fetch(`http://localhost:8000/api/me/result/${date}/${q_num}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-      if (response.ok) {
-        const data = await response.json();
-        console.log(data);
-        setData(data);
-      } else {
-        console.error('no data');
-      }
-    } catch (error) {
-      console.error('Error:', error);
-    }
+  const handleTabClick = (tab) => {
+    setActiveQuestion(tab);
+    setActiveSubTab('textFeedback'); // Reset sub-tab to textFeedback when switching main tabs
   };
 
-  const handleButtonClick = (q_num) => {
-    getQuestion(date);
-    getResult(date, q_num);
+  const handleSubTabClick = (subTab) => {
+    setActiveSubTab(subTab);
   };
+
+  const currentQuestion = questions[activeQuestion];
 
   return (
     <div>
-      <h1>피드백 페이지</h1>
-      <div>
-        {score ? (
-          <p>총합: {score.score}</p>
-        ) : (
-          <p>데이터가 없습니다.</p>
-        )}
-      </div>
-      <div className="button-container">
-        <button className="q1" onClick={() => handleButtonClick(1)}>1</button>
-        <button className="q2" onClick={() => handleButtonClick(2)}>2</button>
-        <button className="q3" onClick={() => handleButtonClick(3)}>3</button>
-      </div>
-      <div>
-        {question ? (
-          <p><strong>question:</strong> {question.q1}</p>
-        ): (
-          <p>데이터가 없습니다</p>
-        )}
-      </div>
-      <div>
-        {data ? (
-          <div>
-            <p><strong>mpr:</strong> {data.mpr}</p>
-            <p><strong>coherence:</strong> {data.coherence}</p>
-            <p><strong>complexity:</strong> {data.complexity}</p>
-            <p><strong>grammar:</strong> {data.grammar}</p>
-            <p><strong>wpm:</strong> {data.wpm}</p>
-            <p><strong>pause:</strong> {data.pause}</p>
-            <p><strong>mlr:</strong> {data.mlr}</p>
+      <header>
+        <img src={logo} alt="MOPIc 로고" style={{ height: '40px' }} />
+        <nav>
+          <a href="#">About</a>
+          <a href="#">History</a>
+          <a href="#">Login</a>
+        </nav>
+      </header>
+
+      <main>
+        <div className="feedback-container">
+          <h1>You are likely to get</h1>
+          <h2>IH</h2> {/* 사용자 개인화 */}
+          
+          <div className="tabs">
+            {Object.keys(questions).map((tab) => (
+              <button
+                key={tab}
+                className={`tab-button ${activeQuestion === tab ? 'active' : ''}`}
+                onClick={() => handleTabClick(tab)}
+              >
+                {tab}
+              </button>
+            ))}
           </div>
-        ) : (
-          <p>데이터가 없습니다</p>
-        )}
-      </div>
+
+          <div className="tab-content active">
+            <div className="question-sentence">
+              <h3>{currentQuestion.question}</h3>
+            </div>
+
+            <div className="feedback-box">
+              <div className="sub-tabs">
+                <button
+                  className={`sub-tab-button ${activeSubTab === 'textFeedback' ? 'active' : ''}`}
+                  onClick={() => handleSubTabClick('textFeedback')}
+                >
+                  Text
+                </button>
+                <button
+                  className={`sub-tab-button ${activeSubTab === 'audioFeedback' ? 'active' : ''}`}
+                  onClick={() => handleSubTabClick('audioFeedback')}
+                >
+                  Audio
+                </button>
+              </div>
+
+              {activeSubTab === 'textFeedback' && (
+                <div className="sub-tab-content active">
+                  <div className="feedback-row">
+                    <div className="feedback-category">
+                      <div className="feedback-section">
+                        <h3>Coherence</h3>
+                        <p className="desc">coherence 설명 주제 적합도 어쩌구</p>
+                        <p className="output score">{currentQuestion.textFeedback.coherenceScore}</p>
+                      </div>
+                    </div>
+                    <div className="feedback-category">
+                      <div className="feedback-section">
+                        <h3>Complexity</h3>
+                        <p className="desc">complexity 설명</p>
+                        <p className="output sentence">{currentQuestion.textFeedback.complexity}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="feedback-row">
+                    <div className="feedback-category grammar">
+                      <div className="feedback-section">
+                        <h3>Grammar</h3>
+                        <p className="desc">전체 발화 중 올바른 문법 사용 비율은</p>
+                        <p className="output score">{currentQuestion.textFeedback.grammarScore}</p>
+                        <p>{currentQuestion.textFeedback.grammarExample}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {activeSubTab === 'audioFeedback' && (
+                <div className="sub-tab-content active">
+                  <div className="feedback-row">
+                    <div className="feedback-category">
+                      <div className="feedback-section">
+                        <h3>Pronunciation</h3>
+                        <p className="desc">발음 설명</p>
+                        <p class="desc">전체 발화 중 잘못된 발음 없이 명확하게 발음한 비율은</p>
+                        <p className="output score">{currentQuestion.audioFeedback.pronunciation}</p>
+                      </div>
+                    </div>
+                    <div className="feedback-category">
+                      <div className="feedback-section">
+                        <h3>Mean Length of Run (MLR)</h3>
+                        <p className="desc">MLR 설명 어쩌구</p>
+                        <p class="desc">연속으로 발화한 평균 단어 수는</p>
+                        <p className="output score">{currentQuestion.audioFeedback.mlr}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="feedback-row">
+                    <div className="feedback-category pr">
+                      <div className="feedback-section">
+                        <h3>Pause Rate (PR)</h3>
+                        <p className="desc">PR 설명 어쩌구</p>
+                        <p class="desc">전체 발화 중 pause 비율은</p>
+                        <p className="output score">{currentQuestion.audioFeedback.pr}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </main>
     </div>
   );
-};
+}
 
-export default FeedbackPage;
+export default App;

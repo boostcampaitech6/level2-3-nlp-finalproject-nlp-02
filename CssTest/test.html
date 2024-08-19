@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback Page</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="logo">MOPIc</div>
+        <nav>
+            <a href="#">About</a>
+            <a href="#">History</a>
+            <a href="#">Login</a>
+        </nav>
+    </header>
+    <main>
+        <div class="feedback-container">
+            <h1>You are likely to get</h1>
+            <h2>IH</h2>
+            <div class="tabs">
+                <button class="tab-button active" data-tab="Q1">Q1</button>
+                <button class="tab-button" data-tab="Q2">Q2</button>
+                <button class="tab-button" data-tab="Q3">Q3</button>
+            </div>
+
+            <div class="tab-content active" id="Q1">
+                <div class="question-sentence">
+                    <h3>What do you like to do in your free time?</h3>
+                </div>
+                <div class="feedback-box">
+                    <div class="sub-tabs">
+                        <button class="sub-tab-button active" data-subtab="text-Q1">Text</button>
+                        <button class="sub-tab-button" data-subtab="audio-Q1">Audio</button>
+                    </div>
+                    <div class="sub-tab-content active" id="text-Q1">
+                        <div class="feedback-row">
+                            <div class="feedback-category">
+                                <div class="feedback-section">
+                                    <h3>Coherence</h3>
+                                    <p class="desc">coherence 설명 주제 적합도 어쩌구</p>
+                                    <p class="output score">낮음</p>
+                                </div>
+                            </div>
+                            <div class="feedback-category">
+                                <div class="feedback-section">
+                                    <h3>Complexity</h3>
+                                    <p class="desc">complexity 설명</p>
+                                    <p class="output sentence">문장이 모두 간단하게 구성되어 있어 내용 전달이 명확했으나, 복문이나 긴 문장을 사용하면 한층 풍부한 문장의 다양성을 더할 수 있어요.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="feedback-row">
+                            <div class="feedback-category grammar">
+                                <div class="feedback-section">
+                                    <h3>Grammar</h3>
+                                    <p class="desc">전체 발화 중 올바른 문법 사용 비율은</p>
+                                    <p class="output score">87.27 %</p>
+                                    <p>I like to <span class="wrong">watch movie like in</span> a week sometimes.</p>
+                                    <p>I like to watch a movie once a week sometimes.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sub-tab-content" id="audio-Q1">
+                        <div class="feedback-row">
+                            <div class="feedback-category">
+                                <div class="feedback-section">
+                                    <h3>Pronunciation</h3>
+                                    <p class="desc">발음 설명 </p>
+                                    <p class="desc">전체 발화 중 잘못된 발음 없이 명확하게 발음한 비율은</p>
+                                    <p class="output score">66.83 %</p>
+                                </div>
+                            </div>
+                            <div class="feedback-category">
+                                <div class="feedback-section">
+                                    <h3>Mean Length of Run (MLR)</h3>
+                                    <p class="desc">MLR 설명 어쩌구</p>
+                                    <p class="desc">연속으로 발화한 평균 단어 수는</p>
+                                    <p class="output score">3.33 개</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="feedback-row">
+                            <div class="feedback-category pr">
+                                <div class="feedback-section">
+                                    <h3>Pause Rate (PR)</h3>
+                                    <p class="desc">PR 설명 어쩌구</p>
+                                    <p class="desc">전체 발화 중 pause 비율은</p>
+                                    <p class="output score">39.0 %</p>
+                                </div>
+                            </div>
+                        </div>
+                      </div>
+                  </div>
+              </div>
+
+              <div class="tab-content" id="Q2">
+                <div class="question-sentence">
+                    <h3>Second question goes here</h3>
+                </div>
+                <div class="feedback-box">
+                    <div class="sub-tabs">
+                        <button class="sub-tab-button active" data-subtab="text-Q2">Text</button>
+                        <button class="sub-tab-button" data-subtab="audio-Q2">Audio</button>
+                    </div>
+                    <div class="sub-tab-content active" id="text-Q2">
+                        <!-- Q2 Text Feedback Here -->
+                        <div class="feedback-row">
+                            <div class="feedback-category">
+                                <div class="feedback-section">
+                                    <h3>Coherence</h3>
+                                    <p class="desc">coherence 설명 주제 적합도 어쩌구</p>
+                                    <p class="output score">중간</p>
+                                </div>
+                            </div>
+                            <div class="feedback-category">
+                                <div class="feedback-section">
+                                    <h3>Complexity</h3>
+                                    <p class="desc">complexity 설명</p>
+                                    <p class="output sentence">문장이 모두 간단하게 구성되어 있어 내용 전달이 명확했으나, 복문이나 긴 문장을 사용하면 한층 풍부한 문장의 다양성을 더할 수 있어요.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="feedback-row">
+                            <div class="feedback-category grammar">
+                                <div class="feedback-section">
+                                    <h3>Grammar</h3>
+                                    <p class="desc">전체 발화 중 올바른 문법 사용 비율은</p>
+                                    <p class="output score">87.27 %</p>
+                                    <p>I like to <span class="wrong">watch movie like in</span> a week sometimes.</p>
+                                    <p>I like to watch a movie once a week sometimes.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sub-tab-content" id="audio-Q2">
+                        <!-- Q2 Audio Feedback Here -->
+                        <div class="feedback-row">
+                            <div class="feedback-category">
+                                <div class="feedback-section">
+                                    <h3>Pronunciation</h3>
+                                    <p class="desc">발음 설명 </p>
+                                    <p class="desc">전체 발화 중 잘못된 발음 없이 명확하게 발음한 비율은</p>
+                                    <p class="output score">66.83 %</p>
+                                </div>
+                            </div>
+                            <div class="feedback-category">
+                                <div class="feedback-section">
+                                    <h3>Mean Length of Run (MLR)</h3>
+                                    <p class="desc">MLR 설명 어쩌구</p>
+                                    <p class="desc">연속으로 발화한 평균 단어 수는</p>
+                                    <p class="output score">3.33 개</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="feedback-row">
+                            <div class="feedback-category pr">
+                                <div class="feedback-section">
+                                    <h3>Pause Rate (PR)</h3>
+                                    <p class="desc">PR 설명 어쩌구</p>
+                                    <p class="desc">전체 발화 중 pause 비율은</p>
+                                    <p class="output score">39.0 %</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+              <div class="tab-content" id="Q3">
+                <div class="question-sentence">
+                    <h3>Third question goes here</h3>
+                </div>
+                  <div class="feedback-box">
+                    <div class="sub-tabs">
+                        <button class="sub-tab-button active" data-subtab="text-Q3">Text</button>
+                        <button class="sub-tab-button" data-subtab="audio-Q3">Audio</button>
+                    </div>
+                    <div class="sub-tab-content active" id="text-Q3">
+                        <!-- Q3 Text Feedback Here -->
+                        <div class="feedback-row">
+                            <div class="feedback-category">
+                                <div class="feedback-section">
+                                    <h3>Coherence</h3>
+                                    <p class="desc">coherence 설명 주제 적합도 어쩌구</p>
+                                    <p class="output score">높음</p>
+                                </div>
+                            </div>
+                            <div class="feedback-category">
+                                <div class="feedback-section">
+                                    <h3>Complexity</h3>
+                                    <p class="desc">complexity 설명</p>
+                                    <p class="output sentence">문장이 모두 간단하게 구성되어 있어 내용 전달이 명확했으나, 복문이나 긴 문장을 사용하면 한층 풍부한 문장의 다양성을 더할 수 있어요.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="feedback-row">
+                            <div class="feedback-category grammar">
+                                <div class="feedback-section">
+                                    <h3>Grammar</h3>
+                                    <p class="desc">전체 발화 중 올바른 문법 사용 비율은</p>
+                                    <p class="output score">87.27 %</p>
+                                    <p>I like to <span class="wrong">watch movie like in</span> a week sometimes.</p>
+                                    <p>I like to watch a movie once a week sometimes.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sub-tab-content" id="audio-Q3">
+                        <!-- Q3 Audio Feedback Here -->
+                        <div class="feedback-row">
+                            <div class="feedback-category">
+                                <div class="feedback-section">
+                                    <h3>Pronunciation</h3>
+                                    <p class="desc">발음 설명 </p>
+                                    <p class="desc">전체 발화 중 잘못된 발음 없이 명확하게 발음한 비율은</p>
+                                    <p class="output score">66.83 %</p>
+                                </div>
+                            </div>
+                            <div class="feedback-category">
+                                <div class="feedback-section">
+                                    <h3>Mean Length of Run (MLR)</h3>
+                                    <p class="desc">MLR 설명 어쩌구</p>
+                                    <p class="desc">연속으로 발화한 평균 단어 수는</p>
+                                    <p class="output score">3.33 개</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="feedback-row">
+                            <div class="feedback-category pr">
+                                <div class="feedback-section">
+                                    <h3>Pause Rate (PR)</h3>
+                                    <p class="desc">PR 설명 어쩌구</p>
+                                    <p class="desc">전체 발화 중 pause 비율은</p>
+                                    <p class="output score">39.0 %</p>
+                                </div>
+                            </div>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+          </div>
+    </main>
+    <script src="script.js"></script>
+</body>
+</html>

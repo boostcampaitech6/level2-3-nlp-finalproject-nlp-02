@@ -1,0 +1,231 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: white;
+}
+
+header {
+  background-color: #2F4858;
+  padding: 10px 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  position: sticky;
+  top: 0px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 1.5em;
+  font-weight: bold;
+  color: white;
+}
+
+nav a {
+  margin-left: 20px;
+  text-decoration: none;
+  color: white;
+}
+
+.feedback-container {
+  max-width: 1200px;
+  margin: 50px auto;
+  background-color: white;
+  padding: 20px;
+}
+
+h1 {
+  font-weight: lighter;
+  font-size: 1.2em;
+  margin-top: 150px;
+  margin-bottom: 10px;
+  color: grey;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+h2 {
+  font-weight: bold;
+  font-size: 2.5em;
+  margin-bottom: 100px;
+  color: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tabs, .sub-tabs {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 10px;
+}
+
+.tabs {
+  padding-left: 80px;
+}
+
+.sub-tabs {
+  padding-left: 0;
+}
+
+.tab-button, .sub-tab-button {
+  background-color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 1em;
+  font-weight: normal;
+  transition: font-weight 0.3s;
+}
+
+.tab-button {
+  padding: 0 20px;
+  display: flex;
+  justify-content: flex-start;
+  gap: 10px;
+}
+
+.sub-tab-button {
+  width: 70px;
+  height: 35px;
+  border-radius: 10%;
+  margin: 0 5px;
+  padding: 10px 20px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s;
+}
+
+.tab-button.active {
+  color: black;
+  font-weight: 900;
+  text-decoration-line: underline;
+  text-underline-position: under;
+  text-decoration-thickness: 3px;
+}
+
+.sub-tab-button.active {
+  background-color: #C2D4C6;
+  color: black;
+  font-weight: bold;
+}
+
+.tab-content, .sub-tab-content {
+  display: none;
+}
+
+.tab-content.active, .sub-tab-content.active {
+  display: block;
+}
+
+.question-sentence {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  position: relative;
+  left: 100px;
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.question-sentence h3 {
+  font-size: 1.2em;
+  font-weight: 200;
+  color: black;
+}
+
+.feedback-box {
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: minmax(100px, auto);
+  grid-gap: 10px;
+  margin: auto;
+  width: 80%;
+  background-color: #F1F8E8;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.feedback-row {
+  display: flex;
+  justify-content: space-between; 
+  margin-bottom: 15px;
+}
+
+.feedback-category {
+  flex: 1 1 calc(50% - 10px);
+  background-color: white;
+  padding: 0 0 0 5px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin: 0 5px;
+}
+
+.feedback-category.grammar {
+  flex: 1 1 100%;
+}
+
+.feedback-category.pr {
+  flex: 1 1 auto;
+  max-width: 49%;
+}
+
+.feedback-category p.desc {
+  font-size: 0.8em;
+  font-weight: lighter;
+  color: grey;
+  text-align: left;
+}
+
+.feedback-category.grammar p.desc {
+  text-align: center;
+}
+
+.feedback-category p.output {
+  color: black;
+  font-size: 2em;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+}
+
+.feedback-category p.output.sentence {
+  font-size: 1em;
+  font-weight: lighter;
+  padding: 5% 3% 3% 3%;
+}
+
+.feedback-section {
+  margin: 0 0 0 10px;
+}
+
+.feedback-section h3 {
+  font-size: 1.3em;
+  text-align: left;
+  margin-bottom: 10px;
+  color: black;
+}
+
+.wrong {
+  color: red;
+}
+
+@media (max-width: 600px) {
+  .feedback-container {
+    padding: 10px;
+  }
+
+  .feedback-category {
+    flex: 1 1 100%;
+  }
+
+  .tab-button, .sub-tab-button {
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-size: 0.9em;
+  }
+}
