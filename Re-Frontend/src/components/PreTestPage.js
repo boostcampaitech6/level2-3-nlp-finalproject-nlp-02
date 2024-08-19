@@ -1,133 +1,93 @@
-import React, {useState, useRef, useEffect} from 'react';
-import '../css/PreTestPage.css';
+import React, {useState, useRef} from 'react';
 import {useNavigate} from 'react-router-dom';
- 
-function TestPage() {
-    const [activeButton, setActiveButton] = useState(null);
-    //버튼 클릭 상태 추가
-    const [clickedButtons, setClickedButtons] = useState({});
-    //Replay 버튼 클릭 상태 추가
-    const [replayClicked, setReplayClicked] = useState(false);
-    //녹음 상태 추가
+import '../css/PreTestPage.css';
+import logo from '../logo/white_logo.png'
+
+function PreTestPage() {
+    //사용자 음성 받기
     const [isRecording, setIsRecording] = useState(false);
-    const [recordingStarted, setRecordingStarted] = useState(false);
-    const audioRef = useRef(null);
     const mediaRecorderRef = useRef(null);
-    //오디오 청크 저장
-    const audioChunksRef = useRef([]);
-
-
-    const playAudio = (buttonNumber) => {
-        let audioSrc;
-        switch (buttonNumber) {
-            case 1:
-                audioSrc = require('../question_1.wav');
-                break;
-            case 2:
-                audioSrc = require('../question_2.wav');
-                break;
-            case 3:
-                audioSrc = require('../question_3.wav');
-                break;
-            default:
-                return;
+    const [audioUrl, setAudioURL] = useState(null);
+    const navigate = useNavigate();
+  
+    // eslint-disable-next-line
+    // 사용자의 음성녹음 시작 & 중지
+    const handleStartRecording = async () => {
+      //녹음 상태 확인. isRecording이 false일 때 녹음 시작 
+      if (!isRecording) {
+        try {
+          //사용자의 마이크로부터 오디오 입력 받아오기. {audio:true} : 오디오 입력만 요청함. await를 사용해 비동기적으로 결과를 기다림
+          const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+          //MediaRecorder : 입력 스트림을 받아 녹음 수행. stream을 인자로 전달, MediaRecorder 인스턴스 생성. 이를 mediaRecorderRef에 저장
+          mediaRecorderRef.current = new MediaRecorder(stream);
+          
+          //오디오 데이터 처리. ondataavailable 이벤트를 통해 오디오 데이터 처리. 이벤트 발생시마다 event.data를 audioChunks 배열에 추가함
+          const audioChunks = [];
+          mediaRecorderRef.current.ondataavailable = (event) => {
+            audioChunks.push(event.data);
+          };
+  
+          //녹음 중지 & 오디오 파일 생성. 녹음이 중지되면 onstop 이벤트 발생. audioChunks 배열에 저장된 오디오 데이터를 Blob 객체로 변환
+          //Blob을 사용해 오디오파일의 URL 생성. 생성된 URL은 setAudioUrl을 통해 상태에 저장돼 오디오 컨트롤에서 사용
+          mediaRecorderRef.current.onstop = () => {
+            const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+            const audioUrl = URL.createObjectURL(audioBlob);
+            setAudioURL(audioUrl);
+          };
+  
+          //녹음 시작. setIsRecording을 사용해 isRecording 상태를 true로 설정, 녹음 중임을 나타냄
+          mediaRecorderRef.current.start();
+          setIsRecording(true);
+        } catch (err) {
+          console.error('Error accessing microphone:', err);
         }
-        if (audioRef.current) {
-            audioRef.current.src = audioSrc;
-            audioRef.current.play();
-        }
+      }
+      //녹음 중지. setIsRecording을 다시 false로 변경
+      else {
+        mediaRecorderRef.current.stop();
+        setIsRecording(false);
+      }
     };
-
-    const handleButtonClick = (buttonNumber) => {
-        //버튼이 처음 클릭된 경우에만 음성 출력
-        if (!clickedButtons[buttonNumber]) {
-            setActiveButton(buttonNumber);
-            //오디오 재생함수 호출
-            playAudio(buttonNumber);
-            //클릭 상태 업데이트
-            setClickedButtons(prevState => ({...prevState, [buttonNumber]: true}));
-            //Replay 버튼 상태 초기화
-            setReplayClicked(false);
-        }
+  
+    //다음 페이지로 넘기기
+    const goToTestPage = () => {
+      navigate('/testPage');
     };
-    
-    const replayAudio = () => {
-        if (activeButton !== null && !replayClicked) {
-            playAudio(activeButton);
-            setReplayClicked(true);
-        }
-    };
-
-    const startRecording = async () => {
-        if (!isRecording && !recordingStarted) {
-            setIsRecording(true);
-            // recordingStarted 상태를 제거, 매번 녹음 가능하도록 수정
-            try {
-                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                mediaRecorderRef.current = new MediaRecorder(stream);
-                mediaRecorderRef.current.ondataavailable = (event) => {
-                    audioChunksRef.current.push(event.data);
-                };
-                mediaRecorderRef.current.onstop = () => {
-                    const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/wav' });
-                    audioChunksRef.current = [];
-                    const audioUrl = URL.createObjectURL(audioBlob);
-                    const a = document.createElement('a');
-                    a.style.display = 'none';
-                    a.href = audioUrl;
-                    a.download = 'recording.wav';
-                    document.body.appendChild(a);
-                    a.click();
-                    window.URL.revokeObjectURL(audioUrl);
-                };
-                mediaRecorderRef.current.start();
-            } catch (err) {
-                console.error("Error accessing media devices.", err);
-                setIsRecording(false);
-            }
-        }
-    };
-
-    const stopRecording = () => {
-        if (isRecording && mediaRecorderRef.current) {
-            mediaRecorderRef.current.stop();
-            setIsRecording(false);
-        }
-    };
-
-    useEffect(() => {
-        return () => {
-            if (mediaRecorderRef.current) {
-                mediaRecorderRef.current.stream.getTracks().forEach(track => track.stop());
-            }
-        };
-    }, []);
-
+  
     return (
-    <div className="test-page">
-        <h1>Daily Test</h1>
-        <div className="character-container">
-            <img src={require("../logo/AVA.png")} alt="AVA"></img>
-            <p style={{color: '#5F5F5F'}}>문제를 두 번 들으신 후 바로 녹음을 시작해주세요.</p>
-        </div>
-        
-        <div className="button-container">
-            <button onClick={() => handleButtonClick(1)}>1</button>
-            <button onClick={() => handleButtonClick(2)}>2</button>
-            <button onClick={() => handleButtonClick(3)}>3</button>
-        </div>
+      <div>
+        {/*헤더*/}
+        <header>
+            <img src={logo} alt="MOPIc 로고" style={{ height: '40px' }} />
+            <nav>
+            <a href="#">Home</a>
+            <a href="#">About</a>
+            <a href="#">History</a>
+            </nav>
+        </header>
 
-        {activeButton && (
-            <div className="conditional-buttons">
-                {activeButton!==3 && (<button className="replay-button" onClick={replayAudio}>Replay</button>)}
-                <button className="next-button" onClick={isRecording ? stopRecording : startRecording}>
-                    {isRecording ? '녹음 중지' : '녹음 시작'}
-                </button>
+        {/*바깥색*/}
+        <div className='outer-container'>
+          {/*안쪽 사각형*/}
+          <div className='inner-box'>
+            <p>시험은 하루에 한 번만 볼 수 있습니다. 중도 이탈 시 데이터는 저장되지 않습니다.</p>
+            <p>문제 음성은 총 두 번 들려드립니다.</p>
+            <p>조용한 환경에서 응시해주세요.</p>
+            <p>마이크를 허용해주시고, 아래 버튼으로 녹음하여 녹음이 제대로 되는지 확인하세요.</p>
+            <p>한 번 넘어간 번호는 다시 녹음할 수 없습니다.</p>
+
+            <div className="button-container">
+              <button className="start-recording-button" onClick={handleStartRecording}>
+                  {isRecording ? 'Stop Recording' : 'Start Recording'}
+              </button>
+              <button className="take-test-button" onClick={goToTestPage}>시험 응시</button>
             </div>
-        )}
-        <audio ref={audioRef} />
-    </div>
+            {audioUrl && <audio src={audioUrl} controls />}
+          </div>
+        </div>
+      </div>
     );
-}
+  
+  }
 
-export default TestPage;
+export default PreTestPage;

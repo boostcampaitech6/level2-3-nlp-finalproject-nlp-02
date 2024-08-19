@@ -115,10 +115,14 @@ function TestPage() {
     return (
     <div>
         {/*헤더*/}
-        <div className='header'>
-            <img src={logo} alt="MOPIc 로고" style={{height: '50px'}} />
-
-        </div>
+        <header>
+                <img src={logo} alt="MOPIc 로고" style={{ height: '40px' }} />
+                <nav>
+                <a href="#">Home</a>
+                <a href="#">About</a>
+                <a href="#">History</a>
+                </nav>
+        </header>
 
     {/*바깥색*/}
     <div className='outer-container'>

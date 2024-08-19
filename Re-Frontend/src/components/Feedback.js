@@ -65,13 +65,15 @@ function App() {
   return (
     <div>
       <header>
-        <img src={logo} alt="MOPIc 로고" style={{ height: '40px' }} />
+        <h1>
+            <img src={logo} alt="MOPIc 로고" style={{ height: '40px' }} />
+        </h1>
         <nav>
-          <a href="#">About</a>
-          <a href="#">History</a>
-          <a href="#">Login</a>
+            <a href="#">Home</a>
+            <a href="#">About</a>
+            <a href="#">History</a>
         </nav>
-      </header>
+    </header>
 
       <main>
         <div className="feedback-container">

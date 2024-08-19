@@ -1,14 +1,31 @@
 /* src/components/TestPage.css */
-.header {
-    background-color: #2F4858;
-    color: white;
-    padding: 15px;
-}
-
 body{
     background-color: #c2d4c6;
     margin: 0;
     padding: 0;
+}
+
+header {
+    background-color: #2F4858;
+    padding: 10px 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    position: sticky;
+    top: 0px;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+.logo {
+font-size: 1.5em;
+font-weight: bold;
+color: white;
+}
+
+nav a {
+margin-left: 20px;
+text-decoration: none;
+color: white;
 }
 
 .outer-container {
@@ -23,6 +40,12 @@ body{
     align-items: center;
     padding: 50px;
     margin: auto;
+}
+
+.inner-box h1 {
+    color: gray;
+    font-size: 20px;
+    margin-top: 10px;
 }
 
 .character-container {
