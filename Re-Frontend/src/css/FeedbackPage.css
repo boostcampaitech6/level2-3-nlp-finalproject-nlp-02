@@ -194,6 +194,7 @@ h2 {
 }
 
 .feedback-category p.output.sentence {
+  color: black;
   font-size: 1em;
   font-weight: lighter;
   padding: 5% 3% 3% 3%;
