@@ -1,28 +1,174 @@
-/* src/components/Lobby.css */
 .lobby-page {
     display: flex;
     flex-direction: column;
     align-items: left;
-    padding: 250px;
+    padding: 50px 20px;
 }
 
-.button-container {
+header {
+    background-color: #2F4858;
+    padding: 10px 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    position: sticky;
+    top: 0px;
+    justify-content: space-between;
+    align-items: center;
+}
+  
+.logo {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: white;
+}
+  
+nav a {
+    margin-left: 20px;
+    text-decoration: none;
+    color: white;
+}
+
+.content-container {
+    display: flex;
+}
+
+.left-side {
+    flex: 3;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    justify-content: space-between;
+    padding-left: 50px;
+}
+
+.right-side {
+    flex: 7;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-right: 50px;
+}
+.user-info {
+    font-size: 7px;
+    justify-content: center;
+}
+.button-container {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
     gap: 10px;
 }
 
-.get-result-button {
-    display: inline-block;
-    flex-direction: column;
-    height: 50px;
-    width: 150px;
+.take-test-button {
+    height: 80px;
+    width: 200px;
 }
 
-.take-test-button {
-    display: inline-block;
-    flex-direction: column;
-    height: 50px;
-    width: 100px;
+.get-result-button {
+    height: 80px;
+    width: 200px;
 }
+
+.react-calendar {
+    width: 80%;
+    border: none;
+    border-radius: 0.5rem;
+    box-shadow: 4px 2px 10px 0px rgba(0, 0, 0, 0.13);
+    padding: 3% 5%;
+    background-color: white;
+  }
+
+  /* 전체 폰트 컬러 */
+  .react-calendar__month-view {
+    abbr {
+      color: grey;
+    }
+  }
+
+  /* 네비게이션 가운데 정렬 */
+  .react-calendar__navigation {
+    justify-content: center;
+  }
+
+  /* 네비게이션 폰트 설정 */
+  .react-calendar__navigation button {
+    font-weight: 800;
+    font-size: 1rem;
+  }
+
+  /* 네비게이션 버튼 컬러 */
+  .react-calendar__navigation button:focus {
+    background-color: white;
+  }
+
+  /* 네비게이션 비활성화 됐을때 스타일 */
+  .react-calendar__navigation button:disabled {
+    background-color: white;
+    color: #2f4858;
+  }
+
+  /* 년/월 상단 네비게이션 칸 크기 줄이기 */
+  .react-calendar__navigation__label {
+    flex-grow: 0 !important;
+  }
+
+  /* 요일 밑줄 제거 */
+  .react-calendar__month-view__weekdays abbr {
+    text-decoration: none;
+    font-weight: 800;
+  }
+
+  /* 일요일에만 빨간 폰트 */
+  .react-calendar__month-view__weekdays__weekday--weekend abbr[title="일요일"] {
+    color: red;
+  }
+
+  /* 오늘 날짜 폰트 컬러 */
+  .react-calendar__tile--now {
+    background: none;
+    abbr {
+      color: #4b6a73;
+    }
+  }
+
+  /* 네비게이션 월 스타일 적용 */
+  .react-calendar__year-view__months__month {
+    border-radius: 0.8rem;
+    background-color: black;
+    padding: 0;
+  }
+
+  /* 네비게이션 현재 월 스타일 적용 */
+  .react-calendar__tile--hasActive {
+    background-color: black;
+    abbr {
+      color: white;
+    }
+  }
+
+  /* 일 날짜 간격 */
+  .react-calendar__tile {
+    padding: 5px 0px 18px;
+    position: relative;
+    height: 60px;
+    /* background-color: #f1f8e8; */
+  }
+
+  /* 네비게이션 월 스타일 적용 */
+  .react-calendar__year-view__months__month {
+    flex: 0 0 calc(33.3333% - 10px) !important;
+    margin-inline-start: 5px !important;
+    margin-inline-end: 5px !important;
+    margin-block-end: 10px;
+    padding: 20px 6.6667px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #f1f8e8;
+  }
+
+  /* 선택한 날짜 스타일 적용 */
+  .react-calendar__tile:enabled:hover,
+  .react-calendar__tile:enabled:focus,
+  .react-calendar__tile--active {
+    /* background-color: #f1f8e8;
+    border-radius: 0.3rem; */
+  }
