@@ -1,0 +1,80 @@
+/* src/components/PreTestPage.css */
+body {
+    background-color: #c2d4c6;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #2F4858;
+    padding: 10px 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    position: sticky;
+    top: 0px;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+.logo {
+font-size: 1.5em;
+font-weight: bold;
+color: white;
+}
+
+nav a {
+margin-left: 20px;
+text-decoration: none;
+color: white;
+}
+
+
+.outer-container {
+    background-color: #c2d4c6;
+    padding: 230px;
+}
+
+.inner-box {
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    padding: 50px;
+    margin: auto;
+}
+
+.button-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+
+.start-recording-button {
+    display: inline-block;
+    flex-direction: column;
+    height: 50px;
+    width: 150px;
+    border-radius: 10px;
+    background-color: #f1f8e8;
+    border: 1px solid  #787a76;
+}
+
+.start-recording-button:hover {
+    background-color: #e4ebdd;
+}
+
+.take-test-button {
+    display: inline-block;
+    flex-direction: column;
+    height: 50px;
+    width: 100px;
+    border-radius: 10px;
+    background-color: #f1f8e8;
+    border: 1px solid  #787a76;
+}
+
+.take-test-button:hover {
+    background-color: #e4ebdd;
+}

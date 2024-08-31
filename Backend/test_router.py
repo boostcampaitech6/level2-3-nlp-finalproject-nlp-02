@@ -14,10 +14,10 @@ from database.connection import get_db
 from database.orm import Question, Score, Test, User
 from database.repository import (create_score, create_test, create_update_user,
                                  get_questions_by_date, get_result,
-                                 get_result_by_q_num)
+                                 get_result_by_q_num, get_personal_scores)
 from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
 from schema.request import CreateScoreRequest, CreateTestRequest
-from schema.response import QuestionSchema, ScoreSchema, TestSchema
+from schema.response import QuestionSchema, ScoreSchema, TestSchema, ScoreListSchema
 from sqlalchemy.orm import Session
 
 router = APIRouter()
@@ -176,3 +176,12 @@ async def get_result_by_question(
     test: Test = get_result_by_q_num(session=session, date=date, user=user, q_num=q_num)
 
     return TestSchema.from_orm(test)
+
+@router.get("/getResult")
+def get_scores(
+    user: User = Depends(get_authorized_user),
+    session: Session = Depends(get_db),
+):
+    scores: List[Score] = get_personal_scores(session=session, user=user)
+
+    return ScoreListSchema(scores=[ScoreSchema.from_orm(score) for score in scores])
