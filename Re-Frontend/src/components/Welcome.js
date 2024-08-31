@@ -1,39 +1,24 @@
-import React, { useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { GoogleLogin } from "@react-oauth/google";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { jwtDecode } from 'jwt-decode';  // 중괄호 없이 임포트
-import { BrowserRouter as Router, Route, Routes, useNavigate, Link } from 'react-router-dom';  // Router를 추가
+import {  useNavigate, Link } from 'react-router-dom';  // Router를 추가
 
-import { createContext, useState } from 'react';  // UserContext를 포함
 import logo from '../logo/white_logo.png'
 import '../css/Welcome.css';  // CSS 파일을 import
 
-// UserContext를 App.js에 직접 정의합니다.
-export const UserContext = createContext();
 
-const UserProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-
-  return (
-    <UserContext.Provider value={{ user, setUser }}>
-      {children}
-    </UserContext.Provider>
-  );
-};
-
-const GoogleLoginPage = () => {
+const Welcome = () => {
   const clientId = "YOUR_CLIENT_ID"; // 본인의 Google Client ID로 대체하세요.
   const navigate = useNavigate();
-  const { setUser } = useContext(UserContext);
 
   const handleLogin = async (credentialResponse) => {
     const token = credentialResponse.credential;
     const decoded = jwtDecode(token);
-    setUser(decoded);
     console.log(decoded);
 
     try {
-      const response = await fetch('http://localhost:8000/api/verify', {
+      const response = await fetch('http://mopic.today:8888/api/verify', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -95,25 +80,4 @@ const GoogleLoginPage = () => {
   );
 };
 
-// Home, About, History 컴포넌트를 간단히 정의
-const Home = () => <div><h2>Home Page</h2></div>;
-const About = () => <div><h2>About Page</h2></div>;
-const History = () => <div><h2>History Page</h2></div>;
-
-const App = () => {
-  return (
-    <UserProvider>
-      <Router>
-        <Routes>
-          <Route path="/" element={<GoogleLoginPage />} />
-          <Route path="/home" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/history" element={<History />} />
-          {/* 추가적인 경로와 컴포넌트를 여기에서 정의할 수 있습니다 */}
-        </Routes>
-      </Router>
-    </UserProvider>
-  );
-};
-
-export default App;
+export default Welcome;
