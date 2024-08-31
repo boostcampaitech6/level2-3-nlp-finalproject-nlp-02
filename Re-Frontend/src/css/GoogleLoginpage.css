@@ -1,7 +1,0 @@
-/* src/components/GoogleLoginPage.css */
-.login-page {
-    display: flex;
-    flex-direction: column;
-    align-items: left;
-    padding: 250px;
-}
