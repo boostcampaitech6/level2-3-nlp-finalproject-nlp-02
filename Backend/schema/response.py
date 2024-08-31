@@ -39,10 +39,6 @@ class TestSchema(BaseModel):
         from_attributes = True
 
 
-class TestListSchema(BaseModel):
-    tests: List[TestSchema]
-
-
 class QuestionSchema(BaseModel):
     id: int
     date: date
@@ -71,3 +67,6 @@ class ScoreSchema(BaseModel):
     class Config:
         orm_mode = True
         from_attributes = True
+
+class ScoreListSchema(BaseModel):
+    scores: List[ScoreSchema]

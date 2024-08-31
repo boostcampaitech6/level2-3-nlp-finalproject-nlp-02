@@ -35,8 +35,8 @@ def get_questions_by_date(session: Session, date: date) -> Question | None:
     return session.scalar(select(Question).where(Question.date == date))
 
 
-def get_personal_tests(session: Session, user: User) -> List[Test]:
-    return list(session.scalars(select(Test).where(Test.user_id == user.id)))
+def get_personal_scores(session: Session, user: User) -> List[Score]:
+    return list(session.scalars(select(Score).where(Score.user_id == user.id)))
 
 
 def get_result(session: Session, date: date, user: User) -> Score:
@@ -51,3 +51,6 @@ def get_result_by_q_num(session: Session, date: date, user: User, q_num: int) ->
             Test.createddate == date, Test.user_id == user.id, Test.q_num == q_num
         )
     )
+
+def get_tests(session: Session, user: User) -> List[Test]:
+    return list(session.scalars(select(Test)).where(Test.user_id == user.id))
